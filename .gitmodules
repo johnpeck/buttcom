@@ -1,0 +1,6 @@
+[submodule "jpeda"]
+	path = jpeda
+	url = git@github.com:johnpeck/jpeda
+[submodule "marketing/magazine/doctools"]
+	path = marketing/magazine/doctools
+	url = git@github.com:johnpeck/doctools.git

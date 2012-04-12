@@ -1,0 +1,5 @@
+* buttcom progress
+* ----------------------- Dated notes ---------------------------
+* <2012-04-12 Thu> Created this project
+* ------------------------ TODO list ----------------------------
+* TODO Identify the figures you'd like to have in the article
