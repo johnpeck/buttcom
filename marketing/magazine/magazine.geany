@@ -17,9 +17,9 @@ long_line_behaviour=1
 long_line_column=72
 
 [files]
-current_page=2
-FILE_NAME_0=2152;LaTeX;0;16;0;1;1;/home/john/projects/buttcom/marketing/magazine/main.tex;0;4
-FILE_NAME_1=84;Make;0;16;1;1;1;/home/john/projects/buttcom/marketing/magazine/makefile;0;4
+current_page=0
+FILE_NAME_0=694;LaTeX;0;16;0;1;1;/home/john/projects/buttcom/marketing/magazine/main.tex;0;4
+FILE_NAME_1=211;Make;0;16;1;1;1;/home/john/projects/buttcom/marketing/magazine/makefile;0;4
 FILE_NAME_2=902;LaTeX;0;16;0;1;1;/home/john/projects/buttcom/marketing/magazine/doctools/latex/magazine_template.tex;0;4
 FILE_NAME_3=2180;LaTeX;0;16;0;1;1;/home/john/projects/buttcom/marketing/magazine/doctools/latex/notes_template.tex;0;4
 
