@@ -37,7 +37,7 @@
 \end{figure}
 
 
-
+\clearpage{}
 \section{The debug output}
 
 % See the termgrab.sh script for details about creating grab.eps
@@ -48,10 +48,21 @@
     \end{center}
 \end{figure}
 
+
+
+
+\clearpage{}
 \section{The command list}
 
+% Listing showing the array of command structures defining the recognized
+% command set.
 \lstset{language=C}
-\begin{lstlisting}[float,frame=single]
+\begin{lstlisting}[float, % Allows this listing to be a latex float
+                   frame=single,
+                   caption={Defining the command set with an array of
+                            command structures.},
+                   label=lst:cmdarray
+                  ]
 /* An array of command_structs will contain our remote commands */
 struct command_struct command_array[] ={
     // The junk function
@@ -70,6 +81,28 @@ struct command_struct command_array[] ={
     {"","",0,0,""}
 };
 \end{lstlisting}
+
+\clearpage{}
+\section{The received character flow}
+
+\begin{figure}[ht]
+    \begin{center}
+        \includegraphics[clip,scale=0.45]{recv_cmd_flow}
+        \caption{Program flow for processing characters received over the Butterfly's USART.\label{fig:recflow}}
+    \end{center}
+\end{figure}
+
+
+
+\clearpage{}
+\section{The command processing flow}
+
+\begin{figure}[ht]
+    \begin{center}
+        \includegraphics[clip,scale=0.5]{parse_cmd_flow}
+        \caption{Program flow for processing fully-formed commands.\label{fig:cmdflow}}
+    \end{center}
+\end{figure}
 
 
 

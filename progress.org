@@ -8,3 +8,4 @@
 ** Listing: The list of commands
 ** Received character flow
 ** Command processing flow
+** Pointers used with received character buffer
