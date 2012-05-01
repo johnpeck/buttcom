@@ -4,6 +4,7 @@
 % Figure search path
 \graphicspath{
               {figs/} % Figures drawn with xfig
+              {pngs/} % Other graphics files
 }
 
 \begin{document}
@@ -28,12 +29,47 @@
 
 \section{Making connections to the Butterfly}
 
-\includegraphics[clip,scale=1]{usart_pinout}
+\begin{figure}[ht]
+    \begin{center}
+        \includegraphics[clip,scale=1]{usart_pinout}
+        \caption{Connections needed for the AVR Butterfly.\label{fig:connections}}
+    \end{center}
+\end{figure}
 
 
 
+\section{The debug output}
 
+% See the termgrab.sh script for details about creating grab.eps
+\begin{figure}[ht]
+    \begin{center}
+        \includegraphics[clip,scale=0.5]{grab.eps}
+        \caption{Terminal output showing debug information.\label{fig:termgrab}}
+    \end{center}
+\end{figure}
 
+\section{The command list}
+
+\lstset{language=C}
+\begin{lstlisting}[float,frame=single]
+/* An array of command_structs will contain our remote commands */
+struct command_struct command_array[] ={
+    // The junk function
+    {"junk", // Name
+    "hex", // Argument type
+    2, // Maximum number of characters in argument
+    &junkfunc,
+    "Some junk"},
+    // The crap function
+    {"crap",
+    "none",
+    0,
+    &crapfunc,
+    "Some crap"},
+    // End of table indicator.  Must be last.
+    {"","",0,0,""}
+};
+\end{lstlisting}
 
 
 
