@@ -9,3 +9,8 @@
 ** Received character flow
 ** Command processing flow
 ** Pointers used with received character buffer
+* Add references
+** TODO Add reference to Elicia White
+** TODO Add reference to article on rs-485 router from CC magazine
+* TODO Move the code over from parkdar
+  - The idea is that I'll get the code to work in parkdar, then I'll copy over the relevant bits to buttcom.  The relevent bits would most notably be the command and logging modules. 

@@ -18,11 +18,12 @@ long_line_column=72
 
 [files]
 current_page=0
-FILE_NAME_0=2009;LaTeX;0;16;0;1;1;/home/john/projects/buttcom/marketing/magazine/main.tex;0;4
-FILE_NAME_1=284;Make;0;16;1;1;1;/home/john/projects/buttcom/marketing/magazine/makefile;0;4
+FILE_NAME_0=2184;LaTeX;0;16;0;1;1;/home/john/projects/buttcom/marketing/magazine/main.tex;0;4
+FILE_NAME_1=348;Make;0;16;1;1;1;/home/john/projects/buttcom/marketing/magazine/makefile;0;4
 FILE_NAME_2=907;LaTeX;0;16;0;1;1;/home/john/projects/buttcom/marketing/magazine/doctools/latex/magazine_template.tex;0;4
 FILE_NAME_3=0;Sh;0;16;0;1;1;/home/john/projects/buttcom/marketing/magazine/doctools/bash/pdfpage.sh;0;4
 FILE_NAME_4=319;C;0;16;0;1;1;/home/john/projects/parkdar/implement/code/pd_command.c;0;4
+FILE_NAME_5=1346;LaTeX;0;16;0;1;1;/home/john/projects/buttcom/marketing/magazine/doctools/latex/hydrorefs.bib;0;4
 
 [VTE]
 last_dir=/home/john/projects/resgen
