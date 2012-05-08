@@ -14,3 +14,12 @@
 ** TODO Add reference to article on rs-485 router from CC magazine
 * TODO Move the code over from parkdar
   - The idea is that I'll get the code to work in parkdar, then I'll copy over the relevant bits to buttcom.  The relevent bits would most notably be the command and logging modules. 
+* TODO Move the code over from parkdar [/]
+** TODO Create a new main file that will just contain a call to command processor
+** TODO Copy over the usart module.  Just call it bc_usart.
+** TODO Copy over the command module.  Call it bc_command.
+** TODO Copy over the logger module.  Call it bc_logger.
+* DONE Add a reference to Python's gnuplot interface
+* TODO Revise the drawing showing connections to the Butterfly [/]
+** TODO DB9 pins should come out of the page
+** TODO Show the AVRISP connector and box
