@@ -20,6 +20,7 @@
 ** TODO Copy over the command module.  Call it bc_command.
 ** TODO Copy over the logger module.  Call it bc_logger.
 * DONE Add a reference to Python's gnuplot interface
-* TODO Revise the drawing showing connections to the Butterfly [/]
-** TODO DB9 pins should come out of the page
-** TODO Show the AVRISP connector and box
+* TODO Revise the drawing showing connections to the Butterfly [2/2]
+** DONE DB9 pins should come out of the page
+** DONE Show the AVRISP connector and box
+** TODO Add power connections
