@@ -30,6 +30,10 @@
 I love test equipment with open, well documented, ASCII command sets.  The plain text commands give a complicated-looking instrument a familiar interface, and beg you to use them in some clever measurement script.  Python's gnuplot and pySerial interfaces let you acquire and make pretty plots of your data -- all for free\cite{pyserial,gnuplot-py}. So when I need to automate hobby measurements at home, I immediately wish for an ASCII interface to whatever tool I'm measuring with.  This tool happens to be the AVR Butterfly board right now, simply because it's cheap and the LCD is handy.  
 
 \section{Making connections to the Butterfly}
+The AVR Butterfly board consists of an AVR ATmega169 microcontroller wired up to to some handy peripherals.  Figure \ref{fig:connections} shows how I connect the board for communication, power, and programming.  The board has its own RS-232 transceiver, so it can be connected directly to a PC.  This connection can be used for both communication and programming, though 
+
+
+ 
 
 \begin{figure}[ht]
     \begin{center}
