@@ -1,0 +1,8 @@
+# Latex intermediates
+*.aux
+*.bbl
+*.blg
+*.dvi
+*.log
+*.toc
+*.old
