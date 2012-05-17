@@ -7,6 +7,9 @@
               {pngs/} % Other graphics files
 }
 
+% Use \draftnote to mark the filenames of figures
+\newcommand{\isdraft}{1} %Choose 1 for draft, 0 for release
+
 \begin{document}
 
 
@@ -36,6 +39,7 @@ The AVR Butterfly board consists of an AVR ATmega169 microcontroller and some pe
 \begin{figure}[ht]
     \begin{center}
         \includegraphics[clip,scale=1]{usart_pinout}
+        \draftnote{usart\_pinout.fig}
         \caption{Connections needed for the AVR Butterfly.\label{fig:connections}}
     \end{center}
 \end{figure}

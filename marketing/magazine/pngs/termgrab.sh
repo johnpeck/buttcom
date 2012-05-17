@@ -2,6 +2,7 @@
 # Name: termgrab.sh
 #
 # Grabs a terminal window and creates the image file "grab.eps"
+# Uses the "import" tool provided by Imagemagick
 #
 # Usage: termgrab.sh
 # ...then click in the window you want to grab with the crosshairs.

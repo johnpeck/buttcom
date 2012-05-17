@@ -15,3 +15,4 @@
 ** DONE Add power connections
 * TODO Check received character flow against actual code
   - Do this after copying code over.  I want documented code as actual buttcom code.
+* TODO Update termgrab.sh to also dump image in gif format

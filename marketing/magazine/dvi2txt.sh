@@ -37,4 +37,5 @@ else
     #   40-176: all the "good" keyboard characters
     cat "$tempfile" | tr -cd '\11\12\15\40-\176' > "$textfile"
     rm "$tempfile"
+    echo "$1" "--->" "$textfile"
 fi
