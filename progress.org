@@ -2,11 +2,12 @@
 * ----------------------- Dated notes ---------------------------
 * <2012-04-12 Thu> Created this project
 * --------------------- Specifications --------------------------
-** User should be told how to issue a log message
-** User should be told what the limitations on commands are
+* TODO User should be told how to issue a log message
+* TODO User should be told what the limitations on commands are
    - Size in RAM
    - Maximum buffer length
 
+* TODO User should understand how incoming characters are sorted
 * ------------------------ TODO list ----------------------------
 * TODO Move the code over from parkdar [/]
   - The idea is that I'll get the code to work in parkdar, then I'll copy over the relevant bits to buttcom.  The relevent bits would most notably be the command and logging modules.
