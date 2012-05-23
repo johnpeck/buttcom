@@ -55,6 +55,14 @@ The AVR Butterfly board consists of an AVR ATmega169 microcontroller and some pe
     \end{center}
 \end{figure}
 
+\begin{figure}[ht]
+    \begin{center}
+        \includegraphics[clip,scale=1]{recbuffer}
+        \draftnote{recbuffer.fig}
+        \caption{The received character buffer and pointers used to fill it.\label{fig:recbuffer}}
+    \end{center}
+\end{figure}
+
 \clearpage{}
 \section{The debug output}
 
@@ -104,12 +112,7 @@ struct command_struct command_array[] ={
 \clearpage{}
 \section{The received character flow}
 
-\begin{figure}[ht]
-    \begin{center}
-        \includegraphics[clip,scale=1]{recbuffer}
-        \caption{Pointers used to fill the received character buffer.\label{fig:recbuffer}}
-    \end{center}
-\end{figure}
+
 
 
 
