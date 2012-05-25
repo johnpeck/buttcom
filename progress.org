@@ -1,6 +1,16 @@
 * buttcom progress
 * ----------------------- Dated notes ---------------------------
 * <2012-04-12 Thu> Created this project
+* --------------------- Specifications --------------------------
+* The user understands the limitations on remote commands and their arguments.
+* The user understands how to call functions with remote commands.
+* The user understands how to use a single port for debug and interface
+* Code has a command called "hello" that just returns "hello yourself"
+* Code has a command called "slope" that sets a slope member of a structure
+* Code has a command called "slope?" that returns the slope
+* Code has a command called "offset" that sets a offset member of a structure
+* Code has a command called "offset?" that returns the offset value
+* Commands must not be case sensitive
 * ------------------------ TODO list ----------------------------
 * TODO Identify the figures you'd like to have in the article
 ** Drawing of the butterfly board showing USART pins and DB9 correspondence
@@ -26,3 +36,5 @@
 ** DONE Add power connections
 ** DONE Reduce the length of the ribbon cable
 * TODO Describe how data is loaded into the received character buffer.
+* TODO Use tikz to fix up received character flow diagram
+* TODO Add a USART label to connection diagram

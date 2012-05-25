@@ -34,7 +34,7 @@ I love test equipment with open, well documented, ASCII command sets.  The plain
 
 \clearpage
 \section{Making connections to the Butterfly}
-The AVR Butterfly board consists of an AVR ATmega169 microcontroller and some peripherals.  Figure \ref{fig:connections} shows the connections I make to it.  I only use 3 wires from the DB9 connector for serial communication with the PC -- there's no hardware handshaking.  And while I could also use this serial channel for programming, I find that using a dedicated programmer makes iterating my code much faster.  I thus solder a 6-pin header to the J403 position to use Atmel's AVRISP mkII programmer.  Finally, powering the board with an external supply at J401 means that I don't have to think about the Butterfly's button cell battery.
+The AVR Butterfly board consists of an AVR ATmega169 microcontroller and some peripherals.  Figure \ref{fig:connections} shows the connections I make to it.  I only use 3 wires from the DB9 connector for serial communication with the PC -- there's no hardware handshaking.  And while I could also use this serial channel for programming, I find that using a dedicated programmer makes iterating my code much faster.  I thus solder a 6-pin header to the J403 position to use Atmel's AVRISP mkII programmer.  Finally, powering the board with an external supply at J401 means that I don't have to think about the Butterfly's button cell battery.  
 
 \begin{figure}[ht]
     \begin{center}
@@ -46,6 +46,9 @@ The AVR Butterfly board consists of an AVR ATmega169 microcontroller and some pe
 
 \clearpage
 \section{Handling incoming characters}
+Characters are sent to the AVR via the USART connector shown in figure \ref{fig:connections}.  These characters trigger an interrupt service routine, which sorts them according to the flow shown in figure \ref{fig:recflow}.  Figure \ref{fig:recbuffer} illustrates the buffer characters are loaded into.  This inital step doesn't enforce any rules on command or argument sizes, provided that the total character count stays under the \texttt{RECEIVE\_BUFFER\_SIZE} limit.
+
+When a command string is finished with a carriage return, the string is copied over to a second buffer.  I call this the parse buffer, since this is where the string will be searched for recognized commands and arguments.  Writing to this buffer must be prevented until its contents can be processed.  Sending commands faster than they can be processed will generate an error, and incoming commands will be dropped.  The maximum command processing frequency will depend on the system clock and other system tasks.  
 
 \begin{figure}[ht]
     \begin{center}
@@ -64,7 +67,8 @@ The AVR Butterfly board consists of an AVR ATmega169 microcontroller and some pe
 \end{figure}
 
 \clearpage{}
-\section{The debug output}
+\section{Watching the progress}
+
 
 % See the termgrab.sh script for details about creating grab.eps
 \begin{figure}[ht]
