@@ -1,0 +1,13 @@
+# Compiled source #
+###################
+*.o
+*.o.d
+*.eep
+*.map
+*.elf
+*.hex
+
+# Listing files #
+###################
+*.lst
+

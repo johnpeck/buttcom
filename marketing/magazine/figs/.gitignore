@@ -1,2 +1,3 @@
 # We don't need to version eps files in the fig directory
 *.eps
+*.bak
