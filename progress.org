@@ -35,6 +35,7 @@
 ** DONE Show the AVRISP connector and box
 ** DONE Add power connections
 ** DONE Reduce the length of the ribbon cable
-* TODO Describe how data is loaded into the received character buffer.
+* DONE Describe how data is loaded into the received character buffer.
 * TODO Use tikz to fix up received character flow diagram
-* TODO Add a USART label to connection diagram
+* DONE Add a USART label to connection diagram
+* TODO Make a script to call txt2fig.pl perl script
