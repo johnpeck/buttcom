@@ -84,9 +84,18 @@ void logger_msg( char *logsys, logger_level_t loglevel, char *logmsg, ... );
  */
 void logger_msg_p( char *logsys, logger_level_t loglevel,const char *logmsg, ... );
 
-/* Called by logger_msg.  Filters out messages not enabled for logging.
-*/
-void logger_system_filter( char *logsys, char *logmsg );
+
+
+/* Decide if a message should be logged based on the logger configuration
+ * and the message tag.  If it's enabled for logging, print: 
+ * [The message severity] (The origin system) The message
+ * 
+ * Message severity tags:
+ * [I] Informational
+ * [W] Warning
+ * [E] Error
+ */
+void logger_system_filter( char *logsys, logger_level_t loglevel, char *logmsg );
 
 /* Sends the final log message to the output device.  This function makes
  * the output device more modular.  The output chosen in the implementation

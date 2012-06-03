@@ -37,7 +37,6 @@ uint16_t hex2num(char *hexstr) {
     uint8_t digits = 0; // Number of digits in the string
     uint16_t totval = 0; // Returned value of the string
     digits = strlen(hexstr);
-    usart_printf_p(PSTR("The string has %d digits.\r\n"),digits);
     while (digits != 0) {
         totval += asc2num(hexstr[0]) << (4 * (digits - 1));
         hexstr++;

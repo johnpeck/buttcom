@@ -82,7 +82,8 @@ SRC = 	$(TARGET).c \
 		bc_usart.c \
 		bc_logger.c \
 		bc_numbers.c \
-		bc_ascii.c
+		bc_ascii.c \
+		bc_clock.c
 
 
 # List C++ source files here. (C dependencies are automatically generated.)

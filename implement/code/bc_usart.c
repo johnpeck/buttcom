@@ -8,6 +8,7 @@
  * flash.
  */
 #include <avr/pgmspace.h>
+#include <util/delay.h>
 
 /* Send a formatted string to the USART interface */
 uint8_t usart_printf (const char *fmt, ...) { 

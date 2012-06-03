@@ -110,7 +110,7 @@ void logger_msg( char *logsys, logger_level_t loglevel,char *logmsg, ... ) {
     if (loglevel >= (logger_config_ptr -> loglevel)) {
         /* If this message's level is high enough to be logged, we send
          * it on to be filtered by system. */
-        logger_system_filter( logsys, printbuffer );
+        logger_system_filter( logsys, loglevel, printbuffer );
     }
     return;
 }
@@ -124,24 +124,31 @@ void logger_msg_p( char *logsys, logger_level_t loglevel,const char *logmsg, ...
     if (logger_config_ptr -> enable == 0) {
         // Logging has been disabled.  Nothing to do.
         return;
-    }     
+    }
     
     va_start (args, logmsg); 
-    /* Make sure messages are never longer than printbuffer */
-    i = vsnprintf_P (printbuffer, LOGGER_BUFFERSIZE, logmsg, args); 
+        /* Make sure messages are never longer than printbuffer */
+        i = vsnprintf_P (printbuffer, LOGGER_BUFFERSIZE, logmsg, args); 
     va_end (args); 
     
     if (loglevel >= (logger_config_ptr -> loglevel)) {
         /* If this message's level is high enough to be logged, we send
-         * it on to be filtered by system. */
-        logger_system_filter( logsys, printbuffer );
+         * it on to be filtered by system name. */
+        logger_system_filter( logsys, loglevel, printbuffer );
     }
     return;
 }
 
 /* Decide if a message should be logged based on the logger configuration
- * and the message tag. */
-void logger_system_filter( char *logsys, char *logmsg ) {
+ * and the message tag.  If it's enabled for logging, print: 
+ * [The message severity] (The origin system) The message
+ * 
+ * Message severity tags:
+ * [I] Informational
+ * [W] Warning
+ * [E] Error
+ */
+void logger_system_filter( char *logsys, logger_level_t loglevel, char *logmsg ) {
     char sysname[LOGGER_BUFFERSIZE];
     struct system_struct *system_array_ptr = system_array;
     // Go through all systems looking for a match to the system name
@@ -150,10 +157,22 @@ void logger_system_filter( char *logsys, char *logmsg ) {
             // We've found a matching system
             if ((logger_config_ptr -> enable) & 
                 (1<< (system_array_ptr -> bitshift))) {
-                /* The system is enabled for logging.  Send two strings
-                 * to the logging device: 
-                 * 1. (name of the system)
+                /* The system is enabled for logging.  Send three strings
+                 * to the logging device:
+                 * 1. [Severity] 
+                 * 1. (System name)
                  * 2. Log message */
+                switch( loglevel ) {
+                    case log_level_INFO:
+                        logger_output("[I]");
+                        break;
+                    case log_level_WARNING:
+                        logger_output("[W]");
+                        break;
+                    case log_level_ERROR:
+                        logger_output("[E]");
+                        break;    
+                }
                 snprintf(sysname,LOGGER_BUFFERSIZE,"(%s) ",
                     system_array_ptr -> name);
                 logger_output(sysname);
