@@ -2,7 +2,7 @@
  * 
  * Used to set up the parkdar USART. */
  
-#define USART_TXBUFFERSIZE 80
+#define USART_TXBUFFERSIZE 150
 
 
 /* Send a format string to the USART interface */

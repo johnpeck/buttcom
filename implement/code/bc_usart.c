@@ -37,11 +37,10 @@ uint8_t usart_printf_p(const char *fmt, ...) {
     char printbuffer[USART_TXBUFFERSIZE]; 
 
     va_start (args, fmt); 
-
-    /* For this to work, printbuffer must be larger than 
-    * anything we ever want to print. 
-    */ 
-    i = vsprintf_P (printbuffer, fmt, args); 
+        /* For this to work, printbuffer must be larger than 
+        * anything we ever want to print. 
+        */ 
+        i = vsnprintf_P (printbuffer, USART_TXBUFFERSIZE, fmt, args); 
     va_end (args); 
 
     /* Print the string */ 
@@ -76,7 +75,7 @@ void usart_putc(char data) {
  * Sends a string over the USART by repeatedly calling usart_putc() */
 void usart_puts(const char s[]) {
     int i = 0;
-    while(i < 64) // don't get stuck if it is a bad string
+    while(i < USART_TXBUFFERSIZE) // don't get stuck if it is a bad string
     {
         if( s[i] == '\0' ) break; // quit on string terminator
         usart_putc(s[i++]);

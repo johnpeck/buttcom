@@ -60,7 +60,7 @@ void logger_setsystem( char *logsys );
  * enable byte directly.  You have to know which systems correspond to 
  * which bitshifts to make use of this.
  */
-void cmd_logger_setreg( uint16_t setval );
+void cmd_logreg( uint16_t setval );
 
 
 

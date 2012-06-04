@@ -59,9 +59,9 @@ void logger_setlevel( logger_level_t loglevel ) {
  * enable byte directly.  You have to know which systems correspond to 
  * which bitshifts to make use of this.
  */
-void cmd_logger_setreg( uint16_t setval ) {
+void cmd_logreg( uint16_t setval ) {
     logger_msg_p( "logger", log_level_INFO,
-                  PSTR("Logger enable register set to 0x%x\r\n"),setval );
+                  PSTR("Logger enable register set to 0x%x.\r\n"),setval );
     (logger_config_ptr -> enable) = setval;
 }
 

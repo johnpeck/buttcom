@@ -44,31 +44,48 @@
  */
 #include "bc_numbers.h"
 
+/* Initialize command help strings.
+ * 
+ * The help text for each command needs to be defined outside of the
+ * rest of the command array initialization.  I don't know another way
+ * to keep the text from being copied into RAM.  There's probably a better
+ * way to do this.
+ */
+const char helpstr_hello[] PROGMEM = 
+    "hello -- Print a greeting.\r\n"
+    "    Argument: None\r\n"
+    "    Return: A greeting\r\n";
+const char helpstr_logreg[] PROGMEM =
+    "logreg -- Set the logger enable register.\r\n"
+    "    Argument: 16-bit hex number\r\n"
+    "    Return: None\r\n";
+const char helpstr_help[] PROGMEM =
+    "help -- Print the command help.\r\n";
+const char nullstr[] PROGMEM = "";
 
-
-
-
-/* An array of command_structs will contain our remote commands */
+/* Define the remote commands recognized by the system.
+*/
 command_t command_array[] ={
-    // The junk function
-    {"junk",   // Name
-    "hex",     // Argument type
-    2,         // Maximum number of characters in argument
-    &junkfunc, // Address of function to execute
-    "Some junk"}, // Help string
-    // The crap function
-    {"crap",
-    "none",
-    0,
-    &crapfunc,
-    "Some crap"},
+    // hello -- Print a greeting.
+    {"hello",           // Name of the command
+     "none",            // Argument type (can be "none" or "hex" right now)
+     0,                 // Maximum number of characters in argument
+     &cmd_hello,        // Address of function to execute
+     helpstr_hello},    // The help text (defined above)
+    // logreg -- Set the logger enable register.
     {"logreg",
      "hex",
      4,
-     &cmd_logger_setreg,
-     "Some help"},
-    // End of table indicator.  Must be last.
-    {"","",0,0,""}
+     &cmd_logreg,
+     helpstr_logreg},
+     // help -- Print all the help strings
+     {"help",
+     "none",
+     0,
+     &cmd_help,
+     helpstr_help},
+     // End of table indicator.  Must be last.
+    {"","",0,0,nullstr}
 };
 
 
@@ -119,7 +136,6 @@ void process_pbuffer( recv_cmd_state_t *recv_cmd_state_ptr ,
             logger_msg_p("command",log_level_INFO,
                 PSTR("The command's argument is '%s'.\r\n"),
                 (recv_cmd_state_ptr -> pbuffer_arg_ptr));
-            // usart_printf_p(PSTR("The parameter is %s\r\n"),(recv_cmd_state_ptr -> pbuffer_arg_ptr));
         }
         lowstring(recv_cmd_state_ptr -> pbuffer); // Convert command to lower case
         // Look through the command list for a match
@@ -173,13 +189,13 @@ void process_pbuffer( recv_cmd_state_t *recv_cmd_state_ptr ,
 }
 
 /* Making this function explicitly take a pointer to the received command
- * state structure makes it clear that it modifies this structure.  This
- * function will ultimately also have to set up the USART hardware. */
+ * state structure makes it clear that it modifies this structure.
+ */
 void command_init( recv_cmd_state_t *recv_cmd_state_ptr ) {
     memset((recv_cmd_state_ptr -> rbuffer),0,RECEIVE_BUFFER_SIZE);
     recv_cmd_state_ptr -> rbuffer_write_ptr =
         recv_cmd_state_ptr -> rbuffer; // Initialize write pointer
-    memset((recv_cmd_state_ptr -> pbuffer),0,PARSE_BUFFER_SIZE);
+    memset((recv_cmd_state_ptr -> pbuffer),0,RECEIVE_BUFFER_SIZE);
     recv_cmd_state_ptr -> pbuffer_arg_ptr =
         recv_cmd_state_ptr -> pbuffer; // Initialize argument pointer
     recv_cmd_state_ptr -> rbuffer_count = 0;
@@ -194,13 +210,13 @@ void command_exec( command_t *command, char *argument ) {
     if (strcmp( command -> arg_type,"none" ) == 0) {
         // There's no argument
         logger_msg_p("command",log_level_INFO,
-            PSTR("Executing command with no argument\r\n"));
+            PSTR("Executing command with no argument.\r\n"));
         command -> execute(0);
     }
     else if (strcmp( command -> arg_type,"hex" ) == 0) {
         // There's a hex argument
         logger_msg_p("command",log_level_INFO,
-            PSTR("Executing command with hex argument\r\n"));
+            PSTR("Executing command with hex argument.\r\n"));
         argval = hex2num(argument);
         logger_msg_p("command",log_level_INFO,
             PSTR("The argument value is %d.\r\n"),argval);

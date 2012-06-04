@@ -118,6 +118,8 @@ ISR(USART0_RX_vect) {
         }
     }
     else {
+        // The character is not a command terminator.
+        (recv_cmd_state_ptr -> rbuffer_count)++;
         logger_msg_p("command",log_level_INFO,
             PSTR("%c  <-- copied to receive buffer.  Received count is %d.\r\n"),
             *(recv_cmd_state_ptr -> rbuffer_write_ptr),
@@ -129,8 +131,6 @@ ISR(USART0_RX_vect) {
             return;
         }
         else {
-            // Increment the received character count
-            (recv_cmd_state_ptr -> rbuffer_count)++;
             // Increment the write pointer
             (recv_cmd_state_ptr -> rbuffer_write_ptr)++;
         }
