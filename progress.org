@@ -29,6 +29,10 @@
   - The system will boot with logging completely disabled.
   - Use the logall command to log all sytems at the info level
   - Use logreg 0 to turn logging off again
+** TODO Add a citation for Dean Camera here.  Something like: These log strings can take up a lot of space in RAM, but they can be easily referenced in flash instead using the pgmspace module.  Dean Camera has written a nice explanation of how this works.
+
+* TODO Add a note about the command array
+** If you want to let the user pass arguments of other types, just change the definition of the command type to take more arguments.  For example, if you want to handle string arguments, you might add a character pointer argument to the command type definition.
 * TODO Get rid of the initial "now logging system" messages.
   - The system should just start up logging only errors.  To make the magazine screenshot, just make your first command "logall"
 * TODO All include files need guards

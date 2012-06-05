@@ -68,7 +68,7 @@ When a command string is finished with a carriage return, the string is copied o
 
 \clearpage{}
 \section{Watching the progress}
-I set up a logging system to help me understand how commands were being processed.  Figure \ref{fig:termgrab} shows the logger's output with all systems enabled for logging at all levels.
+I set up a logging system to help me understand how commands were being processed.  It's inconvienient to have the command and logging interfaces share the same communication channel, but the Butterfly only has one USART.  Reading command replys back without getting confused by general log messages requires some commands to control how the logging system works.  Figure \ref{fig:termgrab} shows the logger's output with all systems enabled for logging at all levels.
 
 % See the termgrab.sh script for details about creating grab.eps
 \begin{figure}[ht]
