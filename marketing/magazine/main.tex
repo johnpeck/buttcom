@@ -68,7 +68,9 @@ When a command string is finished with a carriage return, the string is copied o
 
 \clearpage{}
 \section{Watching the progress}
-I set up a logging system to help me understand how commands were being processed.  It's inconvienient to have the command and logging interfaces share the same communication channel, but the Butterfly only has one USART.  Reading command replys back without getting confused by general log messages requires some commands to control how the logging system works.  Figure \ref{fig:termgrab} shows the logger's output with all systems enabled for logging at all levels.
+I set up a logging system to help me understand how commands were being processed.  It's inconvienient to have the command and logging interfaces share the same communication channel, but the Butterfly only has one USART.  Reading command replies back without getting confused by general log messages will require some control over how the logging system works.  For now, figure \ref{fig:termgrab} shows the system processing the "hello" command with logging enabled at its most verbose level.  Each log message is tagged with a character representing the message severity (information, warning, error), followed by a string representing the subsystem responsible for the message.  These tags can be used to adjust what log messages should be suppressed, though I won't go into that here.
+
+I should mention that these log message strings can easily overwhelm the Butterfly's RAM if they're not stored and referenced in flash memory.  Savannah\cite{url:savannah:pgmspace} and Dean Camera\cite{url:deancamera:pgmspace} have written great instructions for using the pgmspace module to handle this problem.
 
 % See the termgrab.sh script for details about creating grab.eps
 \begin{figure}[ht]

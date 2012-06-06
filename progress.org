@@ -26,11 +26,12 @@
   - A command to enable all systems at the info level
 * TODO Work on watching the progress section
   - This section will describe how the logger functions can be used to turn off debugging output.
-  - The system will boot with logging completely disabled.
+  - The system will boot with logging completely enabled.
   - Use the logall command to log all sytems at the info level
   - Use logreg 0 to turn logging off again
 ** TODO Add a citation for Dean Camera here.  Something like: These log strings can take up a lot of space in RAM, but they can be easily referenced in flash instead using the pgmspace module.  Dean Camera has written a nice explanation of how this works.
 
+** TODO Make a putty screenshot showing processing of the hello command.  This needs to go into the watching the progress section.
 * TODO Add a note about the command array
 ** If you want to let the user pass arguments of other types, just change the definition of the command type to take more arguments.  For example, if you want to handle string arguments, you might add a character pointer argument to the command type definition.
 * TODO Get rid of the initial "now logging system" messages.
