@@ -6,10 +6,6 @@
 * The user understands how to call functions with remote commands.
 * The user understands how to use a single port for debug and interface
 * Code has a command called "hello" that just returns "hello yourself"
-* Code has a command called "slope" that sets a slope member of a structure
-* Code has a command called "slope?" that returns the slope
-* Code has a command called "offset" that sets a offset member of a structure
-* Code has a command called "offset?" that returns the offset value
 * Commands must not be case sensitive
 * ------------------------ TODO list ----------------------------
 * DONE Add a hello command
@@ -24,7 +20,7 @@
   - A command to set the log level.  0 -- info, 1 -- warnings, 2 -- error 
 * TODO Add a logall command
   - A command to enable all systems at the info level
-* TODO Work on watching the progress section
+* DONE Work on watching the progress section
   - This section will describe how the logger functions can be used to turn off debugging output.
   - The system will boot with logging completely enabled.
   - Use the logall command to log all sytems at the info level
