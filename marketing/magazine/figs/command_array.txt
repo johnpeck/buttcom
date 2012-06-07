@@ -1,0 +1,22 @@
+command_t command_array[] ={
+    // hello -- Print a greeting.
+    {"hello",           // Name of the command
+     "none",            // Argument type (can be "none" or "hex" right now)
+     0,                 // Maximum number of characters in argument
+     &cmd_hello,        // Address of function to execute
+     helpstr_hello},    // The help text (defined above)
+    // logreg -- Set the logger enable register.
+    {"logreg",
+     "hex",
+     4,
+     &cmd_logreg,
+     helpstr_logreg},
+     // help -- Print all the help strings
+     {"help",
+     "none",
+     0,
+     &cmd_help,
+     helpstr_help},
+     // End of table indicator.  Must be last.
+    {"","",0,0,nullstr}
+};

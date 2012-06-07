@@ -11,11 +11,10 @@ set -e # bash should exit the script if any statement returns a non-true
 echo "Use the crosshair to select the window to grab."
 # Options for import:
 # -frame -- Include the window frame with the window grab.
-import -frame capture.png
+import -frame grab.png
 # Options for convert:
 # -resample XRESxYRES -- set the image resolution
 # -negate -- Invert each pixel color
 convert -resample 50x50 \
-	-negate \
-	capture.png grab.eps
-echo "Window image saved to grab.eps."
+	grab.png grab.eps
+echo "Window image saved to grab.eps and grab.png."

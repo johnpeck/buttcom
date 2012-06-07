@@ -68,7 +68,7 @@ When a command string is finished with a carriage return, the string is copied o
 
 \clearpage{}
 \section{Watching the progress}
-I set up a logging system to help me understand how commands were being processed.  It's inconvienient to have the command and logging interfaces share the same communication channel, but the Butterfly only has one USART.  Reading command replies back without getting confused by general log messages will require some control over how the logging system works.  For now, figure \ref{fig:termgrab} shows the system processing the "hello" command with logging enabled at its most verbose level.  Each log message is tagged with a character representing the message severity (information, warning, error), followed by a string representing the subsystem responsible for the message.  These tags can be used to adjust what log messages should be suppressed, though I won't go into that here.
+I set up a logging system to help me understand how commands were being processed.  It's inconvienient to have the command and logging interfaces share the same communication channel, but the Butterfly only has one USART.  Reading command replies back without getting confused by general log messages will require some control over how the logging system works.  For now, figure \ref{fig:termgrab} shows the system processing the ``hello'' command with logging enabled at its most verbose level.  Each log message is tagged with a character representing the message severity (information, warning, error), followed by a string representing the subsystem responsible for the message.  These tags can be used to adjust what log messages should be suppressed, though I won't go into that here.  The ``Hello yourself!'' reply isn't a log message, and thus has no tags.
 
 I should mention that these log message strings can easily overwhelm the Butterfly's RAM if they're not stored and referenced in flash memory.  Savannah\cite{url:savannah:pgmspace} and Dean Camera\cite{url:deancamera:pgmspace} have written great instructions for using the pgmspace module to handle this problem.
 
@@ -76,7 +76,8 @@ I should mention that these log message strings can easily overwhelm the Butterf
 \begin{figure}[ht]
     \begin{center}
         \includegraphics[clip,scale=0.5]{grab.eps}
-        \caption{Terminal output showing debug information.\label{fig:termgrab}}
+        \draftnote{grab.eps}
+        \caption{Terminal output showing the reception of and the reply to the ``hello'' command.\label{fig:termgrab}}
     \end{center}
 \end{figure}
 
@@ -84,36 +85,25 @@ I should mention that these log message strings can easily overwhelm the Butterf
 
 
 \clearpage{}
-\section{The command list}
+\section{Recognizing commands}
+After finished commands are passed to the parse buffer, the system searches through an array of understood commands for a match.  Listing \ref{lst:cmdarray} shows the array with definitions for the ``hello,'' ``logreg,'' and ``help'' commands.    The last element must be distinctive, so that routines scanning through the array will know when to stop.
+ 
+
+% The command array figure is created with a text file (command_array.txt)
+% converted to a fig file using code2fig.sh.  Note that the standard
+% fig2dev output won't work for eps output here, since the delta x extents
+% aren't calculated properly.  You have to generate eps from the xfig gui.
+\begin{listing}[ht]
+    \begin{center}
+        \includegraphics[clip,scale=.75]{command_array}
+        \draftnote{command\_array.fig}
+        \caption{Commands are added to the system by adding to this array of command types.\label{lst:cmdarray}}
+    \end{center}
+\end{listing}
+
 The command array structure is largely drawn from White\cite{bok:white2012}.
 
-% Listing showing the array of command structures defining the recognized
-% command set.
-\lstset{language=C}
-\begin{lstlisting}[float, % Allows this listing to be a latex float
-                   frame=single,
-                   caption={Defining the command set with an array of
-                            command structures.},
-                   label=lst:cmdarray
-                  ]
-/* An array of command_structs will contain our remote commands */
-struct command_struct command_array[] ={
-    // The junk function
-    {"junk", // Name
-    "hex", // Argument type
-    2, // Maximum number of characters in argument
-    &junkfunc,
-    "Some junk"},
-    // The crap function
-    {"crap",
-    "none",
-    0,
-    &crapfunc,
-    "Some crap"},
-    // End of table indicator.  Must be last.
-    {"","",0,0,""}
-};
-\end{lstlisting}
+
 
 \clearpage{}
 \section{The received character flow}
