@@ -1,0 +1,20 @@
+#FIG 3.2  Produced by xfig version 3.2.5b
+Portrait
+Center
+Inches
+Letter  
+100.00
+Single
+-2
+1200 2
+6 975 1500 9900 3750
+4 0 0 50 0 12 12 0.0000 4 165 5280 1000 1628 typedef void (*fpointer_t)(uint16_t argval);\001
+4 0 0 50 0 12 12 0.0000 4 165 6120 1000 2084 /* Each command_struct will describe one command */\001
+4 0 0 50 0 12 12 0.0000 4 165 3720 1000 2312 typedef struct command_struct {\001
+4 0 0 50 0 12 12 0.0000 4 165 5040 1000 2540     char *name; // The name of the command\001
+4 0 0 50 0 12 12 0.0000 4 180 8880 1000 2768     char *arg_type; // A string representing the type of argument expected\001
+4 0 0 50 0 12 12 0.0000 4 180 6000 1000 3224     fpointer_t execute; // The function to execute\001
+4 0 0 50 0 12 12 0.0000 4 165 2520 1000 3452     const char *help;\001
+4 0 0 50 0 12 12 0.0000 4 150 1440 1000 3680 } command_t;\001
+-6
+4 0 0 50 0 12 12 0.0000 4 180 9360 1000 2996     uint8_t arg_max_chars; // The maximum number of characters in the argument\001

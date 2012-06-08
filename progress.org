@@ -28,6 +28,7 @@
 * TODO Add a note about the command array
 ** If you want to let the user pass arguments of other types, just change the definition of the command type to take more arguments.  For example, if you want to handle string arguments, you might add a character pointer argument to the command type definition.
 * TODO Modify the command array code listing to have two sections: one for the command_t definition, and the other for the command array.
+  DEADLINE: <2012-06-08 Fri>
 * TODO All include files need guards
 * TODO Debug messages over the usart must be tagged with their system
 * TODO Identify the figures you'd like to have in the article

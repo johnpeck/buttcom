@@ -89,10 +89,9 @@ I should mention that these log message strings can easily overwhelm the Butterf
 After finished commands are passed to the parse buffer, the system searches through an array of understood commands for a match.  Listing \ref{lst:cmdarray} shows the array with definitions for the ``hello,'' ``logreg,'' and ``help'' commands.    The last element must be distinctive, so that routines scanning through the array will know when to stop.
  
 
-% The command array figure is created with a text file (command_array.txt)
-% converted to a fig file using code2fig.sh.  Note that the standard
-% fig2dev output won't work for eps output here, since the delta x extents
-% aren't calculated properly.  You have to generate eps from the xfig gui.
+% The command array figure is created with two text files (command_array.txt
+% and command_type.txt) individually converted to fig format using code2fig.sh
+% and then combined into one fig file.
 \begin{listing}[ht]
     \begin{center}
         \includegraphics[clip,scale=.75]{command_array}
