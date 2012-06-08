@@ -7,7 +7,6 @@ DVIPS_FLAGS= -t letter
 XFIGSRCS=	figs/usart_pinout.fig \
 			figs/recv_cmd_flow.fig \
 			figs/parse_cmd_flow.fig \
-			figs/recbuffer.fig \
-			figs/command_array.fig
+			figs/recbuffer.fig
 include /usr/share/latex-mk/latex.gmk
 

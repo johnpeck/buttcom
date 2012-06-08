@@ -1,3 +1,9 @@
 # We don't need to version eps files in the fig directory
 *.eps
 *.bak
+
+#--------------------------- Exceptions -----------------------------
+
+# We need to version the command_array.eps file, since fig2dev doesn't
+# get its bounding box right.  It can't be generated automatically.
+!command_array.eps
