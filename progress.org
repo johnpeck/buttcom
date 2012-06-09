@@ -48,3 +48,5 @@
 ** DONE Add power connections
 ** DONE Reduce the length of the ribbon cable
 * TODO Use tikz to fix up received character flow diagram
+* TODO Make sure hydrorefs.bib from SRS is checked in to doctools
+  - I can't get all the references at home.
