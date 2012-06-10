@@ -1,13 +1,15 @@
-NAME= 		main
-TEXSRCS= 	$(wildcard *.tex) \
-			doctools/latex/magazine_template.tex \
-			doctools/latex/mycommands.tex
-XDVI_FLAGS= -paper letter -interpreter /usr/bin/X11/gs
-DVIPS_FLAGS= -t letter
-XFIGSRCS=	figs/usart_pinout.fig \
-			figs/recv_cmd_flow.fig \
-			figs/parse_cmd_flow.fig \
-			figs/recbuffer.fig \
-			figs/command_array.fig
-include /usr/share/latex-mk/latex.gmk
+# Makefile for buttcom magazine submission
 
+# The dvi target
+dvi: main.dvi
+
+main.dvi: main.tex ./figs/command_array.eps
+	latex main.tex
+
+# Make the code snippet figure
+./figs/command_array.eps: ./figs/command_array.fig
+	# ------------ Making the code snippet figure ---------------------
+	fig2dev -L eps -m 1 ./figs/command_array.fig ./figs/command_array.eps
+	# Fix the bounding box
+	./figs/bboxfix.sh ./figs/command_array.eps temp
+	mv temp ./figs/command_array.eps
