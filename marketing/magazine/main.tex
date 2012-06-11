@@ -48,7 +48,7 @@ The AVR Butterfly board consists of an AVR ATmega169 microcontroller and some pe
 \section{Handling incoming characters}
 Characters are sent to the AVR via the USART connector shown in figure \ref{fig:connections}.  These characters trigger an interrupt service routine, which sorts them according to the flow shown in figure \ref{fig:recflow}.  Figure \ref{fig:recbuffer} illustrates the buffer characters are loaded into.  This inital step doesn't enforce any rules on command or argument sizes, provided that the total character count stays under the \texttt{RECEIVE\_BUFFER\_SIZE} limit.
 
-When a command string is finished with a carriage return, the string is copied over to a second buffer.  I call this the parse buffer, since this is where the string will be searched for recognized commands and arguments.  Writing to this buffer must be prevented until its contents can be processed.  Sending commands faster than they can be processed will generate an error, and incoming commands will be dropped.  The maximum command processing frequency will depend on the system clock and other system tasks.  
+When a combined string in the receive buffer is finished with a carriage return, the string is copied over to a second buffer.  I call this the parse buffer, since this is where the string will be searched for recognized commands and arguments.  Writing to this buffer must be prevented until its contents can be processed.  Sending commands faster than they can be processed will generate an error, and incoming commands will be dropped.  The maximum command processing frequency will depend on the system clock and other system tasks.  
 
 \begin{figure}[ht]
     \begin{center}
@@ -86,7 +86,10 @@ I should mention that these log message strings can easily overwhelm the Butterf
 
 \clearpage{}
 \section{Recognizing commands}
-After finished commands are passed to the parse buffer, the system searches through an array of understood commands for a match.  Listing \ref{lst:cmdarray} shows the array with definitions for the ``hello,'' ``logreg,'' and ``help'' commands.    The last element must be distinctive, so that routines scanning through the array will know when to stop.
+After finished combined strings are copied to the parse buffer, the system separates them into command and argument strings using the flow shown in figure \ref{fig:cmdflow}.
+
+
+ searches through an array of understood commands for a match.  Listing \ref{lst:cmdarray} shows the array with definitions for the ``hello,'' ``logreg,'' and ``help'' commands.    The last element must be distinctive, so that routines scanning through the array will know when to stop.
  
 
 % The command array figure is created with two text files (command_array.txt

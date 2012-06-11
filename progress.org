@@ -27,7 +27,7 @@
 ** DONE Make a putty screenshot showing processing of the hello command.  This needs to go into the watching the progress section.
 * TODO Add a note about the command array
 ** If you want to let the user pass arguments of other types, just change the definition of the command type to take more arguments.  For example, if you want to handle string arguments, you might add a character pointer argument to the command type definition.
-* TODO Modify the command array code listing to have two sections: one for the command_t definition, and the other for the command array.
+* DONE Modify the command array code listing to have two sections: one for the command_t definition, and the other for the command array.
   DEADLINE: <2012-06-08 Fri>
 * TODO All include files need guards
 * TODO Debug messages over the usart must be tagged with their system
@@ -40,7 +40,6 @@
 ** Pointers used with received character buffer
 * Add references
 ** TODO Add reference to Elicia White
-** TODO Add reference to article on rs-485 router from CC magazine
 * DONE Add a reference to Python's gnuplot interface
 * DONE Revise the drawing showing connections to the Butterfly [4/4]
 ** DONE DB9 pins should come out of the page
@@ -50,3 +49,8 @@
 * TODO Use tikz to fix up received character flow diagram
 * TODO Make sure hydrorefs.bib from SRS is checked in to doctools
   - I can't get all the references at home.
+
+* TODO Create the parse buffer figure
+** This will show where the string terminators are inserted.  Need to get the pointer names correct.
+* TODO Add in the handwritten changes in the blue binder
+** Need to have the parse buffer figure before you can add these changes.
