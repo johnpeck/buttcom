@@ -11,7 +11,8 @@ dvi: main.dvi
 
 main.dvi: main.tex\
 		./figs/command_array.eps\
-		./figs/recbuffer.eps
+		./figs/recbuffer.eps\
+		./figs/prsbuffer.eps
 	# ------------- Running latex on the document ---------------------
 	latex main.tex
 
@@ -27,3 +28,8 @@ main.dvi: main.tex\
 ./figs/recbuffer.eps: ./figs/recbuffer.fig
 	# --------- Making the received character buffer figure -----------
 	fig2dev -L eps -m 1 ./figs/recbuffer.fig ./figs/recbuffer.eps
+
+# Make the parse buffer figure
+./figs/prsbuffer.eps: ./figs/prsbuffer.fig
+	# --------- Making the received character buffer figure -----------
+	fig2dev -L eps -m 1 ./figs/prsbuffer.fig ./figs/prsbuffer.eps

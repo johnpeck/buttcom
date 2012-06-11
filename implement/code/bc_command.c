@@ -116,6 +116,10 @@ void rbuffer_erase( recv_cmd_state_t *recv_cmd_state_ptr ) {
     return;
 }
 
+/* process_pbuffer( recv_cmd_state_t *recv_cmd_state_ptr,
+ *                  command_struct *commands )
+ * Process the command (if there is one) in the parse buffer. 
+ */
 void process_pbuffer( recv_cmd_state_t *recv_cmd_state_ptr ,
                     struct command_struct *command_array) {
     if ((recv_cmd_state_ptr -> pbuffer_lock) == 1) {
@@ -132,7 +136,7 @@ void process_pbuffer( recv_cmd_state_t *recv_cmd_state_ptr ,
             while (*(recv_cmd_state_ptr -> pbuffer_arg_ptr) == ' ') {
                 (recv_cmd_state_ptr -> pbuffer_arg_ptr)++; // Move to first non-space character
             }
-            // arg_ptr now points to the beginning of the parameter
+            // pbuffer_arg_ptr now points to the beginning of the argument
             logger_msg_p("command",log_level_INFO,
                 PSTR("The command's argument is '%s'.\r\n"),
                 (recv_cmd_state_ptr -> pbuffer_arg_ptr));

@@ -47,10 +47,10 @@
 ** DONE Add power connections
 ** DONE Reduce the length of the ribbon cable
 * TODO Use tikz to fix up received character flow diagram
-* TODO Make sure hydrorefs.bib from SRS is checked in to doctools
-  - I can't get all the references at home.
-
-* TODO Create the parse buffer figure
+* DONE Create the parse buffer figure
 ** This will show where the string terminators are inserted.  Need to get the pointer names correct.
-* TODO Add in the handwritten changes in the blue binder
+* DONE Add in the handwritten changes in the blue binder
 ** Need to have the parse buffer figure before you can add these changes.
+* TODO Create a bash script that will touch main.tex if latex needs to be rerun
+  - The script should just look at the log file for the latex warning.
+* TODO Add a spell target to the makefile

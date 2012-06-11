@@ -86,11 +86,28 @@ I should mention that these log message strings can easily overwhelm the Butterf
 
 \clearpage{}
 \section{Recognizing commands}
-After finished combined strings are copied to the parse buffer, the system separates them into command and argument strings using the flow shown in figure \ref{fig:cmdflow}.
+After finished combined strings are copied to the parse buffer, the system separates them into command and argument strings using the flow shown in figure \ref{fig:cmdflow}.  As illustrated in figure \ref{fig:prsbuffer}, commands in the parse buffer are separated from their arguments by inserting a string terminator into the first space between the two.  Pointers to the beginning of the parse buffer and the beginning of the argument will then reference two separate strings.  The first of these two, the command string, is compared with those in the command definition array to look for a match.
+
+The lower section of listing \ref{lst:cmdarray} shows my simple command definition array with entries for the ``hello,'' ``logreg,'' and ``help'' commands. The structure of this array is largely taken from White\cite{bok:white2012}.  Each entry must be of the type \texttt{command\_t}, defined in the upper section of listing \ref{lst:cmdarray}.  Notice that the function pointer member of this command type only accepts one integer argument.  This can be changed to make the system more flexible, but remember that every function called by remote commands must accept the same arguments.  If the function pointer is expanded to accept both an integer and a string pointer argument, all of the functions the pointer will point to must also be expanded.  
+
+% The parse buffer processing flowchart
+\begin{figure}[ht]
+    \begin{center}
+        \includegraphics[clip,scale=0.5]{parse_cmd_flow}
+        \caption{Program flow for processing fully-formed commands.\label{fig:cmdflow}}
+    \end{center}
+\end{figure}
 
 
- searches through an array of understood commands for a match.  Listing \ref{lst:cmdarray} shows the array with definitions for the ``hello,'' ``logreg,'' and ``help'' commands.    The last element must be distinctive, so that routines scanning through the array will know when to stop.
- 
+\begin{figure}[ht]
+    \begin{center}
+        \includegraphics[clip,scale=1]{prsbuffer}
+        \draftnote{prsbuffer.fig}
+        \caption{The parse buffer with pointers to the command and argument strings.\label{fig:prsbuffer}}
+    \end{center}
+\end{figure}
+
+
 
 % The command array figure is created with two text files (command_array.txt
 % and command_type.txt) individually converted to fig format using code2fig.sh
@@ -120,15 +137,9 @@ The command array structure is largely drawn from White\cite{bok:white2012}.
 \clearpage{}
 \section{The command processing flow}
 
-\begin{figure}[ht]
-    \begin{center}
-        \includegraphics[clip,scale=0.5]{parse_cmd_flow}
-        \caption{Program flow for processing fully-formed commands.\label{fig:cmdflow}}
-    \end{center}
-\end{figure}
 
 
 
-
+\raggedright
 \bibliography{doctools/latex/hydrorefs}
 \end{document}

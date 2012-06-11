@@ -17,15 +17,15 @@ long_line_behaviour=1
 long_line_column=72
 
 [files]
-current_page=2
-FILE_NAME_0=5740;LaTeX;0;16;0;1;1;/home/john/projects/buttcom/marketing/magazine/main.tex;0;4
+current_page=0
+FILE_NAME_0=8162;LaTeX;0;16;0;1;1;/home/john/projects/buttcom/marketing/magazine/main.tex;0;4
 FILE_NAME_1=1355;LaTeX;0;16;0;1;1;/home/john/projects/buttcom/marketing/magazine/doctools/latex/hydrorefs.bib;0;4
-FILE_NAME_2=2171;C;0;16;0;1;1;/home/john/projects/buttcom/implement/code/bc_command.c;0;4
+FILE_NAME_2=4614;C;0;16;0;1;1;/home/john/projects/buttcom/implement/code/bc_command.c;0;4
 FILE_NAME_3=1075;LaTeX;0;16;0;1;1;/home/john/projects/buttcom/marketing/magazine/doctools/latex/magazine_template.tex;0;4
 FILE_NAME_4=413;None;0;16;0;1;1;/home/john/projects/buttcom/marketing/magazine/figs/command_type.txt;0;4
-FILE_NAME_5=2500;C;0;16;0;1;1;/home/john/projects/buttcom/implement/code/bc_command.h;0;4
+FILE_NAME_5=3250;C;0;16;0;1;1;/home/john/projects/buttcom/implement/code/bc_command.h;0;4
 FILE_NAME_6=678;Sh;0;16;0;1;1;/home/john/projects/buttcom/marketing/magazine/build.sh;0;4
-FILE_NAME_7=876;Make;0;16;1;1;1;/home/john/projects/buttcom/marketing/magazine/makefile;0;4
+FILE_NAME_7=1107;Make;0;16;1;1;1;/home/john/projects/buttcom/marketing/magazine/makefile;0;4
 FILE_NAME_8=0;C;0;16;0;1;1;/home/john/projects/buttcom/implement/code/bc_main.c;0;4
 FILE_NAME_9=0;None;0;16;0;1;1;/home/john/projects/buttcom/marketing/magazine/makefile_old;0;4
 
