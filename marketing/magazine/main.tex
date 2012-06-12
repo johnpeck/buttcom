@@ -46,7 +46,7 @@ The AVR Butterfly board consists of an AVR ATmega169 microcontroller and some pe
 
 \clearpage
 \section{Handling incoming characters}
-Characters are sent to the AVR via the USART connector shown in figure \ref{fig:connections}.  These characters trigger an interrupt service routine, which sorts them according to the flow shown in figure \ref{fig:recflow}.  Figure \ref{fig:recbuffer} illustrates the buffer characters are loaded into.  This inital step doesn't enforce any rules on command or argument sizes, provided that the total character count stays under the \texttt{RECEIVE\_BUFFER\_SIZE} limit.
+Characters are sent to the AVR via the USART connector shown in figure \ref{fig:connections}.  These characters trigger an interrupt service routine, which sorts them according to the flow shown in figure \ref{fig:recflow}.  Figure \ref{fig:recbuffer} illustrates the buffer characters are loaded into.  This initial step doesn't enforce any rules on command or argument sizes, provided that the total character count stays under the \texttt{RECEIVE\_BUFFER\_SIZE} limit.
 
 When a combined string in the receive buffer is finished with a carriage return, the string is copied over to a second buffer.  I call this the parse buffer, since this is where the string will be searched for recognized commands and arguments.  Writing to this buffer must be prevented until its contents can be processed.  Sending commands faster than they can be processed will generate an error, and incoming commands will be dropped.  The maximum command processing frequency will depend on the system clock and other system tasks.  
 
@@ -68,7 +68,7 @@ When a combined string in the receive buffer is finished with a carriage return,
 
 \clearpage{}
 \section{Watching the progress}
-I set up a logging system to help me understand how commands were being processed.  It's inconvienient to have the command and logging interfaces share the same communication channel, but the Butterfly only has one USART.  Reading command replies back without getting confused by general log messages will require some control over how the logging system works.  For now, figure \ref{fig:termgrab} shows the system processing the ``hello'' command with logging enabled at its most verbose level.  Each log message is tagged with a character representing the message severity (information, warning, error), followed by a string representing the subsystem responsible for the message.  These tags can be used to adjust what log messages should be suppressed, though I won't go into that here.  The ``Hello yourself!'' reply isn't a log message, and thus has no tags.
+I set up a logging system to help me understand how commands were being processed.  It's inconvenient to have the command and logging interfaces share the same communication channel, but the Butterfly only has one USART.  Reading command replies back without getting confused by general log messages will require some control over how the logging system works.  For now, figure \ref{fig:termgrab} shows the system processing the ``hello'' command with logging enabled at its most verbose level.  Each log message is tagged with a character representing the message severity (information, warning, error), followed by a string representing the subsystem responsible for the message.  These tags can be used to adjust what log messages should be suppressed, though I won't go into that here.  The ``Hello yourself!'' reply isn't a log message, and thus has no tags.
 
 I should mention that these log message strings can easily overwhelm the Butterfly's RAM if they're not stored and referenced in flash memory.  Savannah\cite{url:savannah:pgmspace} and Dean Camera\cite{url:deancamera:pgmspace} have written great instructions for using the pgmspace module to handle this problem.
 
@@ -90,10 +90,12 @@ After finished combined strings are copied to the parse buffer, the system separ
 
 The lower section of listing \ref{lst:cmdarray} shows my simple command definition array with entries for the ``hello,'' ``logreg,'' and ``help'' commands. The structure of this array is largely taken from White\cite{bok:white2012}.  Each entry must be of the type \texttt{command\_t}, defined in the upper section of listing \ref{lst:cmdarray}.  Notice that the function pointer member of this command type only accepts one integer argument.  This can be changed to make the system more flexible, but remember that every function called by remote commands must accept the same arguments.  If the function pointer is expanded to accept both an integer and a string pointer argument, all of the functions the pointer will point to must also be expanded.  
 
+
 % The parse buffer processing flowchart
 \begin{figure}[ht]
     \begin{center}
         \includegraphics[clip,scale=0.5]{parse_cmd_flow}
+        \draftnote{parse\_cmd\_flow.fig}
         \caption{Program flow for processing fully-formed commands.\label{fig:cmdflow}}
     \end{center}
 \end{figure}
@@ -120,13 +122,6 @@ The lower section of listing \ref{lst:cmdarray} shows my simple command definiti
     \end{center}
 \end{listing}
 
-The command array structure is largely drawn from White\cite{bok:white2012}.
-
-
-
-\clearpage{}
-\section{The received character flow}
-
 
 
 
@@ -135,11 +130,6 @@ The command array structure is largely drawn from White\cite{bok:white2012}.
 
 
 \clearpage{}
-\section{The command processing flow}
-
-
-
-
 \raggedright
 \bibliography{doctools/latex/hydrorefs}
 \end{document}

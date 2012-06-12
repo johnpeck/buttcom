@@ -88,7 +88,20 @@ command_t command_array[] ={
     {"","",0,0,nullstr}
 };
 
-
+/* Making this function explicitly take a pointer to the received command
+ * state structure makes it clear that it modifies this structure.
+ */
+void command_init( recv_cmd_state_t *recv_cmd_state_ptr ) {
+    memset((recv_cmd_state_ptr -> rbuffer),0,RECEIVE_BUFFER_SIZE);
+    recv_cmd_state_ptr -> rbuffer_write_ptr =
+        recv_cmd_state_ptr -> rbuffer; // Initialize write pointer
+    memset((recv_cmd_state_ptr -> pbuffer),0,RECEIVE_BUFFER_SIZE);
+    recv_cmd_state_ptr -> pbuffer_arg_ptr =
+        recv_cmd_state_ptr -> pbuffer; // Initialize argument pointer
+    recv_cmd_state_ptr -> rbuffer_count = 0;
+    recv_cmd_state_ptr -> pbuffer_lock = 0; // Parse buffer unlocked
+    return;
+}
 
 
 /* check_argsize( pointer to received command state,
@@ -192,20 +205,6 @@ void process_pbuffer( recv_cmd_state_t *recv_cmd_state_ptr ,
     return;
 }
 
-/* Making this function explicitly take a pointer to the received command
- * state structure makes it clear that it modifies this structure.
- */
-void command_init( recv_cmd_state_t *recv_cmd_state_ptr ) {
-    memset((recv_cmd_state_ptr -> rbuffer),0,RECEIVE_BUFFER_SIZE);
-    recv_cmd_state_ptr -> rbuffer_write_ptr =
-        recv_cmd_state_ptr -> rbuffer; // Initialize write pointer
-    memset((recv_cmd_state_ptr -> pbuffer),0,RECEIVE_BUFFER_SIZE);
-    recv_cmd_state_ptr -> pbuffer_arg_ptr =
-        recv_cmd_state_ptr -> pbuffer; // Initialize argument pointer
-    recv_cmd_state_ptr -> rbuffer_count = 0;
-    recv_cmd_state_ptr -> pbuffer_lock = 0; // Parse buffer unlocked
-    return;
-}
 
 /* Execute a valid command received over the remote interface.
  */

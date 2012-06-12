@@ -1,5 +1,9 @@
 # Makefile for buttcom magazine submission
 
+# Spell check
+spell:
+	aspell check main.tex
+
 # The postscript target
 ps: main.ps
 
@@ -15,6 +19,7 @@ main.dvi: main.tex\
 		./figs/prsbuffer.eps
 	# ------------- Running latex on the document ---------------------
 	latex main.tex
+	./rerun.sh
 
 # Make the code snippet figure
 ./figs/command_array.eps: ./figs/command_array.fig

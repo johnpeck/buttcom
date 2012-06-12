@@ -51,6 +51,9 @@
 ** This will show where the string terminators are inserted.  Need to get the pointer names correct.
 * DONE Add in the handwritten changes in the blue binder
 ** Need to have the parse buffer figure before you can add these changes.
-* TODO Create a bash script that will touch main.tex if latex needs to be rerun
+* DONE Create a bash script that will touch main.tex if latex needs to be rerun
   - The script should just look at the log file for the latex warning.
-* TODO Add a spell target to the makefile
+* DONE Add a spell target to the makefile
+* TODO Add a section describing the toolchain
+** The section should say that the code was built with avr-gcc, and it should list the RAM and flash sizes as percentages and absolute values.
+* TODO Add a set of instructions for adding remote commands
