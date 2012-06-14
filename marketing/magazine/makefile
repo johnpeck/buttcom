@@ -16,7 +16,8 @@ dvi: main.dvi
 main.dvi: main.tex\
 		./figs/command_array.eps\
 		./figs/recbuffer.eps\
-		./figs/prsbuffer.eps
+		./figs/prsbuffer.eps \
+		./figs/parse_cmd_flow.eps
 	# ------------- Running latex on the document ---------------------
 	latex main.tex
 	./rerun.sh
@@ -33,6 +34,11 @@ main.dvi: main.tex\
 ./figs/recbuffer.eps: ./figs/recbuffer.fig
 	# --------- Making the received character buffer figure -----------
 	fig2dev -L eps -m 1 ./figs/recbuffer.fig ./figs/recbuffer.eps
+
+# Make the command processing flow figure
+./figs/parse_cmd_flow.eps: ./figs/parse_cmd_flow.fig
+	# ---------- Making the command processing flow figure ------------
+	fig2dev -L eps -m 1 ./figs/parse_cmd_flow.fig ./figs/parse_cmd_flow.eps
 
 # Make the parse buffer figure
 ./figs/prsbuffer.eps: ./figs/prsbuffer.fig
