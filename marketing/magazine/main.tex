@@ -9,7 +9,7 @@
 
 % Use \draftnote to mark the filenames of figures
 \newcommand{\isdraft}{1} %Choose 1 for draft, 0 for release
-
+\doublespacing{} % Double space the document for proofreading
 \begin{document}
 
 
@@ -24,17 +24,14 @@
 	\today
 \end{center}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%Table of contents
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\tableofcontents
+
 
 \section{Introduction}
-I love test equipment with open, well documented, ASCII command sets.  The plain text commands give a complicated-looking instrument a familiar interface, and beg you to use them in some clever measurement script.  Python's gnuplot and pySerial interfaces let you acquire and make pretty plots of your data -- all for free\cite{pyserial,gnuplot-py}. So when I need to automate hobby measurements at home, I immediately wish for an ASCII interface to whatever tool I'm measuring with.  This tool happens to be the AVR Butterfly board right now, simply because it's cheap and the LCD is handy.  
+I love test equipment with open, well documented, ASCII command sets.  The plain text commands give a complicated instrument a familiar interface and an easy way to automate measurements.  Python's gnuplot and pySerial interfaces let you acquire and make pretty plots of your data -- all for free\cite{pyserial,gnuplot-py}. So when I need to automate hobby measurements at home, I immediately wish for an ASCII interface to whatever tool I'm measuring with.  This tool happens to be the AVR Butterfly board right now, simply because it's cheap and the LCD is handy.  
 
 \clearpage
 \section{Making connections to the Butterfly}
-The AVR Butterfly board consists of an AVR ATmega169 microcontroller and some peripherals.  Figure \ref{fig:connections} shows the connections I make to it.  I only use 3 wires from the DB9 connector for serial communication with the PC -- there's no hardware handshaking.  And while I could also use this serial channel for programming, I find that using a dedicated programmer makes iterating my code much faster.  I thus solder a 6-pin header to the J403 position to use Atmel's AVRISP mkII programmer.  Finally, powering the board with an external supply at J401 means that I don't have to think about the Butterfly's button cell battery.  
+The AVR Butterfly board consists of an AVR ATmega169 microcontroller and some peripherals.  Figure \ref{fig:connections} shows the connections I make to it.  I only use 3 wires from the DB9 connector for serial communication with the PC -- there's no hardware handshaking.  And while I could also use this serial channel for programming, I find that using a dedicated programmer makes iterating my code much faster.  A 6-pin header soldered to the J403 position lets me use Atmel's AVRISP mkII programmer.  Finally, powering the board with an external supply at J401 means that I don't have to think about the Butterfly's button cell battery.  
 
 \begin{figure}[ht]
     \begin{center}
@@ -46,9 +43,11 @@ The AVR Butterfly board consists of an AVR ATmega169 microcontroller and some pe
 
 \clearpage
 \section{Handling incoming characters}
-Characters are sent to the AVR via the USART connector shown in figure \ref{fig:connections}.  These characters trigger an interrupt service routine, which sorts them according to the flow shown in figure \ref{fig:recflow}.  Figure \ref{fig:recbuffer} illustrates the buffer characters are loaded into.  This initial step doesn't enforce any rules on command or argument sizes, provided that the total character count stays under the \texttt{RECEIVE\_BUFFER\_SIZE} limit.
+Receiving remote commands begins with receiving characters, which are sent to the AVR via the USART connector shown in figure \ref{fig:connections}.  Reception of these characters triggers an interrupt service routine (ISR), which handles them according to the flow shown in figure \ref{fig:recflow}. The first step in this flow is loading the characters into the receive buffer.
 
-When a combined string in the receive buffer is finished with a carriage return, the string is copied over to a second buffer.  I call this the parse buffer, since this is where the string will be searched for recognized commands and arguments.  Writing to this buffer must be prevented until its contents can be processed.  Sending commands faster than they can be processed will generate an error, and incoming commands will be dropped.  The maximum command processing frequency will depend on the system clock and other system tasks.  
+Figure \ref{fig:recbuffer} illustrates the receive buffer loaded with a combined string.  The buffer is accessed with a pointer to its beginning and a second pointing to the next index to be written.  These pointers are members of the \texttt{recv\_cmd\_state\_t} type variable \texttt{recv\_cmd\_state}.  This is just style -- I like to try to organize varibles used in a flow by making them members of their own structure.  Naming conventions aside, it's important to notice that there's no limitations on command or argument size imposed in this first step, provided that the total character count stays under the \texttt{RECEIVE\_BUFFER\_SIZE} limit. 
+ 
+When a combined string in the receive buffer is finished with a carriage return, the string is copied over to a second buffer.  I call this the parse buffer, since this is where the string will be searched for recognized commands and arguments.  This buffer is locked until its contents can be processed to keep it from being clobbered by new combined strings.  Sending commands faster than they can be processed will generate an error, and combined strings sent to a locked parse buffer will be dropped.  The maximum command processing frequency will depend on the system clock and other system tasks.  
 
 \begin{figure}[ht]
     \begin{center}
@@ -68,7 +67,7 @@ When a combined string in the receive buffer is finished with a carriage return,
 
 \clearpage{}
 \section{Watching the progress}
-I set up a logging system to help me understand how commands were being processed.  It's inconvenient to have the command and logging interfaces share the same communication channel, but the Butterfly only has one USART.  Reading command replies back without getting confused by general log messages will require some control over how the logging system works.  For now, figure \ref{fig:termgrab} shows the system processing the ``hello'' command with logging enabled at its most verbose level.  Each log message is tagged with a character representing the message severity (information, warning, error), followed by a string representing the subsystem responsible for the message.  These tags can be used to adjust what log messages should be suppressed, though I won't go into that here.  The ``Hello yourself!'' reply isn't a log message, and thus has no tags.
+I set up a logging system to help me understand how commands were being processed.  It's inconvenient to have the command and logging interfaces share the same communication channel, but the Butterfly only has one USART.  Reading command replies back without getting confused by general log messages requires some control over how the logging system works.  For now, figure \ref{fig:termgrab} shows the system processing the ``hello'' command with logging enabled at its most verbose level.  Each log message is tagged with a character representing the message severity (information, warning, error), followed by a string representing the subsystem responsible for the message.  These tags can be used to adjust what log messages should be suppressed, though I won't go into that here.  The ``Hello yourself!'' reply isn't a log message, and thus has no tags.
 
 I should mention that these log message strings can easily overwhelm the Butterfly's RAM if they're not stored and referenced in flash memory.  Savannah\cite{url:savannah:pgmspace} and Dean Camera\cite{url:deancamera:pgmspace} have written great instructions for using the pgmspace module to handle this problem.
 
@@ -86,11 +85,12 @@ I should mention that these log message strings can easily overwhelm the Butterf
 
 \clearpage{}
 \section{Recognizing commands}
-After finished combined strings are copied to the parse buffer, the system separates them into command and argument strings using the flow shown in figure \ref{fig:cmdflow}.  As illustrated in figure \ref{fig:prsbuffer}, commands in the parse buffer are separated from their arguments by inserting a string terminator into the first space between the two.  Pointers to the beginning of the parse buffer and the beginning of the argument will then reference two separate strings.  The first of these two, the command string, is converted to lowercase and compared with those in the command definition array to look for a match.
+After finished combined strings are copied from the receive to the parse buffer, the system separates them into command and argument strings using the flow shown in figure \ref{fig:cmdflow}.  Commands in the parse buffer are then separated from their arguments with a string terminator inserted into the first space between the two.  As illustrated in figure \ref{fig:prsbuffer}, pointers to the beginning of the parse buffer and the beginning of the argument will then reference two separate strings.  The first of these two, the command string, is converted to lowercase and compared with those in the command definition array to look for a match.
 
 The lower section of listing \ref{lst:cmdarray} shows my simple command definition array with entries for the ``hello,'' ``logreg,'' and ``help'' commands. The structure of this array is largely taken from White\cite{bok:white2012}.  Each entry must be of the type \texttt{command\_t}, defined in the upper section of listing \ref{lst:cmdarray}.  Notice that the function pointer member of this command type only accepts one integer argument.  This can be changed to make the system more flexible, but remember that every function called by remote commands must accept the same arguments.  If the function pointer is expanded to accept both an integer and a string pointer argument, all of the functions the pointer will point to must also be expanded.  
 
 The other members of the command type contain the command's name (must be lowercase), its argument type, the maximum number of characters in the argument, and a help string.  The argument type tells the command processing system how it should handle the argument string.  Hexadecimal argument strings, for example, are converted to integers before being passed on.  The character limit is a basic way of limiting incoming arguments.  Finally, the help string is what is printed to the USART when the ``help'' command is issued.
+
 
 % The parse buffer processing flowchart
 \begin{figure}[ht]
@@ -125,7 +125,7 @@ The other members of the command type contain the command's name (must be lowerc
 \section{Adding more commands}
 
 \clearpage{}
-\section{Is there space left for the instrument?}
+\section{Is there any space left?}
 
 
 

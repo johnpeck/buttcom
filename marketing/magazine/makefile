@@ -1,18 +1,19 @@
 # Makefile for buttcom magazine submission
 
-# Spell check
-spell:
-	aspell check main.tex
+# The first rule seen by make is the default
 
 # The postscript target
 ps: main.ps
 
 main.ps: main.dvi
-	dvips -t letter main.dvi -o main.ps
+	dvips -t letter main.dvi -o $@
 
 # The dvi target
 dvi: main.dvi
 
+# Make main.dvi a PHONY target so that latex can be run over an over again
+# to resolve cross references.
+.PHONY: main.dvi
 main.dvi: main.tex\
 		./figs/command_array.eps\
 		./figs/recbuffer.eps\
@@ -20,7 +21,7 @@ main.dvi: main.tex\
 		./figs/parse_cmd_flow.eps
 	# ------------- Running latex on the document ---------------------
 	latex main.tex
-	./rerun.sh
+
 
 # Make the code snippet figure
 ./figs/command_array.eps: ./figs/command_array.fig
@@ -44,3 +45,12 @@ main.dvi: main.tex\
 ./figs/prsbuffer.eps: ./figs/prsbuffer.fig
 	# --------- Making the received character buffer figure -----------
 	fig2dev -L eps -m 1 ./figs/prsbuffer.fig ./figs/prsbuffer.eps
+
+# Spell check
+.PHONY: spell
+spell:
+	aspell check main.tex
+	
+# Bibliography
+bib: main.aux
+	bibtex main
