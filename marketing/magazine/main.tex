@@ -130,13 +130,14 @@ Since being able to extend this system is so important, I've come up with a proc
     \item Decide if you need more than a hexadecimal integer string argument.\\
             My argument handling ability is limited to just hexadecimal integer strings.  Extending the system isn't hard, but remember that every function called by a command has to accept the same arguments.  If you add a character pointer argument, even commands that take no arguments must then call functions that need both integer and character pointer arguments.  This can be tedious if you already have a lot of commands defined.  
     \item Add a function for the command to call.\\
-            You might like to put all the functions called by remote commands in their own module.  I don't worry too much about this, but I do try to prefix function names with ``cmd\_'' if those functions are called exclusively by remote commands.  This helps me remember that their arguments and return value are fixed.  
-    \item Add an entry 
+            You might like to put all the functions called by remote commands in their own module.  I don't worry too much about this, but I do try to prefix names with ``cmd\_'' if those functions are called exclusively by remote commands.  This helps me remember that their arguments and return value are fixed.  
+    \item Add an entry for the command in the array.\\
+            Add the new entry before the array's end marker.  You've already chosen the command's name, argument type, and function call.  The remaining entry members are the argument's maximum size in characters and the command's help string.  Remember that hexadecimal arguments larger than 4 characters don't make sense for 16-bit integers.  As for the help strings, I ended up defining them outside of the command array so that they could be located and referenced in flash.  
 \end{enumerate}
 
 \clearpage{}
-\section{Is there any space left?}
-
+\section{Conclusion: Is there any space left?}
+I built the code with avr-gcc, using the -Os optimization level.  The map file shows a \texttt{.data} size of ??? and a \texttt{.text} size of ???.  This is xxx\% of the Butterfly's flash and xxx\% of its RAM.  So there's at least some space left to do something else with the Butterfly besides using it to recognize commands.  I'm most excited for the time when I don't have to think about this C code anymore, and can focus on using the Butterfly as a peripheral for the PC.  Until then, I hope somebody can learn from my experience.
 
 
 

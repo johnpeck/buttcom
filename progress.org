@@ -25,22 +25,13 @@
 ** DONE Add a citation for Dean Camera here.  Something like: These log strings can take up a lot of space in RAM, but they can be easily referenced in flash instead using the pgmspace module.  Dean Camera has written a nice explanation of how this works.
 
 ** DONE Make a putty screenshot showing processing of the hello command.  This needs to go into the watching the progress section.
-* TODO Add a note about the command array
+* DONE Add a note about the command array
 ** If you want to let the user pass arguments of other types, just change the definition of the command type to take more arguments.  For example, if you want to handle string arguments, you might add a character pointer argument to the command type definition.
 * DONE Modify the command array code listing to have two sections: one for the command_t definition, and the other for the command array.
   DEADLINE: <2012-06-08 Fri>
 * TODO All include files need guards
-* TODO Debug messages over the usart must be tagged with their system
-* TODO Identify the figures you'd like to have in the article
-** Drawing of the butterfly board showing USART pins and DB9 correspondence
-** Window grab of terminal showing debug output from com system
-** Listing: The list of commands
-** Received character flow
-** Command processing flow
-** Pointers used with received character buffer
 * Add references
 ** TODO Add reference to Elicia White
-* DONE Add a reference to Python's gnuplot interface
 * DONE Revise the drawing showing connections to the Butterfly [4/4]
 ** DONE DB9 pins should come out of the page
 ** DONE Show the AVRISP connector and box
@@ -49,15 +40,23 @@
 * TODO Use tikz to fix up received character flow diagram
 * DONE Create the parse buffer figure
 ** This will show where the string terminators are inserted.  Need to get the pointer names correct.
-* DONE Add in the handwritten changes in the blue binder
-** Need to have the parse buffer figure before you can add these changes.
-* DONE Create a bash script that will touch main.tex if latex needs to be rerun
-  - The script should just look at the log file for the latex warning.
 * DONE Add a spell target to the makefile
 * TODO Add a section describing the toolchain
 ** The section should say that the code was built with avr-gcc, and it should list the RAM and flash sizes as percentages and absolute values.
-* TODO Add a set of instructions for adding remote commands
+* DONE Add a set of instructions for adding remote commands
 * TODO Work on the command processing flow diagram [1/1]
 ** DONE Add a step showing conversion of the command to lower case
 ** TODO Make the diagram more compact
    - Suggestion: Move the execute command box to be above is the command within limits
+* TODO Make a submit target to create the text file and copy figures for submission
+* TODO Add a reference to winavr for their makefile
+* TODO Create second submission to CC following the recommended guidelines from CJ email
+* TODO Go through the article submission checklist to add requirements for each stipulation
+* TODO Meet Circuit Cellar requirements [/]
+** TODO Expand figure captions to be 2-3 sentences
+** TODO Figures with a lot of text must be in TIF format (no compression) (300dpi) (4x4 inches)
+** TODO Add a biography
+** TODO Add a phone number and mailing address
+** TODO Article should be 2000 to 4000 words long
+** TODO No more than 10 figures or listings
+** TODO Get rid of the numbered list.  Text must be in paragraph format.

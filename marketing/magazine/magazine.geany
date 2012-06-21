@@ -17,9 +17,9 @@ long_line_behaviour=1
 long_line_column=72
 
 [files]
-current_page=1
-FILE_NAME_0=1333;Make;0;16;1;1;1;/home/john/projects/buttcom/marketing/magazine/makefile;0;4
-FILE_NAME_1=10589;LaTeX;0;16;0;1;1;/home/john/projects/buttcom/marketing/magazine/main.tex;0;4
+current_page=0
+FILE_NAME_0=1598;Make;0;16;1;1;1;/home/john/projects/buttcom/marketing/magazine/makefile;0;4
+FILE_NAME_1=9085;LaTeX;0;16;0;1;1;/home/john/projects/buttcom/marketing/magazine/main.tex;0;4
 FILE_NAME_2=1355;LaTeX;0;16;0;1;1;/home/john/projects/buttcom/marketing/magazine/doctools/latex/hydrorefs.bib;0;4
 FILE_NAME_3=1435;LaTeX;0;16;0;1;1;/home/john/projects/buttcom/marketing/magazine/doctools/latex/magazine_template.tex;0;4
 FILE_NAME_4=413;None;0;16;0;1;1;/home/john/projects/buttcom/marketing/magazine/figs/command_type.txt;0;4

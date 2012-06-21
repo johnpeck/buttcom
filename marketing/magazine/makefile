@@ -51,6 +51,11 @@ main.dvi: main.tex\
 spell:
 	aspell check main.tex
 	
+# Word and figure count
+.PHONY: count
+count:
+	texcount main.tex
+	
 # Bibliography
 bib: main.aux
 	bibtex main
