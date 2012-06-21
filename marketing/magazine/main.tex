@@ -123,6 +123,16 @@ The other members of the command type contain the command's name (must be lowerc
 
 \clearpage{}
 \section{Adding more commands}
+Since being able to extend this system is so important, I've come up with a procedure for adding new commands.
+\begin{enumerate}
+    \item Choose the name of your command.\\
+            This can be harder than it sounds.  I like names to be short enough to be easily entered on the command line, but long enough to be descriptive.  The name can contain any ASCII character except a space.  Remember that the command characters, the argument characters, one space, and one string terminator must all fit in the received character buffer. 
+    \item Decide if you need more than a hexadecimal integer string argument.\\
+            My argument handling ability is limited to just hexadecimal integer strings.  Extending the system isn't hard, but remember that every function called by a command has to accept the same arguments.  If you add a character pointer argument, even commands that take no arguments must then call functions that need both integer and character pointer arguments.  This can be tedious if you already have a lot of commands defined.  
+    \item Add a function for the command to call.\\
+            You might like to put all the functions called by remote commands in their own module.  I don't worry too much about this, but I do try to prefix function names with ``cmd\_'' if those functions are called exclusively by remote commands.  This helps me remember that their arguments and return value are fixed.  
+    \item Add an entry 
+\end{enumerate}
 
 \clearpage{}
 \section{Is there any space left?}
