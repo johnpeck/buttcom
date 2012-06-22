@@ -1,0 +1,45 @@
+% The received command flow diagram.  Build this with pdflatex.  Convert
+% to eps with pdftops -eps <file.pdf>
+\documentclass{article}
+\input{../doctools/latex/tikzstuff}
+
+\usepackage{colortbl}   % Provides \rowcolor
+\usepackage{calc}       % For doing math with dimensions
+\usepackage{setspace}   % Provides \singlespacing for turning off doublespacing
+
+\usepackage[graphics,tightpage,active]{preview}
+\PreviewEnvironment{tikzpicture}
+\PreviewEnvironment{equation}
+\PreviewEnvironment{equation*}
+
+
+\pagestyle{empty}
+\thispagestyle{empty}
+
+
+\begin{document}
+\begin{tikzpicture}
+
+%-------------------------- Position nodes ----------------------------
+% Interrupt on received character
+\node [block] (interrupt) {
+    Interrupt on character received via USART
+};
+
+% Write character to receive buffer
+\node [block, below of=interrupt] (writechar) {
+    Write character to receive buffer
+};
+
+% Is the character a terminator?
+\node [decision, below of=writechar] (isterminator) {
+    Character is command terminator?
+};
+
+%-------------------------- Draw arrows -------------------------------
+
+\draw [->] (interrupt.south) to (writechar.north);
+\draw [->] (writechar.south) to (isterminator.north);
+
+\end{tikzpicture}
+\end{document}
