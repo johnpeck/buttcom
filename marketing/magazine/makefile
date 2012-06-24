@@ -18,7 +18,8 @@ main.dvi: main.tex\
 		./figs/command_array.eps\
 		./figs/recbuffer.eps\
 		./figs/prsbuffer.eps \
-		./figs/parse_cmd_flow.eps
+		./figs/parse_cmd_flow.eps\
+		./tikz/recv_cmd_flow.eps
 	# ------------- Running latex on the document ---------------------
 	latex main.tex
 
@@ -35,11 +36,20 @@ main.dvi: main.tex\
 ./figs/recbuffer.eps: ./figs/recbuffer.fig
 	# --------- Making the received character buffer figure -----------
 	fig2dev -L eps -m 1 ./figs/recbuffer.fig ./figs/recbuffer.eps
+	
+
 
 # Make the command processing flow figure
 ./figs/parse_cmd_flow.eps: ./figs/parse_cmd_flow.fig
 	# ---------- Making the command processing flow figure ------------
 	fig2dev -L eps -m 1 ./figs/parse_cmd_flow.fig ./figs/parse_cmd_flow.eps
+
+# Make the other received character flow diagram
+./tikz/recv_cmd_flow.eps: ./tikz/recv_cmd_flow.tex\
+							./doctools/latex/tikzstuff.tex
+	# -------- Making the tikz received character flow figure ----------
+	cd tikz; pdflatex recv_cmd_flow.tex
+	pdftops -eps ./tikz/recv_cmd_flow.pdf
 
 # Make the parse buffer figure
 ./figs/prsbuffer.eps: ./figs/prsbuffer.fig
@@ -59,3 +69,10 @@ count:
 # Bibliography
 bib: main.aux
 	bibtex main
+	
+# Clean
+.PHONY: clean
+clean:
+	rm -f ./tikz/recv_cmd_flow.aux
+	rm -f ./tikz/recv_cmd_flow.pdf
+	rm -f ./tikz/recv_cmd_flow.log
