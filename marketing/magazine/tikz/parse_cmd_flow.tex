@@ -1,0 +1,99 @@
+% The parse command flow diagram.  Build this with pdflatex.  Convert
+% to eps with pdftops -eps <file.pdf>
+\documentclass{article}
+\input{../doctools/latex/tikzstuff}
+
+\usepackage{colortbl}   % Provides \rowcolor
+\usepackage{calc}       % For doing math with dimensions
+\usepackage{setspace}   % Provides \singlespacing for turning off doublespacing
+
+\usepackage[graphics,tightpage,active]{preview}
+\PreviewEnvironment{tikzpicture}
+\PreviewEnvironment{equation}
+\PreviewEnvironment{equation*}
+
+
+\pagestyle{empty}
+\thispagestyle{empty}
+
+
+\begin{document}
+\begin{tikzpicture}[node distance=4cm]
+    \draw[help lines] (-10,-20) grid (10,0);
+    \begin{scope}[on grid,>=triangle 60]
+
+        %---------------------- Position nodes -------------------------
+        % Parse buffer is locked
+        \node (locked) [block] at (0,0) {
+            Parse buffer is locked
+        };
+        
+        % Parse buffer contains a space?
+        \node (isspace) [decision, below=of locked] {
+            Parse buffer contains a space?
+        };
+        
+        % Add string terminator to first space
+        \node (addterm) [block, right of=isspace] {
+            Add string terminator to first space
+        };
+        
+        % Convert command string to lowercase
+        \node (lowercase) [block, below of=isspace] {
+            Convert command string to lowercase
+        };
+        
+        % Make pointer to next non-space character
+        \node (makepoint) [block, right of=lowercase] {
+            Make pointer to next non-space character
+        };
+        
+        % Recognise command?
+        \node (isrecog) [decision, below of=lowercase] {
+            Recognise command?
+        };
+        
+        % Bad command error message
+        \node (badcommand) [block, right of=isrecog] {
+            Bad command error message
+        };
+        
+        % Command takes an argument?
+        \node (takesarg) [decision, below of=isrecog] {
+            Command takes an argument?
+        };
+        
+        % Did we receive an argument (right)?
+        \node (gotarg_right) [decision, right of=takesarg] {
+            Did we receive an argument?
+        };
+        
+        % Did we receive an argument (left)?
+        \node (gotarg_left) [decision, left of=takesarg] {
+            Did we receive an argument?
+        };
+        
+       
+        
+        %------------------------ Draw arrows --------------------------
+        
+        \draw [->] (locked.south) -- (isspace.north);
+        \draw [->] (isspace.east) -- (addterm.west)
+            node[near start,above]{Yes};
+        \draw [->] (isspace.south) -- (lowercase.north)
+            node[near start,right]{No};
+        \draw [->] (addterm.south) -- (makepoint.north);
+        \draw [->] (makepoint.west) -- (lowercase.east);
+        \draw [->] (lowercase.south) -- (isrecog.north);
+        \draw [->] (isrecog.east) -- (badcommand.west)
+            node[near start,above]{No};
+        \draw [->] (isrecog.south) -- (takesarg.north)
+            node[near start,right]{Yes};
+        \draw [->] (takesarg.east) -- (gotarg_right.west)
+            node[near start,above]{No};
+        \draw [->] (takesarg.west) -- (gotarg_left.east)
+            node[near start,above]{Yes};
+
+    \end{scope}
+\end{tikzpicture}
+\end{document}

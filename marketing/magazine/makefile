@@ -37,19 +37,24 @@ main.dvi: main.tex\
 	# --------- Making the received character buffer figure -----------
 	fig2dev -L eps -m 1 ./figs/recbuffer.fig ./figs/recbuffer.eps
 	
-
-
 # Make the command processing flow figure
 ./figs/parse_cmd_flow.eps: ./figs/parse_cmd_flow.fig
 	# ---------- Making the command processing flow figure ------------
 	fig2dev -L eps -m 1 ./figs/parse_cmd_flow.fig ./figs/parse_cmd_flow.eps
 
-# Make the other received character flow diagram
+# Make the received character flow diagram
 ./tikz/recv_cmd_flow.eps: ./tikz/recv_cmd_flow.tex\
 							./doctools/latex/tikzstuff.tex
 	# -------- Making the tikz received character flow figure ----------
 	cd tikz; pdflatex recv_cmd_flow.tex
 	pdftops -eps ./tikz/recv_cmd_flow.pdf
+	
+# Make the parse buffer flow diagram
+./tikz/parse_cmd_flow.eps: ./tikz/parse_cmd_flow.tex\
+							./doctools/latex/tikzstuff.tex
+	# ----------- Making the tikz parse buffer flow figure -------------
+	cd tikz; pdflatex parse_cmd_flow.tex
+	pdftops -eps ./tikz/parse_cmd_flow.pdf
 
 # Make the parse buffer figure
 ./figs/prsbuffer.eps: ./figs/prsbuffer.fig

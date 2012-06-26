@@ -17,8 +17,8 @@ long_line_behaviour=1
 long_line_column=72
 
 [files]
-current_page=0
-FILE_NAME_0=89;Make;0;16;1;1;1;/home/john/projects/buttcom/marketing/magazine/makefile;0;4
+current_page=16
+FILE_NAME_0=1643;Make;0;16;1;1;1;/home/john/projects/buttcom/marketing/magazine/makefile;0;4
 FILE_NAME_1=3925;LaTeX;0;16;0;1;1;/home/john/projects/buttcom/marketing/magazine/main.tex;0;4
 FILE_NAME_2=1355;LaTeX;0;16;0;1;1;/home/john/projects/buttcom/marketing/magazine/doctools/latex/hydrorefs.bib;0;4
 FILE_NAME_3=1435;LaTeX;0;16;0;1;1;/home/john/projects/buttcom/marketing/magazine/doctools/latex/magazine_template.tex;0;4
@@ -32,9 +32,9 @@ FILE_NAME_10=0;C;0;16;0;1;1;/home/john/projects/buttcom/implement/code/bc_ascii.
 FILE_NAME_11=0;C;0;16;0;1;1;/home/john/projects/buttcom/implement/code/bc_ascii.h;0;4
 FILE_NAME_12=0;C;0;16;0;1;1;/home/john/projects/buttcom/implement/code/bc_logger.h;0;4
 FILE_NAME_13=367;LaTeX;0;16;0;1;1;/home/john/projects/buttcom/marketing/magazine/doctools/latex/tikzstuff.tex;0;4
-FILE_NAME_14=709;LaTeX;0;16;0;1;1;/home/john/projects/buttcom/marketing/magazine/tikz/recv_cmd_flow.tex;0;4
+FILE_NAME_14=3506;LaTeX;0;16;0;1;1;/home/john/projects/buttcom/marketing/magazine/tikz/recv_cmd_flow.tex;0;4
 FILE_NAME_15=220;LaTeX;0;16;0;1;1;/home/john/projects/buttcom/marketing/magazine/doctools/latex/sample_tikz.tex;0;4
-FILE_NAME_16=0;LaTeX;0;16;0;1;1;/home/john/Downloads/consort-flowchart.tex;0;4
+FILE_NAME_16=2153;LaTeX;0;16;0;1;1;/home/john/projects/buttcom/marketing/magazine/tikz/parse_cmd_flow.tex;0;4
 
 [VTE]
 last_dir=/home/john/projects/resgen
