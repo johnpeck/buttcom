@@ -28,7 +28,7 @@
             Parse buffer is locked
         };
         % Parse buffer contains a space?
-        \node (isspace) [decision, below=of locked] {
+        \node (isspace) [decision, below=3cm of locked] {
             Parse buffer contains a space?
         };
         % Add string terminator to first space
@@ -36,7 +36,7 @@
             Add string terminator to first space
         };
         % Convert command string to lowercase
-        \node (lowercase) [block, below of=isspace] {
+        \node (lowercase) [block, below=3.3cm of isspace] {
             Convert command string to lowercase
         };
         % Make pointer to next non-space character
@@ -44,7 +44,7 @@
             Make pointer to next non-space character
         };
         % Recognise command?
-        \node (isrecog) [decision, below of=lowercase] {
+        \node (isrecog) [decision, below=3cm of lowercase] {
             Recognise command?
         };
         % Bad command error message
@@ -56,11 +56,11 @@
             Command takes an argument?
         };
         % Did we receive an argument (right)?
-        \node (gotarg_right) [decision, right of=takesarg] {
+        \node (gotarg_right) [decision, right=4.2cm of takesarg] {
             Did we receive an argument?
         };
         % Did we receive an argument (left)?
-        \node (gotarg_left) [decision, left of=takesarg] {
+        \node (gotarg_left) [decision, left=4.2cm of takesarg] {
             Did we receive an argument?
         };
         % Warn that the argument was ignored
@@ -80,10 +80,13 @@
             Argument out of range error message
         };
         % Execute command
-        \node (execute) [block, right of=outarg] {
+        \node (execute) [block, below of=takesarg] {
             Execute command
         };
-        \node (foo)[above=0.1cm of execute.east]{};
+        % Unlock parse buffer
+        \node (unlock) [block, below of=execute] {
+            Unlock parse buffer
+        };
         
        
         
@@ -113,11 +116,14 @@
             node[near start,right]{Yes};
         \draw [->] (inrange.south) -- (outarg.north)
             node[near start,right]{No};
-        \draw [->] (inrange.east) -| (execute.north)
+        \draw [->] (inrange.east) -- (execute.west)
             node[near start,above]{Yes};
         \draw [->] (gotarg_right.south) |- ($(execute.east) + (0,1mm)$)
             node[near start,right]{No};
-            
+        \draw [->] (ignorearg.south) |- ($(execute.east) - (0,1mm)$);
+        \draw [->] (execute.south) -- (unlock.north);
+        \draw [->] (outarg.east) |- ($(unlock.west) + (0,1mm)$);
+        \draw [->] (missarg.south) -- +(0,-8.5cm) -| (unlock.south);    
 
     \end{scope}
 \end{tikzpicture}
