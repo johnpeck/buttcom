@@ -18,7 +18,7 @@ main.dvi: main.tex\
 		./figs/command_array.eps\
 		./figs/recbuffer.eps\
 		./figs/prsbuffer.eps \
-		./figs/parse_cmd_flow.eps\
+		./tikz/parse_cmd_flow.eps\
 		./tikz/recv_cmd_flow.eps
 	# ------------- Running latex on the document ---------------------
 	latex main.tex

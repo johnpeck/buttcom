@@ -37,10 +37,10 @@
 ** DONE Show the AVRISP connector and box
 ** DONE Add power connections
 ** DONE Reduce the length of the ribbon cable
-* TODO Use tikz to fix up received character flow diagram
-* DONE Create the parse buffer figure
+* DONE Use tikz to fix up received character flow diagram
+* TODO Create the parse buffer figure
 ** This will show where the string terminators are inserted.  Need to get the pointer names correct.
-* DONE Add a spell target to the makefile
+** TODO Check the parse buffer figure against the xfig flow diagram.
 * TODO Add a section describing the toolchain
 ** The section should say that the code was built with avr-gcc, and it should list the RAM and flash sizes as percentages and absolute values.
 * DONE Add a set of instructions for adding remote commands

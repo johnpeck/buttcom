@@ -19,7 +19,7 @@
 
 \begin{document}
 \begin{tikzpicture}[node distance=4cm]
-    \draw[help lines] (-10,-20) grid (10,0);
+    %\draw[help lines] (-10,-20) grid (10,0);
     \begin{scope}[on grid,>=triangle 60]
 
         %---------------------- Position nodes -------------------------
@@ -118,12 +118,14 @@
             node[near start,right]{No};
         \draw [->] (inrange.east) -- (execute.west)
             node[near start,above]{Yes};
-        \draw [->] (gotarg_right.south) |- ($(execute.east) + (0,1mm)$)
+        \draw [->] (gotarg_right.south) |- ($(execute.east) + (0,1mm)$);
+        \draw [-] (gotarg_right.south) -- +(0,-1cm)
             node[near start,right]{No};
         \draw [->] (ignorearg.south) |- ($(execute.east) - (0,1mm)$);
         \draw [->] (execute.south) -- (unlock.north);
         \draw [->] (outarg.east) |- ($(unlock.west) + (0,1mm)$);
-        \draw [->] (missarg.south) -- +(0,-8.5cm) -| (unlock.south);    
+        \draw [->] (missarg.south) -- +(0,-8.5cm) -| (unlock.south); 
+        \draw [->] (badcommand.east) -- +(4.5cm,0) |- (unlock.east);   
 
     \end{scope}
 \end{tikzpicture}
