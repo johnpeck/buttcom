@@ -38,15 +38,15 @@
 ** DONE Add power connections
 ** DONE Reduce the length of the ribbon cable
 * DONE Use tikz to fix up received character flow diagram
-* TODO Create the parse buffer figure
+* DONE Create the parse buffer figure
 ** This will show where the string terminators are inserted.  Need to get the pointer names correct.
-** TODO Check the parse buffer figure against the xfig flow diagram.
-* TODO Add a section describing the toolchain
+** DONE Check the parse buffer figure against the xfig flow diagram.
+* DONE Add a section describing the toolchain
 ** The section should say that the code was built with avr-gcc, and it should list the RAM and flash sizes as percentages and absolute values.
 * DONE Add a set of instructions for adding remote commands
-* TODO Work on the command processing flow diagram [1/1]
+* DONE Work on the command processing flow diagram [2/2]
 ** DONE Add a step showing conversion of the command to lower case
-** TODO Make the diagram more compact
+** DONE Make the diagram more compact
    - Suggestion: Move the execute command box to be above is the command within limits
 * TODO Make a submit target to create the text file and copy figures for submission
 * TODO Add a reference to winavr for their makefile
