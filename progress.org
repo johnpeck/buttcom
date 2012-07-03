@@ -9,6 +9,17 @@
 * Code has a command called "hello" that just returns "hello yourself"
 * Commands must not be case sensitive
 * ------------------------ TODO list ----------------------------
+* TODO Meet Circuit Cellar requirements [/]
+** TODO Expand figure captions to be 2-3 sentences
+** TODO Figures with a lot of text must be in TIF format (no compression) (300dpi) (4x4 inches)
+** TODO Add a biography
+** TODO Add a phone number and mailing address
+** TODO Article should be 2000 to 4000 words long
+** TODO No more than 10 figures or listings
+** TODO Get rid of the numbered list.  Text must be in paragraph format.
+* TODO Go through the article submission checklist to add requirements for each stipulation
+* TODO Make a submit target to create the text file and copy figures for submission
+* TODO Create second submission to CC following the recommended guidelines from CJ email
 * DONE Add a hello command
   - A simple command to illustrate how the character handling works.
 ** Arguments: none
@@ -48,15 +59,4 @@
 ** DONE Add a step showing conversion of the command to lower case
 ** DONE Make the diagram more compact
    - Suggestion: Move the execute command box to be above is the command within limits
-* TODO Make a submit target to create the text file and copy figures for submission
-* TODO Add a reference to winavr for their makefile
-* TODO Create second submission to CC following the recommended guidelines from CJ email
-* TODO Go through the article submission checklist to add requirements for each stipulation
-* TODO Meet Circuit Cellar requirements [/]
-** TODO Expand figure captions to be 2-3 sentences
-** TODO Figures with a lot of text must be in TIF format (no compression) (300dpi) (4x4 inches)
-** TODO Add a biography
-** TODO Add a phone number and mailing address
-** TODO Article should be 2000 to 4000 words long
-** TODO No more than 10 figures or listings
-** TODO Get rid of the numbered list.  Text must be in paragraph format.
+* DONE Add a reference to winavr for their makefile

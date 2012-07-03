@@ -17,25 +17,9 @@ long_line_behaviour=1
 long_line_column=72
 
 [files]
-current_page=1
-FILE_NAME_0=572;Make;0;16;1;1;1;%2Fhome%2Fjohn%2Fprojects%2Fbuttcom%2Fmarketing%2Fmagazine%2Fmakefile;0;4
-FILE_NAME_1=2182;LaTeX;0;16;0;1;1;%2Fhome%2Fjohn%2Fprojects%2Fbuttcom%2Fmarketing%2Fmagazine%2Fmain.tex;0;4
-FILE_NAME_2=1593;LaTeX;0;16;0;1;1;%2Fhome%2Fjohn%2Fprojects%2Fbuttcom%2Fmarketing%2Fmagazine%2Fdoctools%2Flatex%2Fhydrorefs.bib;0;4
-FILE_NAME_3=1435;LaTeX;0;16;0;1;1;%2Fhome%2Fjohn%2Fprojects%2Fbuttcom%2Fmarketing%2Fmagazine%2Fdoctools%2Flatex%2Fmagazine_template.tex;0;4
-FILE_NAME_4=413;None;0;16;0;1;1;%2Fhome%2Fjohn%2Fprojects%2Fbuttcom%2Fmarketing%2Fmagazine%2Ffigs%2Fcommand_type.txt;0;4
-FILE_NAME_5=250;C;0;16;0;1;1;%2Fhome%2Fjohn%2Fprojects%2Fbuttcom%2Fimplement%2Fcode%2Fbc_command.h;0;4
-FILE_NAME_6=899;C;0;16;0;1;1;%2Fhome%2Fjohn%2Fprojects%2Fbuttcom%2Fimplement%2Fcode%2Fbc_main.c;0;4
-FILE_NAME_7=7414;C;0;16;0;1;1;%2Fhome%2Fjohn%2Fprojects%2Fbuttcom%2Fimplement%2Fcode%2Fbc_command.c;0;4
-FILE_NAME_8=0;C;0;16;0;1;1;%2Fhome%2Fjohn%2Fprojects%2Fbuttcom%2Fimplement%2Fcode%2Fbc_functions.c;0;4
-FILE_NAME_9=424;Sh;0;16;0;1;1;%2Fhome%2Fjohn%2Fprojects%2Fbuttcom%2Fmarketing%2Fmagazine%2Frerun.sh;0;4
-FILE_NAME_10=0;C;0;16;0;1;1;%2Fhome%2Fjohn%2Fprojects%2Fbuttcom%2Fimplement%2Fcode%2Fbc_ascii.c;0;4
-FILE_NAME_11=0;C;0;16;0;1;1;%2Fhome%2Fjohn%2Fprojects%2Fbuttcom%2Fimplement%2Fcode%2Fbc_ascii.h;0;4
-FILE_NAME_12=0;C;0;16;0;1;1;%2Fhome%2Fjohn%2Fprojects%2Fbuttcom%2Fimplement%2Fcode%2Fbc_logger.h;0;4
-FILE_NAME_13=1240;LaTeX;0;16;0;1;1;%2Fhome%2Fjohn%2Fprojects%2Fbuttcom%2Fmarketing%2Fmagazine%2Fdoctools%2Flatex%2Ftikzstuff.tex;0;4
-FILE_NAME_14=3506;LaTeX;0;16;0;1;1;%2Fhome%2Fjohn%2Fprojects%2Fbuttcom%2Fmarketing%2Fmagazine%2Ftikz%2Frecv_cmd_flow.tex;0;4
-FILE_NAME_15=220;LaTeX;0;16;0;1;1;%2Fhome%2Fjohn%2Fprojects%2Fbuttcom%2Fmarketing%2Fmagazine%2Fdoctools%2Flatex%2Fsample_tikz.tex;0;4
-FILE_NAME_16=1348;LaTeX;0;16;0;1;1;%2Fhome%2Fjohn%2Fprojects%2Fbuttcom%2Fmarketing%2Fmagazine%2Ftikz%2Fparse_cmd_flow.tex;0;4
-FILE_NAME_17=4710;None;0;16;0;1;1;%2Fhome%2Fjohn%2Fprojects%2Fbuttcom%2Fimplement%2Fcode%2Fbc_main.map;0;4
+current_page=0
+FILE_NAME_0=451;LaTeX;0;16;0;1;1;/home/john/projects/buttcom/marketing/magazine/main.tex;0;4
+FILE_NAME_1=1277;LaTeX;0;16;0;1;1;/home/john/projects/buttcom/marketing/magazine/doctools/latex/hydrorefs.bib;0;4
 
 [VTE]
 last_dir=/home/john/projects/resgen
