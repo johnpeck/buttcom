@@ -39,7 +39,7 @@ After the hardware is connected, I use \textbf{avrdude}\cite{avrdude} and \textb
     \begin{center}
         \includegraphics[clip,scale=1]{usart_pinout}
         \draftnote{usart\_pinout.fig}
-        \caption{Connections needed for the AVR Butterfly.\label{fig:connections}}
+        \caption{Connections needed for the AVR Butterfly.  The AVRISP mkII user's guid stresses that the programmer must be connected to the PC before the target (Butterfly board).  The code presented here configures the USART for 9600 baud, 8 data bits, 1 stop bit, no parity checks, and no flow control. \label{fig:connections}}
     \end{center}
 \end{figure}
 
@@ -53,17 +53,17 @@ When a combined string in the receive buffer is finished with a carriage return,
 
 \begin{figure}[ht]
     \begin{center}
-        \includegraphics[clip,scale=0.45]{./tikz/recv_cmd_flow}
+        \includegraphics[clip,scale=0.8]{./tikz/recv_cmd_flow}
         \draftnote{recv\_cmd\_flow.tex}
-        \caption{Program flow for processing characters received over the Butterfly's USART.\label{fig:recflow}}
+        \caption{Program flow for processing characters received over the Butterfly's USART.  Sending a command terminator (carriage return) will always result in an empty receive buffer.  This is a good way to make sure there's no garbage in the buffer before writing to it.\label{fig:recflow}}
     \end{center}
 \end{figure}
 
 \begin{figure}[ht]
     \begin{center}
-        \includegraphics[clip,scale=1]{recbuffer}
+        \includegraphics[clip,scale=1.1]{recbuffer}
         \draftnote{recbuffer.fig}
-        \caption{The received character buffer and pointers used to fill it.\label{fig:recbuffer}}
+        \caption{The received character buffer and pointers used to fill it.  There is no limit to the size of commands and their arguments, as long as the entire combined string and terminator fit inside \texttt{RECEIVE\_BUFFER\_SIZE}.\label{fig:recbuffer}}
     \end{center}
 \end{figure}
 
@@ -78,7 +78,7 @@ I should mention that these log message strings can easily overwhelm the Butterf
     \begin{center}
         \includegraphics[clip,scale=0.5]{grab.eps}
         \draftnote{grab.eps}
-        \caption{Terminal output showing the reception of and the reply to the ``hello'' command.\label{fig:termgrab}}
+        \caption{Terminal output showing the reception of and the reply to the ``hello'' command.  The logging system has been set to its most verbose level, so you see ``unsolicited'' messages as well as the command reply.  These messages can be suppressed by clearing bits in the logger configuration register.\label{fig:termgrab}}
     \end{center}
 \end{figure}
 
@@ -97,9 +97,9 @@ The other members of the command type contain the command's name (must be lowerc
 % The parse buffer processing flowchart
 \begin{figure}[ht]
     \begin{center}
-        \includegraphics[clip,scale=0.5]{./tikz/parse_cmd_flow}
+        \includegraphics[clip,scale=0.7]{./tikz/parse_cmd_flow}
         \draftnote{parse\_cmd\_flow.tex}
-        \caption{Program flow for processing fully-formed commands.\label{fig:cmdflow}}
+        \caption{Program flow for processing fully-formed commands.  This processing step happens in the main loop, so it will only run when the system isn't busy doing something else.  Notice that all incoming commands are converted to lowercase, so there's no case sensitivity.\label{fig:cmdflow}}
     \end{center}
 \end{figure}
 
@@ -108,7 +108,7 @@ The other members of the command type contain the command's name (must be lowerc
     \begin{center}
         \includegraphics[clip,scale=1]{prsbuffer}
         \draftnote{prsbuffer.fig}
-        \caption{The parse buffer with pointers to the command and argument strings.\label{fig:prsbuffer}}
+        \caption{The parse buffer with pointers to the command and argument strings.  The single combined string copied from the receive buffer is made into two strings by inserting a string terminator.\label{fig:prsbuffer}}
     \end{center}
 \end{figure}
 
@@ -119,30 +119,27 @@ The other members of the command type contain the command's name (must be lowerc
     \begin{center}
         \includegraphics[clip,scale=0.75]{command_array}
         \draftnote{command\_array.fig}
-        \caption{Commands are added to the system by adding to this array of command types.\label{lst:cmdarray}}
+        \caption{Code snippets from two files show how the command structure is defined (upper), and how commands are initialized (lower).  When the command processor is run, commands in the parse buffer are matched with names from the command array.  Commands can be added to the system by adding to this array of command types.\label{lst:cmdarray}}
     \end{center}
 \end{listing}
 
 \clearpage{}
 \section{Adding more commands}
-Since being able to extend this system is so important, I've come up with a procedure for adding new commands.
-\begin{enumerate}
-    \item Choose the name of your command.\\
-            This can be harder than it sounds.  I like names to be short enough to be easily entered on the command line, but long enough to be descriptive.  The name can contain any ASCII character except a space.  Remember that the command characters, the argument characters, one space, and one string terminator must all fit in the received character buffer. 
-    \item Decide if you need more than a hexadecimal integer string argument.\\
-            My argument handling ability is limited to just hexadecimal integer strings.  Extending the system isn't hard, but remember that every function called by a command has to accept the same arguments.  If you add a character pointer argument, even commands that take no arguments must then call functions that need both integer and character pointer arguments.  This can be tedious if you already have a lot of commands defined.  
-    \item Add a function for the command to call.\\
-            You might like to put all the functions called by remote commands in their own module.  I don't worry too much about this, but I do try to prefix names with ``cmd\_'' if those functions are called exclusively by remote commands.  This helps me remember that their arguments and return value are fixed.  
-    \item Add an entry for the command in the array.\\
-            Add the new entry before the array's end marker.  You've already chosen the command's name, argument type, and function call.  The remaining entry members are the argument's maximum size in characters and the command's help string.  Remember that hexadecimal arguments larger than 4 characters don't make sense for 16-bit integers.  As for the help strings, I ended up defining them outside of the command array so that they could be located and referenced in flash.  
-\end{enumerate}
+Since being able to extend this system is so important, I've come up with a procedure for adding new commands.  First, choose the name of your command.  This can be harder than it sounds.  I like names to be short enough to be easily entered on the command line, but long enough to be descriptive.  The name can contain any ASCII character except a space.  Remember that the command characters, the argument characters, one space, and one string terminator must all fit in the received character buffer.
+    
+Next, decide whether or not you need more than a hexadecimal integer string argument.  My argument handling ability is limited to just hexadecimal integer strings.  Extending the system isn't hard, but remember that every function called by a command has to accept the same arguments.  If you add a character pointer argument, even commands that take no arguments must then call functions that need both integer and character pointer arguments.  This can be tedious if you already have a lot of commands defined.
+
+If your arguments fit your ability to handle them, add a function for your command to call.  You might like to put all the functions called by remote commands in their own module.  I don't worry too much about this, but I do try to prefix names with ``cmd\_'' if those functions are called exclusively by remote commands.  This helps me remember that their arguments and return value are fixed.
+
+Now that the command's attributes have been specified, it's time to give it an entry in the command array.  Add the new entry before the array's end marker.  You've already chosen the command's name, argument type, and function call.  The remaining entry members are the argument's maximum size in characters and the command's help string.  Remember that hexadecimal arguments larger than 4 characters don't make sense for 16-bit integers.  As for the help strings, I was only able to use the PROGMEM macro on them if I defined them outside of the command array.  This breaks up the array organization, but these strings will quickly eat up the Butterfly's RAM if they're not located and referenced in flash.  
+
 
 \clearpage{}
 \section{Conclusion: Is there any space left?}
 I built the code with avr-gcc, using the -Os optimization level.  The output of \textbf{avr-gcc --version} is: \texttt{avr-gcc (Gentoo 4.6.3 p1.3, pie-0.5.1) 4.6.3}. The resulting memory map file shows a \texttt{.data} size of 182 bytes, a \texttt{.bss} size of 100 bytes, and a \texttt{.text} size of 7.5 kilobytes.  I'm using roughly half of the Butterfly's flash and a third of its RAM.  So there's at least some space left to do something else with the Butterfly besides using it to recognize commands.  I'm most excited for the time when I don't have to think about this C code anymore, and can focus on using the Butterfly as a peripheral for the PC.  Until then, I hope somebody can learn from my experience.
 
-
-
+\section{Biography}
+John Peck is a design engineer at Stanford Research Systems in Sunnyvale, CA.  He has been using ASCII interfaces to test equipment since he was a graduate student at the University of Wisconsin at Madison.  He can be reached at \texttt{john@johnpeck.info}.
 
 
 \clearpage{}

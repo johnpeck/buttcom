@@ -42,8 +42,8 @@ logger_system_t system_array[] ={
 
 /* Initialize the logger system. */
 void logger_init() {
-    logger_config_ptr -> enable = 0xff; /* Logs from all systems enabled
-                                         * by default. */
+    logger_config_ptr -> enable = 0xffff;  /* Logs from all systems enabled
+                                            * by default. */
     logger_config_ptr -> loglevel = log_level_INFO;
 }
 

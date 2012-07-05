@@ -1,6 +1,23 @@
 # Makefile for buttcom magazine submission
 
-# The first rule seen by make is the default
+# My name
+MYNAME = jpeck
+# The publisher name (no spaces)
+PUBLISHER = "circuit_cellar"
+# The revision code.  This plus the publisher name makes a revision.
+REVCODE = a
+
+#------------------------- Done with configuration ---------------------
+
+# Convert the revision code to lowercase
+REVCODE := $(shell echo $(REVCODE) | tr A-Z a-z)
+# Convert the publisher to lowercase
+PUBLISHER := $(shell echo $(PUBLISHER) | tr A-Z a-z)
+# Convert my name to lowercase
+MYNAME := $(shell echo $(MYNAME) | tr A-Z a-z)
+
+# The submit directory -- like jpeck_circuit_cellar_submit_a
+SUBMITDIR := submitroot/$(MYNAME)"_"$(PUBLISHER)"_submit_"$(REVCODE)
 
 # The postscript target
 ps: main.ps
@@ -60,6 +77,34 @@ main.dvi: main.tex\
 ./figs/prsbuffer.eps: ./figs/prsbuffer.fig
 	# --------- Making the received character buffer figure -----------
 	fig2dev -L eps -m 1 ./figs/prsbuffer.fig ./figs/prsbuffer.eps
+
+.PHONY: submit
+submit: $(SUBMITDIR)/readme.txt
+
+
+# The README file
+$(SUBMITDIR)/readme.txt: submitroot\
+						 $(SUBMITDIR)\
+						 changelog.txt
+	echo "ASCII command interface for the AVR Butterfly" > $@
+	echo "" >> $@
+	echo "Submitted for publication in Circuit Cellar" >> $@
+	echo "Submission revision "$(REVCODE) >> $@
+	echo "Author: John Peck" >> $@
+	echo "        3740 24th St" >> $@
+	echo "        San Francisco, CA 94114" >> $@
+	echo "        (608) 215-0041" >> $@
+	echo "" >> $@
+	echo "New in revision "$(REVCODE): >> $@
+	cat changelog.txt >> $@
+
+
+# The submission directory
+$(SUBMITDIR): submitroot
+	mkdir -p $(SUBMITDIR)
+
+submitroot:
+	mkdir -p submitroot
 
 # Spell check
 .PHONY: spell
