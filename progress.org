@@ -9,7 +9,7 @@
 * Code has a command called "hello" that just returns "hello yourself"
 * Commands must not be case sensitive
 * ------------------------ TODO list ----------------------------
-* TODO Add a section describing how to use the logger module
+* DONE Add a section describing how to use the logger module
 * TODO Add a paragraph describing problems with power supply turnon ramp rate
 * TODO Meet Circuit Cellar requirements [5/7]
 ** TODO Article should be 2500 to 3500 words long
@@ -61,3 +61,7 @@
 ** DONE Make the diagram more compact
    - Suggestion: Move the execute command box to be above is the command within limits
 * DONE Add a reference to winavr for their makefile
+* DONE Better document bc_usart.h
+* DONE Better document bc_usart.c
+* TODO Better document bc_logger.h
+* TODO Better document bc_logger.c

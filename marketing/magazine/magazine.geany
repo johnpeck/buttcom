@@ -17,8 +17,8 @@ long_line_behaviour=1
 long_line_column=72
 
 [files]
-current_page=9
-FILE_NAME_0=11176;LaTeX;0;16;0;1;1;%2Fhome%2Fjohn%2Fprojects%2Fbuttcom%2Fmarketing%2Fmagazine%2Fmain.tex;0;4
+current_page=6
+FILE_NAME_0=2686;LaTeX;0;16;0;1;1;%2Fhome%2Fjohn%2Fprojects%2Fbuttcom%2Fmarketing%2Fmagazine%2Fmain.tex;0;4
 FILE_NAME_1=1277;LaTeX;0;16;0;1;1;%2Fhome%2Fjohn%2Fprojects%2Fbuttcom%2Fmarketing%2Fmagazine%2Fdoctools%2Flatex%2Fhydrorefs.bib;0;4
 FILE_NAME_2=2244;Make;0;16;1;1;1;%2Fhome%2Fjohn%2Fprojects%2Fbuttcom%2Fmarketing%2Fmagazine%2Fmakefile;0;4
 FILE_NAME_3=19;None;0;16;0;1;1;%2Fhome%2Fjohn%2Fprojects%2Fbuttcom%2Fmarketing%2Fmagazine%2Fchangelog.txt;0;4
@@ -26,8 +26,12 @@ FILE_NAME_4=247;None;0;16;0;1;1;%2Fhome%2Fjohn%2Fprojects%2Fbuttcom%2Fmarketing%
 FILE_NAME_5=0;C;0;16;0;1;1;%2Fhome%2Fjohn%2Fprojects%2Fbuttcom%2Fimplement%2Fcode%2Fbc_command.c;0;4
 FILE_NAME_6=0;C;0;16;0;1;1;%2Fhome%2Fjohn%2Fprojects%2Fbuttcom%2Fimplement%2Fcode%2Fbc_command.h;0;4
 FILE_NAME_7=0;C;0;16;0;1;1;%2Fhome%2Fjohn%2Fprojects%2Fbuttcom%2Fimplement%2Fcode%2Fbc_main.c;0;4
-FILE_NAME_8=913;C;0;16;0;1;1;%2Fhome%2Fjohn%2Fprojects%2Fbuttcom%2Fimplement%2Fcode%2Fbc_logger.c;0;4
-FILE_NAME_9=0;C;0;16;0;1;1;%2Fhome%2Fjohn%2Fprojects%2Fbuttcom%2Fimplement%2Fcode%2Fbc_logger.h;0;4
+FILE_NAME_8=986;C;0;16;0;1;1;%2Fhome%2Fjohn%2Fprojects%2Fbuttcom%2Fimplement%2Fcode%2Fbc_logger.c;0;4
+FILE_NAME_9=2152;C;0;16;0;1;1;%2Fhome%2Fjohn%2Fprojects%2Fbuttcom%2Fimplement%2Fcode%2Fbc_logger.h;0;4
+FILE_NAME_10=271;C;0;16;0;1;1;%2Fhome%2Fjohn%2Fprojects%2Fbuttcom%2Fimplement%2Fcode%2Fbc_usart.c;0;4
+FILE_NAME_11=17;C;0;16;0;1;1;%2Fhome%2Fjohn%2Fprojects%2Fbuttcom%2Fimplement%2Fcode%2Fbc_functions.c;0;4
+FILE_NAME_12=0;C;0;16;0;1;1;%2Fhome%2Fjohn%2Fprojects%2Fbuttcom%2Fimplement%2Fcode%2Fbc_functions.h;0;4
+FILE_NAME_13=1273;C;0;16;0;1;1;%2Fhome%2Fjohn%2Fprojects%2Fbuttcom%2Fimplement%2Fcode%2Fbc_usart.h;0;4
 
 [VTE]
 last_dir=/home/john/projects/resgen

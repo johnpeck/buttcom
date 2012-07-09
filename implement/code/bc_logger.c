@@ -20,8 +20,8 @@ log_config_t logger_config;
 log_config_t *logger_config_ptr = &logger_config;
 
 /* Define the recognized systems.  The freeform system name will need
- * to match calls to logger_msg().  Group systems to have shared bitshifts
- * if you run out of space. 
+ * to match calls to logger_msg() and logger_msg_p().  Group systems to
+ * have shared bitshifts if you run out of space. 
  */
 logger_system_t system_array[] ={
     // The logger system
@@ -32,8 +32,8 @@ logger_system_t system_array[] ={
     {"command",
     1
     },
-    // The ranger system
-    {"ranger",
+    // Miscellaneous system functions
+    {"functions",
     2
     },
     // End of table indicator.  Must be last.

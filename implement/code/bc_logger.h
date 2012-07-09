@@ -10,7 +10,8 @@
 /* Each system_struct will describe one system.  Create an array of these
  * to define all systems recognized by the machine.  Each system can have
  * a unique bit in the logger configuration bitfield.  This bit controls
- * whether or not messages from that system will be printed. */
+ * whether or not messages from that system will be printed. 
+ */
 typedef struct system_struct {
     char *name; // The name of the system
     uint8_t bitshift; // The system's location in the enable register
@@ -64,7 +65,8 @@ void cmd_logreg( uint16_t setval );
 
 
 
-/* Turn off all logging. */
+/* Turn off all logging. 
+ */
 void logger_disable( void );
 
 /* The interface to the logging system.  Use this function to send log
