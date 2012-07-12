@@ -1,0 +1,31 @@
+% The received command flow diagram.  Build this with pdflatex.  Convert
+% to eps with pdftops -eps <file.pdf>
+\documentclass{article}
+% \input{../doctools/latex/tikzstuff}
+
+\usepackage{colortbl}   % Provides \rowcolor
+\usepackage{calc}       % For doing math with dimensions
+\usepackage{setspace}   % Provides \singlespacing for turning off doublespacing
+\usepackage{listings}   % Provides support for pretty-printing code
+
+\usepackage[graphics,tightpage,active]{preview}
+\PreviewEnvironment{lstlisting}
+\PreviewMacro[{*[]{}}]{\lstinputlisting}
+\PreviewEnvironment{equation}
+\PreviewEnvironment{equation*}
+
+
+\begin{document}
+\pagestyle{empty}
+\thispagestyle{empty}
+
+% Listing showing the array of command structures defining the recognized
+% command set.
+\lstset{language=C}
+\lstinputlisting[frame=none,
+                   firstline=72,
+                   lastline=99]
+                   {../../../implement/code/bc_command.c}
+
+
+\end{document}
