@@ -32,9 +32,13 @@ logger_system_t system_array[] ={
     {"command",
     1
     },
+    // The received character interrupt
+    {"rxchar",
+    2
+    },
     // Miscellaneous system functions
     {"functions",
-    2
+    3
     },
     // End of table indicator.  Must be last.
     {"",0}
@@ -63,6 +67,13 @@ void cmd_logreg( uint16_t setval ) {
     logger_msg_p( "logger", log_level_INFO,
                   PSTR("Logger enable register set to 0x%x.\r\n"),setval );
     (logger_config_ptr -> enable) = setval;
+}
+
+/* Called by the remote command "logreg?" Returns the logger configuration
+ * register value in hex.
+ */
+void cmd_logreg_q( uint16_t setval ) {
+    usart_printf_p(PSTR("0x%x\r\n"),logger_config_ptr -> enable);
 }
 
 /* Set a bit in the logger configuration enable bitfield.  The system 

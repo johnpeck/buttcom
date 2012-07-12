@@ -63,6 +63,10 @@ void logger_setsystem( char *logsys );
  */
 void cmd_logreg( uint16_t setval );
 
+/* Called by the remote command "logreg?" Returns the logger configuration
+ * register value in hex.
+ */
+void cmd_logreg_q( uint16_t setval );
 
 
 /* Turn off all logging. 

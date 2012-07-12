@@ -66,6 +66,7 @@ main.dvi: main.tex\
 	cd tikz; pdflatex recv_cmd_flow.tex
 	pdftops -eps ./tikz/recv_cmd_flow.pdf
 	
+	
 # Make the parse buffer flow diagram
 ./tikz/parse_cmd_flow.eps: ./tikz/parse_cmd_flow.tex\
 							./doctools/latex/tikzstuff.tex

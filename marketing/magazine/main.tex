@@ -69,23 +69,24 @@ When a combined string in the receive buffer is finished with a carriage return,
 
 \clearpage{}
 \section{Watching the progress}
-I set up a logging system to help me understand how commands were being processed.  It's inconvenient to have the command and logging interfaces share the same communication channel, but the Butterfly only has one USART.  Reading command replies back without getting confused by general log messages requires some control over how the logging system works.  For now, figure \ref{fig:termgrab} shows the system processing the ``hello'' command with logging enabled at its most verbose level.  Each log message is tagged with a character representing the message severity (information, warning, error), followed by a string representing the subsystem responsible for the message.  These tags can be used to adjust what log messages should be suppressed, though I won't go into that here.  The ``Hello yourself!'' reply isn't a log message, and thus has no tags.
+I set up a logging system to help me understand how commands were being processed.  It's inconvenient to have the command and logging interfaces share the same communication channel, but the Butterfly only has one USART.  Reading command replies back without getting confused by general log messages requires some control over how the logging system works.  For now, figure \ref{fig:hellotrace} shows the system processing the ``hello'' command with logging enabled at its most verbose level.  Each log message is tagged with a character representing the message severity (information, warning, error), followed by a string representing the subsystem responsible for the message.  These tags can be used to adjust what log messages should be suppressed, though I won't go into that here.  The ``Hello yourself!'' reply isn't a log message, and thus has no tags.
 
 I should mention that these log message strings can easily overwhelm the Butterfly's RAM if they're not stored and referenced in flash memory.  Savannah\cite{url:savannah:pgmspace} and Dean Camera\cite{url:deancamera:pgmspace} have written great instructions for using the pgmspace module to handle this problem.  This module supplies the PROGMEM and PSTR macros I use throughout my code.
 
-% See the termgrab.sh script for details about creating grab.eps
+% Send characters to the butterfly using the hellotrace.py script in the
+% pngs directory.  Then use the termgrab.sh script to create hellotrace.eps.
 \begin{figure}[ht]
     \begin{center}
-        \includegraphics[clip,scale=0.5]{grab.eps}
-        \draftnote{grab.eps}
-        \caption{Terminal output showing the reception of and the reply to the ``hello'' command.  The logging system has been set to its most verbose level, so you see ``unsolicited'' messages as well as the command reply.  These messages can be suppressed by clearing bits in the logger configuration register.\label{fig:termgrab}}
+        \includegraphics[clip,scale=0.5]{pngs/hellotrace.eps}
+        \draftnote{hellotrace.eps}
+        \caption{Terminal output showing the reception of and the reply to the ``hello'' command.  The logging system has been set to its most verbose level, so you see ``unsolicited'' messages as well as the command reply.  These messages can be suppressed by clearing bits in the logger configuration register.\label{fig:hellotrace}}
     \end{center}
 \end{figure}
 
 % Using the logger section.  Should describe the log levels and the log systems.
 \clearpage{}
 \section{Configuring the logger}
-The logger acts as a gatekeeper for messages emitted from other subsystems.  In the output shown in figure \ref{fig:termgrab}, the \texttt{command} subsystem has a lot to say about every character received over the USART.  At 9600 buad, sending an 80-character message (10 bits per character) takes almost 100 milliseconds.  The processor will not be able to handle new commands during this time, as it won't get around to processing the parse buffer.  So we need to suppress messages we don't need to see.  
+The logger acts as a gatekeeper for messages emitted from other subsystems.  In the output shown in figure \ref{fig:hellotrace}, the \texttt{command} subsystem has a lot to say about every character received over the USART.  At 9600 buad, sending an 80-character message (10 bits per character) takes almost 100 milliseconds.  The processor will not be able to handle new commands during this time, as it won't get around to processing the parse buffer.  So we need to suppress messages we don't need to see.  
 
 Messages are sent to the logger using the \texttt{logger\_msg\_p} function, where the \texttt{\_p} suffix indicates that the message must be stored and referenced in flash memory.  These messages are tagged with the origin subsystem and a severity level.  These two tags have corresponding members in the logger configuration structure, which the logger consults while deciding whether or not to print the message.  I should have remote commands to let the user set each of these members, but I only have a command to enable the subsystem right now.  I wanted to keep the command array short for this article.  For now, I just have a function defined to set the severity configuration.   
 
