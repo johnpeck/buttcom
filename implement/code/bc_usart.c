@@ -1,16 +1,28 @@
+/* bc_usart.c
+ * 
+ * Used to set up the USART for the buttcom project. 
+ */
 #include <stdio.h>
-#include <stdarg.h> // Allows functions to accept an indefinite number of arguments
+
+/* stdarg.h
+ * Allows functions to accept an indefinite number of arguments.
+ */
+#include <stdarg.h>
+
+/* avr/io.h
+ * Device-specific port definitions
+ */
 #include <avr/io.h>
-#include "bc_usart.h"
 
 /* pgmspace.h
  * Contains macros and functions for saving and reading data out of
  * flash.
  */
 #include <avr/pgmspace.h>
-#include <util/delay.h>
+#include "bc_usart.h"
 
-/* Send a formatted string to the USART interface */
+/* Send a format string and parameter to the USART. 
+ */
 uint8_t usart_printf (const char *fmt, ...) { 
     va_list args; 
     uint8_t i; 
@@ -29,7 +41,7 @@ uint8_t usart_printf (const char *fmt, ...) {
     return 0; 
 }
 
-/* Send a format string stored in flash memory to the USART interface.
+/* Send a format string stored in flash memory to the USART.
  */
 uint8_t usart_printf_p(const char *fmt, ...) {
     va_list args; 
@@ -56,14 +68,16 @@ uint8_t usart_printf_p(const char *fmt, ...) {
  * always be zero.  The USART must be initialized before this can be used.
  *
  * The function simply waits for data to be present in the receive buffer
- * by checking the RXCn flag.  This flag is set when data is present. */
+ * by checking the RXCn flag.  This flag is set when data is present. 
+ */
 unsigned char usart_receive(void) {
     while( !(UCSR0A & (1<<RXC0)));
     return UDR0;
 }
 
 /* usart_putc(char data)
- * Sends a character to the USART */
+ * Sends a character to the USART 
+ */
 void usart_putc(char data) {
     /* Wait for empty transmit buffer */
     while( !( UCSR0A & (1<<UDRE0)) );
@@ -72,7 +86,8 @@ void usart_putc(char data) {
 }
 
 /* usart_puts(char s[])
- * Sends a string over the USART by repeatedly calling usart_putc() */
+ * Sends a string over the USART by repeatedly calling usart_putc() 
+ */
 void usart_puts(const char s[]) {
     int i = 0;
     while(i < USART_TXBUFFERSIZE) // don't get stuck if it is a bad string
@@ -96,7 +111,8 @@ void usart_puts_p(const char *data_ptr) {
 
 /* usart_init()
  * Initialize the USART.  The butterfly only has one USART, so all the
- * n values for configuration registers are 0. */
+ * n values for configuration registers are 0. 
+ */
 void usart_init(void) {
     /* Set the USART baudrate registers for 9600.  With a fosc of 1MHz,
      * and double speed operation enabled, this means UBRR0 = 12.  UBRR

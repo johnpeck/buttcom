@@ -53,6 +53,7 @@ int main() {
     logger_init();
     logger_disable();
     logger_setsystem( "logger" ); // Enable logger system logging
+    logger_setsystem( "rxchar" ); // Enable received character logging
     logger_setsystem( "command" ); // Enable command system logging
     logger_setsystem( "ranger" ); // Enable ranger system logging
     command_init( recv_cmd_state_ptr );
@@ -82,7 +83,7 @@ ISR(USART0_RX_vect) {
     // Write the received character to the buffer
     *(recv_cmd_state_ptr -> rbuffer_write_ptr) = UDR0;
     if (*(recv_cmd_state_ptr -> rbuffer_write_ptr) == '\r') {
-        logger_msg_p("command",log_level_INFO,
+        logger_msg_p("rxchar",log_level_INFO,
             PSTR("Received a command terminator.\r\n"));
         if ((recv_cmd_state_ptr -> rbuffer_count) == 0) {
             /* We got a terminator, but the received character buffer is
@@ -96,7 +97,7 @@ ISR(USART0_RX_vect) {
                  * character buffer, but the parse buffer is locked.  This is
                  * bad -- we're receiving commands faster than we can process
                  * them. */
-                logger_msg_p("command",log_level_ERROR,
+                logger_msg_p("rxchar",log_level_ERROR,
                     PSTR("Command process speed error!\r\n"));
                 rbuffer_erase(recv_cmd_state_ptr);
                 return;
@@ -109,7 +110,7 @@ ISR(USART0_RX_vect) {
                 strcpy((recv_cmd_state_ptr -> pbuffer),
                     (recv_cmd_state_ptr -> rbuffer));
                 recv_cmd_state_ptr -> pbuffer_lock = 1;
-                logger_msg_p("command",log_level_INFO,
+                logger_msg_p("rxchar",log_level_INFO,
                     PSTR("Parse buffer contains '%s'.\r\n"),
                     (recv_cmd_state_ptr -> pbuffer));
                 rbuffer_erase(recv_cmd_state_ptr);
@@ -120,12 +121,12 @@ ISR(USART0_RX_vect) {
     else {
         // The character is not a command terminator.
         (recv_cmd_state_ptr -> rbuffer_count)++;
-        logger_msg_p("command",log_level_INFO,
+        logger_msg_p("rxchar",log_level_INFO,
             PSTR("%c  <-- copied to receive buffer.  Received count is %d.\r\n"),
             *(recv_cmd_state_ptr -> rbuffer_write_ptr),
             recv_cmd_state_ptr -> rbuffer_count);
         if ((recv_cmd_state_ptr -> rbuffer_count) >= (RECEIVE_BUFFER_SIZE-1)) {
-            logger_msg_p("command",log_level_ERROR,
+            logger_msg_p("rxchar",log_level_ERROR,
                 PSTR("Received character number above limit.\r\n"));
             rbuffer_erase(recv_cmd_state_ptr);
             return;

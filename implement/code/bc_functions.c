@@ -1,3 +1,8 @@
+/* bc_functions.c
+ * 
+ * Sample functions for the buttcom project 
+ */
+
 #include <stdio.h>
 #include <string.h>
 
@@ -10,6 +15,7 @@
 
 
 #include "bc_functions.h"
+
 /* pgmspace.h
  * Contains macros and functions for saving and reading data out of
  * flash.

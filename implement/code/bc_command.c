@@ -59,6 +59,10 @@ const char helpstr_logreg[] PROGMEM =
     "logreg -- Set the logger enable register.\r\n"
     "    Argument: 16-bit hex number\r\n"
     "    Return: None\r\n";
+const char helpstr_logreg_q[] PROGMEM =
+    "logreg? -- Query the logger enable register.\r\n"
+    "    Argument: None\r\n"
+    "    Return: 16-bit hex number\r\n";
 const char helpstr_help[] PROGMEM =
     "help -- Print the command help.\r\n";
 const char nullstr[] PROGMEM = "";
@@ -78,6 +82,12 @@ command_t command_array[] ={
      4,
      &cmd_logreg,
      helpstr_logreg},
+     // logreg? -- Query the logger enable register.
+    {"logreg?",
+     "none",
+     0,
+     &cmd_logreg_q,
+     helpstr_logreg_q},
      // help -- Print all the help strings
      {"help",
      "none",

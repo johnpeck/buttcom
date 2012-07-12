@@ -9,7 +9,27 @@
 * Code has a command called "hello" that just returns "hello yourself"
 * Commands must not be case sensitive
 * ------------------------ TODO list ----------------------------
-* TODO Add a section describing how to use the logger module
+* DONE Add a section describing how to use the logger module
+* TODO Add the rxchar subsystem [3/3]
+** DONE Make log messages from the received character ISR have the rxchar subsystem tag
+** DONE Regenerate the "watching the progress figure," as the subsystem tags will have changed
+** DONE Add an entry in logger.c for the new system
+* TODO Add the logreg? command to query the logger config register [2/3]
+** TODO Regenerate the command array listing, as the array will have increased
+** DONE Add a function in logger.h and logger.c to handle the command
+** DONE Follow your "adding a new command" procedure to check the procedure
+* DONE Make a script to generate the "watching the progress" figure [2/2]
+** DONE Just types hello and gets the reply
+** DONE Add this to the makefile
+* TODO Add a new figure -- using the logger [/]
+  - Capture the output just after turning off the rxchar system
+** TODO Send the logreg? command
+** TODO Send the hello command
+** TODO Send the logreg command to turn rxchar logging back on
+** TODO Type an h
+** TODO Add this figure generation to the makefile
+** TODO Make a note about sending commands at full speed with rxchar logging on
+   - If I write a script to send "hello" with no time delay between characters, only the string "hel" is received before a carriage return.  Obviously, the command is not recognized.
 * TODO Add a paragraph describing problems with power supply turnon ramp rate
 * TODO Meet Circuit Cellar requirements [5/7]
 ** TODO Article should be 2500 to 3500 words long
@@ -61,3 +81,7 @@
 ** DONE Make the diagram more compact
    - Suggestion: Move the execute command box to be above is the command within limits
 * DONE Add a reference to winavr for their makefile
+* DONE Better document bc_usart.h
+* DONE Better document bc_usart.c
+* TODO Better document bc_logger.h
+* TODO Better document bc_logger.c
