@@ -11,6 +11,12 @@ command_t command_array[] ={
      4,
      &cmd_logreg,
      helpstr_logreg},
+     // logreg? -- Query the logger enable register.
+    {"logreg?",
+     "none",
+     0,
+     &cmd_logreg_q,
+     helpstr_logreg_q},
      // help -- Print all the help strings
      {"help",
      "none",

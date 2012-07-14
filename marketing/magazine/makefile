@@ -32,7 +32,7 @@ dvi: main.dvi
 # to resolve cross references.
 .PHONY: main.dvi
 main.dvi: main.tex\
-		./figs/command_array.eps\
+		./figs/command_snippet.eps\
 		./figs/recbuffer.eps\
 		./figs/prsbuffer.eps \
 		./tikz/parse_cmd_flow.eps\
@@ -42,12 +42,12 @@ main.dvi: main.tex\
 
 
 # Make the code snippet figure
-./figs/command_array.eps: ./figs/command_array.fig
+./figs/command_snippet.eps: ./figs/command_snippet.fig
 	# ------------ Making the code snippet figure ---------------------
-	fig2dev -L eps -m 1 ./figs/command_array.fig ./figs/command_array.eps
+	fig2dev -L eps -m 1 ./figs/command_snippet.fig ./figs/command_snippet.eps
 	# Fix the bounding box
-	./figs/bboxfix.sh ./figs/command_array.eps temp
-	mv temp ./figs/command_array.eps
+	./figs/bboxfix.sh ./figs/command_snippet.eps temp
+	mv temp ./figs/command_snippet.eps
 	
 # Make the received character buffer figure
 ./figs/recbuffer.eps: ./figs/recbuffer.fig

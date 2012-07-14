@@ -99,7 +99,7 @@ Each subsystem needs an entry in the logger's subsystem array for this scheme to
 \section{Recognizing commands}
 After finished combined strings are copied from the receive to the parse buffer, the system separates them into command and argument strings using the flow shown in figure \ref{fig:cmdflow}.  Commands in the parse buffer are then separated from their arguments with a string terminator inserted into the first space between the two.  As illustrated in figure \ref{fig:prsbuffer}, pointers to the beginning of the parse buffer and the beginning of the argument will then reference two separate strings.  The first of these two, the command string, is converted to lowercase and compared with those in the command definition array to look for a match.
 
-The lower section of listing \ref{lst:cmdarray} shows my simple command definition array with entries for the ``hello,'' ``logreg,'' and ``help'' commands. The structure of this array is largely taken from White\cite{bok:white2012}.  Each entry must be of the type \texttt{command\_t}, defined in the upper section of listing \ref{lst:cmdarray}.  Notice that the function pointer member of this command type only accepts one integer argument.  This can be changed to make the system more flexible, but remember that every function called by remote commands must accept the same arguments.  If the function pointer is expanded to accept both an integer and a string pointer argument, all of the functions the pointer will point to must also be expanded.  
+The lower section of listing \ref{lst:cmdsnip} shows my simple command definition array with entries for the ``hello,'' ``logreg,'' and ``help'' commands. The structure of this array is largely taken from White\cite{bok:white2012}.  Each entry must be of the type \texttt{command\_t}, defined in the upper section of listing \ref{lst:cmdsnip}.  Notice that the function pointer member of this command type only accepts one integer argument.  This can be changed to make the system more flexible, but remember that every function called by remote commands must accept the same arguments.  If the function pointer is expanded to accept both an integer and a string pointer argument, all of the functions the pointer will point to must also be expanded.  
 
 The other members of the command type contain the command's name (must be lowercase), its argument type, the maximum number of characters in the argument, and a help string.  The argument type tells the command processing system how it should handle the argument string.  Hexadecimal argument strings, for example, are converted to integers before being passed on.  The character limit is a basic way of limiting incoming arguments.  Finally, the help string is what is printed to the USART when the ``help'' command is issued.
 
@@ -122,14 +122,14 @@ The other members of the command type contain the command's name (must be lowerc
     \end{center}
 \end{figure}
 
-% The command array figure is created with two text files (command_array.txt
+% The command snippet figure is created with two text files (command_array.txt
 % and command_type.txt) individually converted to fig format using code2fig.sh
 % and then combined into one fig file.
 \begin{listing}[ht]
     \begin{center}
-        \includegraphics[clip,scale=0.75]{command_array}
-        \draftnote{command\_array.fig}
-        \caption{Code snippets from two files show how the command structure is defined (upper), and how commands are initialized (lower).  When the command processor is run, commands in the parse buffer are matched with names from the command array.  Commands can be added to the system by adding to this array of command types.\label{lst:cmdarray}}
+        \includegraphics[clip,scale=0.75]{command_snippet}
+        \draftnote{command\_snippet.fig}
+        \caption{Code snippets from two files show how the command structure is defined (upper), and how commands are initialized (lower).  When the command processor is run, commands in the parse buffer are matched with names from the command array.  Commands can be added to the system by adding to this array of command types.\label{lst:cmdsnip}}
     \end{center}
 \end{listing}
 
