@@ -33,6 +33,12 @@
  */
 #include "bc_logger.h"
 
+/* bc_adc.h
+ * Provides functions for configuring and using the Butterfly's ADC
+ * module.
+ */
+#include "bc_adc.h"
+
 
 
 
@@ -56,6 +62,7 @@ int main() {
     logger_setsystem( "rxchar" ); // Enable received character logging
     logger_setsystem( "command" ); // Enable command system logging
     logger_setsystem( "ranger" ); // Enable ranger system logging
+    adc_init(); // Set the ADCs reference and SAR prescaler
     command_init( recv_cmd_state_ptr );
     for(;;) {
         process_pbuffer( recv_cmd_state_ptr, command_array );

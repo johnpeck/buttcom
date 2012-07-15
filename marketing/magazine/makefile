@@ -35,6 +35,7 @@ main.dvi: main.tex\
 		./figs/command_snippet.eps\
 		./figs/recbuffer.eps\
 		./figs/prsbuffer.eps \
+		./figs/usart_pinout.eps \
 		./tikz/parse_cmd_flow.eps\
 		./tikz/recv_cmd_flow.eps
 	# ------------- Running latex on the document ---------------------
@@ -53,6 +54,11 @@ main.dvi: main.tex\
 ./figs/recbuffer.eps: ./figs/recbuffer.fig
 	# --------- Making the received character buffer figure -----------
 	fig2dev -L eps -m 1 ./figs/recbuffer.fig ./figs/recbuffer.eps
+	
+# Make the hardware connection drawing
+./figs/usart_pinout.eps: ./figs/usart_pinout.fig
+	# ------------- Making the hardware connection figure --------------
+	fig2dev -L eps -m 1 ./figs/usart_pinout.fig ./figs/usart_pinout.eps
 	
 # Make the command processing flow figure
 ./figs/parse_cmd_flow.eps: ./figs/parse_cmd_flow.fig
