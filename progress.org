@@ -21,6 +21,8 @@
 * DONE Make a script to generate the "watching the progress" figure [2/2]
 ** DONE Just types hello and gets the reply
 ** DONE Add this to the makefile
+* TODO Add a note about naming callback functions
+** I say that I don't worry about putting all remote commands in their own module.  I should further say that I try to put commands in the module they relate to.
 * TODO Add a new figure -- using the logger [/]
   - Capture the output just after turning off the rxchar system
 ** TODO Send the logreg? command
@@ -30,7 +32,18 @@
 ** TODO Add this figure generation to the makefile
 ** TODO Make a note about sending commands at full speed with rxchar logging on
    - If I write a script to send "hello" with no time delay between characters, only the string "hel" is received before a carriage return.  Obviously, the command is not recognized.
-* TODO Add a paragraph describing problems with power supply turnon ramp rate
+* TODO Add a new section -- using remote commands to set calibration values
+  - Call the section: Setting calibration values
+** TODO Add the vgain command
+** TODO Add the voffs command
+** DONE Add an ADC calibration structure to hold slope and offset values
+** TODO Add the vcounts? command to get raw adc counts from the ADC
+** DONE Add an ADC module to the system
+** DONE Revisit the ADC prescaler problem to get more single-shot precision
+** TODO Add the volt? command to query the voltage measurement
+** DONE Modify the hardware connection diagram to include the voltage measurement port
+** TODO Show trace of measurement of Vcc after sending calibration values (return Vcc in decimal mV)
+* DONE Add a paragraph describing problems with power supply turnon ramp rate
 * TODO Meet Circuit Cellar requirements [5/7]
 ** TODO Article should be 2500 to 3500 words long
 ** TODO Figures with a lot of text must be in TIF format (no compression) (300dpi) (4x4 inches)
