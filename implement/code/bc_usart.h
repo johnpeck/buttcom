@@ -2,7 +2,12 @@
  * 
  * Used to set up the USART for the buttcom project. 
  */
- 
+
+/* stdint.h
+ * Defines fixed-width integer types like uint8_t
+ */
+#include <stdint.h>
+
 /* Define the maximum string length that will be sent to the USART.
  */
 #define USART_TXBUFFERSIZE 150

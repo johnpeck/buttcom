@@ -1,4 +1,6 @@
-/* bc_main.c */
+/* bc_main.c
+ * Main file for the Butterfly communication program. 
+ */
 
 
 // ----------------------- Include files ------------------------------
@@ -19,7 +21,8 @@
  * an array containing all the commands understood by the system. 
  * 
  * Defines the received command state structure recv_cmd_state_t.  Use
- * this to keep track of the remote interface state. */
+ * this to keep track of the remote interface state. 
+ */
 #include "bc_command.h"
 #include "bc_usart.h"
 
@@ -54,17 +57,24 @@ recv_cmd_state_t *recv_cmd_state_ptr = &recv_cmd_state;
 int main() {
     int retval = 0;
     sei(); // Enable interrupts
-    fosc_cal(); // Set up calibrated 1MHz system clock
-    usart_init(); // Set up the USART
+    /* Set up the calibrated 1MHz system clock.  Do this before setting
+     * up the USART, as the USART depends on this for an accurate buad
+     * rate. */
+    fosc_cal();
+    /* Set up the USART before setting up the logger -- the logger uses
+     * the USART for output. */
+    usart_init();
     logger_init();
-    logger_disable();
+    logger_disable(); // Disable logging from all systems
     logger_setsystem( "logger" ); // Enable logger system logging
     logger_setsystem( "rxchar" ); // Enable received character logging
     logger_setsystem( "command" ); // Enable command system logging
-    logger_setsystem( "ranger" ); // Enable ranger system logging
+    logger_setsystem( "adc" ); // Enable adc module logging
     adc_init(); // Set the ADCs reference and SAR prescaler
     command_init( recv_cmd_state_ptr );
     for(;;) {
+        /* Process the parse buffer to look for commands loaded with the
+         * received character ISR. */
         process_pbuffer( recv_cmd_state_ptr, command_array );
     }// end main for loop
     return retval;
@@ -76,13 +86,14 @@ int main() {
 
 
 /* -------------------------- Interrupts -------------------------------
- * Find the name of interrupt signala in iom169p.h and not pa.  Why
+ * Find the name of interrupt signals in iom169p.h and not pa.  Why
  * not?  We define the mcu name to be atmega169p in the makefile, not
  * atmega169pa. 
  * 
  * See the naming convention outlined at
  * http://www.nongnu.org/avr-libc/user-manual/group__avr__interrupts.html
- * to make sure you don't use depricated names. */
+ * to make sure you don't use depricated names. 
+ */
  
 
 /* Interrupt on character received via the USART */

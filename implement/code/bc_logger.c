@@ -36,9 +36,17 @@ logger_system_t system_array[] ={
     {"rxchar",
     2
     },
+    // The ADC module
+    {"adc",
+    3
+    },
+    // The voltage measurement
+    {"vmeasure",
+    4
+    },
     // Miscellaneous system functions
     {"functions",
-    3
+    5
     },
     // End of table indicator.  Must be last.
     {"",0}

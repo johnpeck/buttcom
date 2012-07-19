@@ -44,6 +44,11 @@
  */
 #include "bc_numbers.h"
 
+/* bc_adc.h
+ * Provides functions for calibrating and returning ADC measurements.
+ */
+#include "bc_adc.h"
+
 /* Initialize command help strings.
  * 
  * The help text for each command needs to be defined outside of the
@@ -57,12 +62,28 @@ const char helpstr_hello[] PROGMEM =
     "    Return: A greeting\r\n";
 const char helpstr_logreg[] PROGMEM =
     "logreg -- Set the logger enable register.\r\n"
-    "    Argument: 16-bit hex number\r\n"
+    "    Argument: 16-bit unsigned hex number\r\n"
     "    Return: None\r\n";
 const char helpstr_logreg_q[] PROGMEM =
     "logreg? -- Query the logger enable register.\r\n"
     "    Argument: None\r\n"
-    "    Return: 16-bit hex number\r\n";
+    "    Return: 16-bit unsigned hex number\r\n";
+const char helpstr_vslope[] PROGMEM =
+    "vslope -- Set the voltage measurement slope calibration factor.\r\n"
+    "    Argument: 16-bit unsigned hex number\r\n"
+    "    Return: None\r\n";
+const char helpstr_voffset[] PROGMEM =
+    "voffset -- Set the voltage measurement offset calibration factor.\r\n"
+    "    Argument: 16-bit unsigned hex number\r\n"
+    "    Return: None\r\n";
+const char helpstr_vcounts_q[] PROGMEM =
+    "vcounts? -- Query the raw ADC counts from the voltage measurement.\r\n"
+    "    Argument: None\r\n"
+    "    Return: 16-bit unsigned hex number\r\n";
+const char helpstr_volt_q[] PROGMEM =
+    "volt? -- Query the calibrated voltage measurement.\r\n"
+    "    Argument: None\r\n"
+    "    Return: Voltage in millivolts\r\n";
 const char helpstr_help[] PROGMEM =
     "help -- Print the command help.\r\n";
 const char nullstr[] PROGMEM = "";
@@ -88,6 +109,30 @@ command_t command_array[] ={
      0,
      &cmd_logreg_q,
      helpstr_logreg_q},
+     // vslope -- Set the voltage measurement slope calibration factor
+     {"vslope",
+     "hex",
+     4,
+     &cmd_vslope,
+     helpstr_vslope},
+     // voffset -- Set the voltage measurement offset calibration factor
+     {"voffset",
+     "hex",
+     4,
+     &cmd_voffset,
+     helpstr_voffset},
+     // vcounts? -- Query the raw ADC counts from the voltage measurement
+     {"vcounts?",
+     "none",
+     0,
+     &cmd_vcounts_q,
+     helpstr_vcounts_q},
+     // volt? -- Query the calibrated voltage measurement
+     {"volt?",
+     "none",
+     0,
+     &cmd_volt_q,
+     helpstr_volt_q},
      // help -- Print all the help strings
      {"help",
      "none",

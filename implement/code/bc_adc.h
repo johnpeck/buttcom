@@ -7,8 +7,8 @@
 /* ADC measurement calibration structure. 
  */
 typedef struct adc_cal_struct { 
-    int16_t cal_slop; // Slope calibration factor
-    int16_t cal_offs; // Offset calibration factor
+    uint16_t cal_slope; // Slope calibration factor
+    uint16_t cal_offset; // Offset calibration factor
 } adc_cal_t;
 
 /* adc_init(void)
@@ -28,7 +28,32 @@ void adc_mux(uint8_t channel);
  */
 uint16_t adc_read(void);
 
+/* cmd_vcounts_q(void)
+ * Query the raw ADC reading from the voltage measurement -- before
+ * slope and offset are applied.
+ */
+void cmd_vcounts_q(void);
+
+/* cmd_volt_q(void)
+ * Query the voltage measurement.  Returns a calibrated value in
+ * millivolts. 
+ */
+void cmd_volt_q(void);
+
 /* Called by the remote command "volt?" Returns a calibrated voltage
  * measurement in fixed-point positive millivolts.
  */
 // cmd_volt_q( uint16_t setval );
+
+/* cmd_vslope
+ * Set the voltage measurement slope factor.  ADC data will be multiplied
+ * by this factor before being downshifted by 4 bits and given an offset.
+ * The ultimate output will be in 1 bit = 1 mV.
+ */
+void cmd_vslope(uint16_t vslope);
+
+/* cmd_voffset
+ * Set the offset adjustment in mV.  This will be subtracted from the
+ * slope-corrected voltage output.
+ */
+void cmd_voffset(uint16_t voffset);

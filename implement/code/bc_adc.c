@@ -3,6 +3,17 @@
  * Used to set up the ADC for the buttcom project. 
  */
 
+/* bc_usart.h provides functions for transmitting characters over the
+ * usart.
+ */
+#include "bc_usart.h"
+
+/* pgmspace.h
+ * Provides macros and functions for saving and reading data out of
+ * flash.
+ */
+#include <avr/pgmspace.h>
+
 /* stdint.h
  * Defines fixed-width integer types like uint8_t
  */
@@ -13,10 +24,39 @@
  */
 #include <avr/io.h>
 
+/* bc_logger.h
+ * Provides logger_msg and logger_msg_p for log messages tagged with
+ * a system and severity.
+ */
+#include "bc_logger.h"
+
 #include "bc_adc.h"
+
+/* The voltage measurement calibration factors
+ */
+adc_cal_t volt_calfactor = {
+    1, // Slope (mV/count)
+    0  // Offset (mV)
+};
+adc_cal_t *volt_calfactor_ptr = &volt_calfactor;
+
+/* cmd_vslope(uint16_t vslope)
+ * Set the voltage measurement's slope calibration factor.
+ */
+void cmd_vslope(uint16_t vslope) {
+    volt_calfactor_ptr -> cal_slope = vslope;
+}
+
+/* cmd_voffset(uint16_t voffset)
+ * Set the voltage measurement's offset calibration factor.
+ */
+void cmd_voffset(uint16_t voffset) {
+    volt_calfactor_ptr -> cal_offset = voffset;
+}
 
 /* Initialize the ADC.  */
 void adc_init(void) {
+    logger_msg_p("adc",log_level_INFO, PSTR("Initializing ADC.\r\n"));
     /* The butterfly has Vcc connected to AVcc via a low-pass filter.
      * It also has a shunt capacitor at the Aref pin.  So I can use the
      * voltage at AVcc as the reference. */
@@ -84,4 +124,28 @@ uint16_t adc_read(void) {
     adc_temp = ADCL;            // Read the lower 8 bits
     adc_temp += (ADCH << 8);    // Add the upper 2 bits
     return adc_temp;
+}
+
+/* cmd_vcounts_q(void)
+ * Query the raw ADC counts from the voltage measurement.
+ */
+void cmd_vcounts_q(void) {
+    uint16_t adc_temp = 0;
+    adc_temp = adc_read();
+    usart_printf_p(PSTR("0x%x\r\n"),adc_temp);
+}
+
+/* cmd_volt_q(void)
+ * Query the calibrated voltage measurement.  The voltage in mV is arrived
+ * at with:
+ * mV = ((ADC counts) * vslope >> 16) - voffset 
+ * Notice that voffset is assumed to be positive -- all these numbers are
+ * unsigned 16-bit integers. */
+void cmd_volt_q(void) {
+    uint16_t raw_counts = 0;
+    uint16_t result_mv = 0;
+    raw_counts = adc_read();
+    result_mv = ((raw_counts * volt_calfactor_ptr -> cal_slope) >> 4) +
+                volt_calfactor_ptr -> cal_offset;
+    usart_printf_p(PSTR("%u\r\n"),result_mv);
 }

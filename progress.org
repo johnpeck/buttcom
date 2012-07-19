@@ -35,15 +35,17 @@
 ** TODO Add this figure generation to the makefile
 ** TODO Make a note about sending commands at full speed with rxchar logging on
    - If I write a script to send "hello" with no time delay between characters, only the string "hel" is received before a carriage return.  Obviously, the command is not recognized.
-* TODO Add a new section -- using remote commands to set calibration values [4/9] :1day:
+* TODO Add a new section -- using remote commands to set calibration values [8/9] :1day:
   - Call the section: Setting calibration values
-** TODO Add the vgain command
-** TODO Add the voffs command
+** DONE Add the vslope command
+   - Looks like good calibration command is vslope 126, no offset
+** DONE Add the voffset command
 ** DONE Add an ADC calibration structure to hold slope and offset values
-** TODO Add the vcounts? command to get raw adc counts from the ADC
+** DONE Add the vcounts? command to get raw adc counts from the ADC
 ** DONE Add an ADC module to the system
 ** DONE Revisit the ADC prescaler problem to get more single-shot precision
-** TODO Add the volt? command to query the voltage measurement
+** DONE Add the volt? command to query the voltage measurement
+   - Keep in mind that the calibration factors must be written every time the unit is flashed.  Ideally, I'd figure out how to write the cal factors to eeprom.
 ** DONE Modify the hardware connection diagram to include the voltage measurement port
 ** TODO Show trace of measurement of Vcc after sending calibration values (return Vcc in decimal mV)
 * DONE Add a paragraph describing problems with power supply turnon ramp rate
