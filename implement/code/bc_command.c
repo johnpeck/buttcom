@@ -277,7 +277,7 @@ void command_exec( command_t *command, char *argument ) {
             PSTR("Executing command with hex argument.\r\n"));
         argval = hex2num(argument);
         logger_msg_p("command",log_level_INFO,
-            PSTR("The argument value is %d.\r\n"),argval);
+            PSTR("The argument value is %u.\r\n"),argval);
         command -> execute(argval);
     }
 }

@@ -48,6 +48,7 @@
    - Keep in mind that the calibration factors must be written every time the unit is flashed.  Ideally, I'd figure out how to write the cal factors to eeprom.
 ** DONE Modify the hardware connection diagram to include the voltage measurement port
 ** TODO Show trace of measurement of Vcc after sending calibration values (return Vcc in decimal mV)
+** TODO Add a number for the ADC used for the Butterfly's voltage reader -- which mux position?
 * DONE Add a paragraph describing problems with power supply turnon ramp rate
 * TODO Meet Circuit Cellar requirements [5/7]			       :1day:
 ** TODO Article should be 2500 to 3500 words long

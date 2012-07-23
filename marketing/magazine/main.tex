@@ -27,7 +27,7 @@
 
 
 \section{Introduction}
-I love test equipment with open, well documented, ASCII command sets.  The plain text commands give a complicated instrument a familiar interface and an easy way to automate measurements.  Python's gnuplot and pySerial interfaces let you acquire and make pretty plots of your data -- all for free\cite{pyserial,gnuplot-py}. So when I need to automate hobby measurements at home, I immediately wish for an ASCII interface to whatever tool I'm measuring with.  This tool happens to be the AVR Butterfly board right now, simply because it's cheap and the LCD is handy.  
+I love test equipment with open, well documented, ASCII command sets.  The plain text commands give a complicated instrument a familiar interface and an easy way to automate measurements.  Python's gnuplot and pySerial interfaces let me acquire and make pretty plots of my data -- all for free\cite{pyserial,gnuplot-py}. So when I needed to automate reading the voltage output from an ultrasonic rangefinder at home, I wished for an ASCII interface to a voltmeter.  But I needed more than just a voltmeter, since I wanted this meter to also convert volts into distance.  I had an AVR Butterfly, and I thought that it should be easy to give it a plain text interface to a PC.  This became a bigger project than I expected, but in the end it was great to see this tiny board doing everything I wanted it to.
 
 \clearpage
 \section{Working with the Butterfly}
@@ -137,11 +137,15 @@ The other members of the command type contain the command's name (must be lowerc
 \section{Adding more commands}
 Since being able to extend this system is so important, I've come up with a procedure for adding new commands.  First, choose the name of your command.  This can be harder than it sounds.  I like names to be short enough to be easily entered on the command line, but long enough to be descriptive.  The name can contain any ASCII character except a space.  Remember that the command characters, the argument characters, one space, and one string terminator must all fit in the received character buffer.
     
-Next, decide whether or not you need more than a hexadecimal integer string argument.  My argument handling ability is limited to just hexadecimal integer strings.  Extending the system isn't hard, but remember that every function called by a command has to accept the same arguments.  If you add a character pointer argument, even commands that take no arguments must then call functions that need both integer and character pointer arguments.  This can be tedious if you already have a lot of commands defined.
+Next, decide whether or not you need more than an unsigned hexadecimal integer string argument.  My argument handling ability is limited to just hexadecimal integer strings.  Extending the system isn't hard, but remember that every function called by a command has to accept the same arguments.  If you add a character pointer argument, even commands that take no arguments must then call functions that need both integer and character pointer arguments.  This can be tedious if you already have a lot of commands defined.
 
 If your arguments fit your ability to handle them, add a function for your command to call.  You might like to put all the functions called by remote commands in their own module.  I prefer to put these functions in the module they're associated with, and I prefix their names with ``cmd\_.'' For example, the function called by the \texttt{logreg} remote command is \texttt{cmd\_logreg}, and I implement it in the \texttt{bc\_logger} module.
 
 Now that the command's attributes have been specified, it's time to give it an entry in the command array.  Add the new entry before the array's end marker.  You've already chosen the command's name, argument type, and function call.  The remaining entry members are the argument's maximum size in characters and the command's help string.  Remember that hexadecimal arguments larger than 4 characters don't make sense for 16-bit integers.  As for the help strings, I was only able to use the PROGMEM macro on them if I defined them outside of the command array.  This breaks up the array organization, but these strings will quickly eat up the Butterfly's RAM if they're not located and referenced in flash.  
+
+\clearpage{}
+\section{Sending calibration values}
+My orginal goal was to calibrate measurements made with the Butterfly's voltage reader, and to read those measurements using the PC.   
 
 
 \clearpage{}

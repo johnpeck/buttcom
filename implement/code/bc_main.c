@@ -43,16 +43,9 @@
 #include "bc_adc.h"
 
 
-
-
-
-
-
 // Define a pointer to the received command state
 recv_cmd_state_t  recv_cmd_state;
 recv_cmd_state_t *recv_cmd_state_ptr = &recv_cmd_state;
-
-
 
 int main() {
     int retval = 0;
@@ -65,6 +58,10 @@ int main() {
      * the USART for output. */
     usart_init();
     logger_init();
+    /* To configure the logger, first clear the logger enable register
+     * by disabling it with logger_disable().  Then set individual bits
+     * with logger_setsystem().
+     */
     logger_disable(); // Disable logging from all systems
     logger_setsystem( "logger" ); // Enable logger system logging
     logger_setsystem( "rxchar" ); // Enable received character logging
