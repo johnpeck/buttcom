@@ -12,6 +12,21 @@
 * Code has a command that returns a calibrated voltage measurement of the supply voltage
 * Commands must not be case sensitive
 * ------------------------ TODO list ----------------------------
+* TODO Add the ISR logging level [/]
+** Why do we need this level?
+   - Sending log messages from inside the ISR can really change how the system works.  We need a way of tagging messages that originate in the ISR so that we can turn them off.  But we only have two tags right now to work with when calling the logger: subsystem and level.  And because of my design choices, gating messages with their log level is faster than doing it with their system name.
+** What should the message's tag be?  [I] is already taken.
+   - We can use [R] for the ISR tag.
+** TODO The system should boot into log level informational (1)
+   - Won't log ISR messages at bootup
+* TODO Add a remote command to set the logging level [/]
+  - Call the command loglevel
+** TODO Command will accept an unsigned 16-bit hex argument
+   - 0: ISR
+   - 1: Informational
+   - 2: Warning
+   - 3: Error
+** TODO Write the help section for the command
 * DONE Add a section describing how to use the logger module
 * DONE Add the rxchar subsystem [3/3]
 ** DONE Make log messages from the received character ISR have the rxchar subsystem tag
