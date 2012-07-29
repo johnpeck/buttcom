@@ -53,7 +53,7 @@ int main() {
     /* Set up the calibrated 1MHz system clock.  Do this before setting
      * up the USART, as the USART depends on this for an accurate buad
      * rate. */
-    fosc_cal();
+    fosc_1mhz();
     /* Set up the USART before setting up the logger -- the logger uses
      * the USART for output. */
     usart_init();
@@ -98,7 +98,7 @@ ISR(USART0_RX_vect) {
     // Write the received character to the buffer
     *(recv_cmd_state_ptr -> rbuffer_write_ptr) = UDR0;
     if (*(recv_cmd_state_ptr -> rbuffer_write_ptr) == '\r') {
-        logger_msg_p("rxchar",log_level_INFO,
+        logger_msg_p("rxchar",log_level_ISR,
             PSTR("Received a command terminator.\r\n"));
         if ((recv_cmd_state_ptr -> rbuffer_count) == 0) {
             /* We got a terminator, but the received character buffer is
@@ -125,7 +125,7 @@ ISR(USART0_RX_vect) {
                 strcpy((recv_cmd_state_ptr -> pbuffer),
                     (recv_cmd_state_ptr -> rbuffer));
                 recv_cmd_state_ptr -> pbuffer_lock = 1;
-                logger_msg_p("rxchar",log_level_INFO,
+                logger_msg_p("rxchar",log_level_ISR,
                     PSTR("Parse buffer contains '%s'.\r\n"),
                     (recv_cmd_state_ptr -> pbuffer));
                 rbuffer_erase(recv_cmd_state_ptr);
@@ -136,7 +136,7 @@ ISR(USART0_RX_vect) {
     else {
         // The character is not a command terminator.
         (recv_cmd_state_ptr -> rbuffer_count)++;
-        logger_msg_p("rxchar",log_level_INFO,
+        logger_msg_p("rxchar",log_level_ISR,
             PSTR("%c  <-- copied to receive buffer.  Received count is %d.\r\n"),
             *(recv_cmd_state_ptr -> rbuffer_write_ptr),
             recv_cmd_state_ptr -> rbuffer_count);

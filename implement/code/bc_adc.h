@@ -12,7 +12,8 @@ typedef struct adc_cal_struct {
 } adc_cal_t;
 
 /* adc_init(void)
- * Initialize the Butterfly's 10-bit SAR ADC module 
+ * Initialize the Butterfly's 10-bit SAR ADC module.
+ *     Set the default ADC mux position to 1: the voltage reader
  */
 void adc_init(void);
 
@@ -28,22 +29,17 @@ void adc_mux(uint8_t channel);
  */
 uint16_t adc_read(void);
 
-/* cmd_vcounts_q(void)
+/* cmd_vcounts_q()
  * Query the raw ADC reading from the voltage measurement -- before
  * slope and offset are applied.
  */
-void cmd_vcounts_q(void);
+void cmd_vcounts_q(uint16_t nonval);
 
 /* cmd_volt_q(void)
  * Query the voltage measurement.  Returns a calibrated value in
  * millivolts. 
  */
-void cmd_volt_q(void);
-
-/* Called by the remote command "volt?" Returns a calibrated voltage
- * measurement in fixed-point positive millivolts.
- */
-// cmd_volt_q( uint16_t setval );
+void cmd_volt_q(uint16_t nonval);
 
 /* cmd_vslope
  * Set the voltage measurement slope factor.  ADC data will be multiplied

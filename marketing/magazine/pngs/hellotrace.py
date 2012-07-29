@@ -10,6 +10,8 @@ s = serial.Serial('/dev/ttyUSB0',9600,timeout=1)
 sendstring = 'hello'
 
 def main():
+    s.write('loglevel 0' + '\r')
+    time.sleep(1)
     for character in sendstring:
         s.write(character)
         time.sleep(0.1)

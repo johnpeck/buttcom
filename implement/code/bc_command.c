@@ -60,6 +60,10 @@ const char helpstr_hello[] PROGMEM =
     "hello -- Print a greeting.\r\n"
     "    Argument: None\r\n"
     "    Return: A greeting\r\n";
+const char helpstr_loglevel[] PROGMEM =
+    "loglevel -- Set the logger severity level.\r\n"
+    "    Argument: 0-3\r\n"
+    "    Return: None\r\n";
 const char helpstr_logreg[] PROGMEM =
     "logreg -- Set the logger enable register.\r\n"
     "    Argument: 16-bit unsigned hex number\r\n"
@@ -97,6 +101,12 @@ command_t command_array[] ={
      0,                 // Maximum number of characters in argument
      &cmd_hello,        // Address of function to execute
      helpstr_hello},    // The help text (defined above)
+    //loglevel -- Set the logger severity level.
+    {"loglevel",
+     "hex",
+     1,
+     &cmd_loglevel,
+     helpstr_loglevel},
     // logreg -- Set the logger enable register.
     {"logreg",
      "hex",
@@ -264,7 +274,7 @@ void process_pbuffer( recv_cmd_state_t *recv_cmd_state_ptr ,
 /* Execute a valid command received over the remote interface.
  */
 void command_exec( command_t *command, char *argument ) {
-    uint16_t argval = 0; // Decimal value of the argument
+    // uint16_t argval = 0; // Decimal value of the argument
     if (strcmp( command -> arg_type,"none" ) == 0) {
         // There's no argument
         logger_msg_p("command",log_level_INFO,
@@ -275,7 +285,8 @@ void command_exec( command_t *command, char *argument ) {
         // There's a hex argument
         logger_msg_p("command",log_level_INFO,
             PSTR("Executing command with hex argument.\r\n"));
-        argval = hex2num(argument);
+        
+        uint16_t argval = hex2num(argument);
         logger_msg_p("command",log_level_INFO,
             PSTR("The argument value is %u.\r\n"),argval);
         command -> execute(argval);

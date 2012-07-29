@@ -19,9 +19,16 @@ MYNAME := $(shell echo $(MYNAME) | tr A-Z a-z)
 # The submit directory -- like jpeck_circuit_cellar_submit_a
 SUBMITDIR := submitroot/$(MYNAME)"_"$(PUBLISHER)"_submit_"$(REVCODE)
 
-# The postscript target
-ps: main.ps
 
+# The pdf target
+.PHONY: pdf
+pdf: main.pdf
+main.pdf: main.ps
+	ps2pdf main.ps main.pdf
+
+# The postscript target
+.PHONY: ps
+ps: main.ps
 main.ps: main.dvi
 	dvips -t letter main.dvi -o $@
 
@@ -84,6 +91,7 @@ main.dvi: main.tex\
 ./figs/prsbuffer.eps: ./figs/prsbuffer.fig
 	# --------- Making the received character buffer figure -----------
 	fig2dev -L eps -m 1 ./figs/prsbuffer.fig ./figs/prsbuffer.eps
+
 
 .PHONY: submit
 submit: $(SUBMITDIR)/readme.txt

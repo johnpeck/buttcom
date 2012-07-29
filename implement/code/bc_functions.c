@@ -26,12 +26,12 @@
 #include "bc_logger.h"
 
 
-void cmd_hello( uint16_t setval ) {
+void cmd_hello( uint16_t nonval ) {
     usart_printf_p(PSTR("Hello yourself!\r\n"));
     return;
 }
 
-void cmd_help( uint16_t setval ) {
+void cmd_help( uint16_t nonval ) {
     print_help( command_array );
     return;
 }

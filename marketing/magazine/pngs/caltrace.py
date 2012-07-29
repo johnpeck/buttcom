@@ -7,23 +7,29 @@ import time
 # Open the serial port with 9600,8,N,1 settings
 s = serial.Serial('/dev/ttyUSB0',9600,timeout=1)
 
-""" The characters to be sent over the serial port to turn off logging.
-    It turns out that logging needs to be turned all the way off for
-    commands to be processed at full speed. """
-sendstring = 'logreg 0'
+
 
 def clearq():
     s.write('\r')
-    rawdata = s.readline()
+
+
+def sendcmd(sport,comstring):
+    sport.write(comstring + '\r')
+    time.sleep(1)
 
 def main():
-    # Disable rxchar logging
-    for character in sendstring:
-        s.write(character)
-        time.sleep(0.1)
-    s.write('\r')
-    time.sleep(1) # Give it time to set up logging
-    s.write('hello' + '\r')
+    clearq()
+    # sendcmd(s,'loglevel 2')
+    # By default, logging in the ISR is disabled
+    raw_input('Connect the Vcc source')
+    sendcmd(s,'vcounts?')
+    raw_input('Connect the 0V source')
+    sendcmd(s,'vcounts?')
+    calval = raw_input('Calibration value? > ')
+    sendcmd(s,'vslope %x' % int(calval))
+    sendcmd(s,'volt?')
+
+
 
 
 

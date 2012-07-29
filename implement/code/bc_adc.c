@@ -54,7 +54,10 @@ void cmd_voffset(uint16_t voffset) {
     volt_calfactor_ptr -> cal_offset = voffset;
 }
 
-/* Initialize the ADC.  */
+/* adc_init(void)
+ * Initialize the Butterfly's 10-bit SAR ADC module.
+ *     Set the default ADC mux position to 1: the voltage reader
+ */
 void adc_init(void) {
     logger_msg_p("adc",log_level_INFO, PSTR("Initializing ADC.\r\n"));
     /* The butterfly has Vcc connected to AVcc via a low-pass filter.
@@ -66,7 +69,7 @@ void adc_init(void) {
      * ADLAR.  This is a 10-bit ADC. */
     ADMUX &= ~(_BV(ADLAR));
 
-    /* The butterfly's analog input is connected to ADC1 on pin 60.
+    /* The butterfly's voltage reader is connected to ADC1 on pin 60.
      * This makes a nice initialization value. */
     ADMUX |= 1;
 
@@ -126,22 +129,22 @@ uint16_t adc_read(void) {
     return adc_temp;
 }
 
-/* cmd_vcounts_q(void)
+/* cmd_vcounts_q()
  * Query the raw ADC counts from the voltage measurement.
  */
-void cmd_vcounts_q(void) {
+void cmd_vcounts_q(uint16_t nonval) {
     uint16_t adc_temp = 0;
     adc_temp = adc_read();
     usart_printf_p(PSTR("0x%x\r\n"),adc_temp);
 }
 
-/* cmd_volt_q(void)
+/* cmd_volt_q()
  * Query the calibrated voltage measurement.  The voltage in mV is arrived
  * at with:
  * mV = ((ADC counts) * vslope >> 16) - voffset 
  * Notice that voffset is assumed to be positive -- all these numbers are
  * unsigned 16-bit integers. */
-void cmd_volt_q(void) {
+void cmd_volt_q(uint16_t nonval) {
     uint16_t raw_counts = 0;
     uint16_t result_mv = 0;
     raw_counts = adc_read();

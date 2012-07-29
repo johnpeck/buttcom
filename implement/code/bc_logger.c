@@ -52,7 +52,10 @@ logger_system_t system_array[] ={
     {"",0}
 };
 
-/* Initialize the logger system. */
+/* Initialize the logger system:
+ * Log messages above the "informational" level
+ * All systems enabled for logging.
+ */
 void logger_init() {
     logger_config_ptr -> enable = 0xffff;  /* Logs from all systems enabled
                                             * by default. */
@@ -63,9 +66,31 @@ void logger_init() {
  */
 void logger_setlevel( logger_level_t loglevel ) {
     logger_config_ptr -> loglevel = loglevel;
-    logger_msg( "logger", log_level_INFO,
-                "Logging set to level %i\n",loglevel);
+    logger_msg_p( "logger", log_level_INFO,
+                 PSTR("Logging set to level %i\r\n"),loglevel);
 }
+
+/* cmd_loglevel()
+ * Called by the remote command "loglevel."  Sets the logger's loglevel
+ * member.  If no level matches the user's parameter, issue an error
+ * and leave the level as it was.
+ */
+void cmd_loglevel( uint16_t setval ) {
+    switch(setval) {
+        case 0: logger_setlevel(log_level_ISR);
+                break;
+        case 1: logger_setlevel(log_level_INFO);
+                break;
+        case 2: logger_setlevel(log_level_WARNING);
+                break;
+        case 3: logger_setlevel(log_level_ERROR);
+                break;
+        default: logger_msg_p( "logger", log_level_ERROR,
+                              PSTR("Log level %u is not recognized.\r\n"),setval);
+        }
+}
+
+
 
 /* Called by the remote command "logreg." Sets the logger configuration 
  * enable byte directly.  You have to know which systems correspond to 
@@ -80,7 +105,7 @@ void cmd_logreg( uint16_t setval ) {
 /* Called by the remote command "logreg?" Returns the logger configuration
  * register value in hex.
  */
-void cmd_logreg_q( uint16_t setval ) {
+void cmd_logreg_q( uint16_t nonval ) {
     usart_printf_p(PSTR("0x%x\r\n"),logger_config_ptr -> enable);
 }
 
@@ -113,7 +138,6 @@ void logger_disable() {
 /* Send a log message */
 void logger_msg( char *logsys, logger_level_t loglevel,char *logmsg, ... ) {
     va_list args; 
-    uint8_t i; 
     char printbuffer[LOGGER_BUFFERSIZE]; 
     
     if (logger_config_ptr -> enable == 0) {
@@ -123,7 +147,7 @@ void logger_msg( char *logsys, logger_level_t loglevel,char *logmsg, ... ) {
     
     va_start (args, logmsg); 
     /* Make sure messages are never longer than printbuffer */
-    i = vsnprintf (printbuffer, LOGGER_BUFFERSIZE, logmsg, args); 
+        vsnprintf (printbuffer, LOGGER_BUFFERSIZE, logmsg, args); 
     va_end (args); 
     
     if (loglevel >= (logger_config_ptr -> loglevel)) {
@@ -137,7 +161,6 @@ void logger_msg( char *logsys, logger_level_t loglevel,char *logmsg, ... ) {
 /* Send a log message with a string located in flash memory */
 void logger_msg_p( char *logsys, logger_level_t loglevel,const char *logmsg, ... ) {
     va_list args; 
-    uint8_t i; 
     char printbuffer[LOGGER_BUFFERSIZE]; 
     
     if (logger_config_ptr -> enable == 0) {
@@ -145,14 +168,13 @@ void logger_msg_p( char *logsys, logger_level_t loglevel,const char *logmsg, ...
         return;
     }
     
-    va_start (args, logmsg); 
-        /* Make sure messages are never longer than printbuffer */
-        i = vsnprintf_P (printbuffer, LOGGER_BUFFERSIZE, logmsg, args); 
-    va_end (args); 
-    
     if (loglevel >= (logger_config_ptr -> loglevel)) {
         /* If this message's level is high enough to be logged, we send
          * it on to be filtered by system name. */
+        va_start (args, logmsg); 
+            /* Make sure messages are never longer than printbuffer */
+            vsnprintf_P (printbuffer, LOGGER_BUFFERSIZE, logmsg, args); 
+        va_end (args);
         logger_system_filter( logsys, loglevel, printbuffer );
     }
     return;
@@ -163,6 +185,7 @@ void logger_msg_p( char *logsys, logger_level_t loglevel,const char *logmsg, ...
  * [The message severity] (The origin system) The message
  * 
  * Message severity tags:
+ * [R] Interrupt service routine (ISR)
  * [I] Informational
  * [W] Warning
  * [E] Error
@@ -182,6 +205,9 @@ void logger_system_filter( char *logsys, logger_level_t loglevel, char *logmsg )
                  * 1. (System name)
                  * 2. Log message */
                 switch( loglevel ) {
+                    case log_level_ISR:
+                        logger_output("[R]");
+                        break;
                     case log_level_INFO:
                         logger_output("[I]");
                         break;

@@ -24,6 +24,7 @@ typedef struct system_struct {
  * Use logger_setlevel() to set the level threshold. 
  */
 typedef enum log_level {
+    log_level_ISR,
     log_level_INFO,
     log_level_WARNING,
     log_level_ERROR
@@ -49,6 +50,14 @@ void logger_init( void );
  */
 void logger_setlevel( logger_level_t loglevel );
 
+/* cmd_loglevel()
+ * Called by the remote command "loglevel."  Sets the logger's loglevel
+ * member.  If no level matches the user's parameter, issue an error
+ * and leave the level as it was.
+ */
+void cmd_loglevel( uint16_t setval );
+
+
 /* Enable a system for logging.  This sets a bit in the logging configuration
  * structure's enable bitfield.  
  * 
@@ -66,8 +75,7 @@ void cmd_logreg( uint16_t setval );
 /* Called by the remote command "logreg?" Returns the logger configuration
  * register value in hex.
  */
-void cmd_logreg_q( uint16_t setval );
-
+void cmd_logreg_q( uint16_t nonval );
 
 /* Turn off all logging. 
  */
@@ -97,6 +105,7 @@ void logger_msg_p( char *logsys, logger_level_t loglevel,const char *logmsg, ...
  * [The message severity] (The origin system) The message
  * 
  * Message severity tags:
+ * [R] Interrupt service routine (ISR)
  * [I] Informational
  * [W] Warning
  * [E] Error
