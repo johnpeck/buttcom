@@ -39,7 +39,7 @@ After the hardware is connected, I use \textbf{avrdude}\cite{avrdude} and \textb
     \begin{center}
         \includegraphics[clip,scale=1]{usart_pinout}
         \draftnote{usart\_pinout.fig}
-        \caption{Connections needed for the AVR Butterfly.  The AVRISP mkII user's guid stresses that the programmer must be connected to the PC before the target (Butterfly board).  The code presented here configures the USART for 9600 baud, 8 data bits, 1 stop bit, no parity checks, and no flow control. \label{fig:connections}}
+        \caption{Connections needed for the AVR Butterfly.  The AVRISP mkII user's guide stresses that the programmer must be connected to the PC before the target (Butterfly board).  The code presented here configures the USART for 9600 baud, 8 data bits, 1 stop bit, no parity checks, and no flow control. \label{fig:connections}}
     \end{center}
 \end{figure}
 
@@ -47,7 +47,7 @@ After the hardware is connected, I use \textbf{avrdude}\cite{avrdude} and \textb
 \section{Handling incoming characters}
 Receiving remote commands begins with receiving characters, which are sent to the AVR via the USART connector shown in figure \ref{fig:connections}.  Reception of these characters triggers an interrupt service routine (ISR), which handles them according to the flow shown in figure \ref{fig:recflow}. The first step in this flow is loading the characters into the receive buffer.
 
-Figure \ref{fig:recbuffer} illustrates the receive buffer loaded with a combined string.  The buffer is accessed with a pointer to its beginning and a second pointing to the next index to be written.  These pointers are members of the \texttt{recv\_cmd\_state\_t} type variable \texttt{recv\_cmd\_state}.  This is just style -- I like to try to organize variables used in a flow by making them members of their own structure.  Naming conventions aside, it's important to notice that there's no limitations on command or argument size imposed in this first step, provided that the total character count stays under the \texttt{RECEIVE\_BUFFER\_SIZE} limit. 
+Figure \ref{fig:recbuffer} illustrates the receive buffer loaded with a combined string.  The buffer is accessed with a pointer to its beginning and a second pointing to the next index to be written.  These pointers are members of the \texttt{recv\_cmd\_state\_t} type variable \texttt{recv\_cmd\_state}.  This is just style -- I like to try to organize variables used in a flow by making them members of their own structure.  Naming conventions aside, it's important to notice that there are no limitations on command or argument size imposed in this first step, provided that the total character count stays under the \texttt{RECEIVE\_BUFFER\_SIZE} limit. 
  
 When a combined string in the receive buffer is finished with a carriage return, the string is copied over to a second buffer.  I call this the parse buffer, since this is where the string will be searched for recognized commands and arguments.  This buffer is locked until its contents can be processed to keep it from being clobbered by new combined strings.  Sending commands faster than they can be processed will generate an error, and combined strings sent to a locked parse buffer will be dropped.  The maximum command processing frequency will depend on the system clock and other system tasks.  Not having larger parse or receive buffers is a limitation that puts this project at the hobby level.  Extending these buffers to hold more than just one command would make the system more robust.
 
@@ -77,7 +77,7 @@ I should mention that these log message strings can easily overwhelm the Butterf
 % pngs directory.  Then use the termgrab.sh script to create hellotrace.eps.
 \begin{figure}[ht]
     \begin{center}
-        \includegraphics[clip,scale=1.5]{pngs/hellotrace.eps}
+        \includegraphics[clip,scale=2]{pngs/hellotrace.eps}
         \draftnote{hellotrace.eps}
         \caption{Terminal output showing the reception of and the reply to the ``hello'' command.  The logging system has been set to its most verbose level, so you see ``unsolicited'' messages as well as the command reply.  These messages can be suppressed by clearing bits in the logger configuration register.\label{fig:hellotrace}}
     \end{center}
@@ -88,7 +88,7 @@ I should mention that these log message strings can easily overwhelm the Butterf
 \section{Configuring the logger}
 The logger acts as a gatekeeper for messages emitted from other subsystems.  In the output shown in figure \ref{fig:hellotrace}, the \texttt{command} subsystem has a lot to say about every character received over the USART.  At 9600 buad, sending an 80-character message (10 bits per character) takes almost 100 milliseconds.  The processor will not be able to handle new commands (or even new characters) during this time, as it won't get around to processing the parse buffer or even finishing the interrupt.  So we need to suppress messages we don't need to see.  
 
-Messages are sent to the logger using the \texttt{logger\_msg\_p} function, where the \texttt{\_p} suffix indicates that the message must be stored and referenced in flash memory.  These messages are tagged with the origin subsystem and a severity level.  These two tags have corresponding members in the logger configuration structure, which the logger consults while deciding whether or not to print the message.  The system boots with the severity level set above ISR.  If it didn't, you'd have to send characters spaced by about 100ms to send commands.  After the system boots, you can use the commands \texttt{logreg} and \texttt{loglevel} to customize which systems to print messages from and how severe they have to be.  To describe these commands, I first need to say something about how the logger sorts messages.
+Messages are sent to the logger using the \texttt{logger\_msg\_p} function, where the \texttt{\_p} suffix indicates that the message must be stored and referenced in flash memory.  These messages are tagged with the origin subsystem and a severity level.  These two tags have corresponding members in the logger configuration structure, which the logger consults when deciding whether or not to print the message.  The system boots with the severity level set above ISR.  If it didn't, you'd have to send characters spaced by about 100ms to send commands.  After the system boots, you can use the commands \texttt{logreg} and \texttt{loglevel} to customize which systems to print messages from and how severe they have to be.  To describe these commands, I first need to say something about how the logger sorts messages.
 
 The logger first checks to see if logging has been turned off.  Clearing all bits in a logger configuration register does this, and is the fastest way to veto all messages.  If logging hasn't been turned off, the incoming message's severity is compared with the configuration level.  This level is an enumerated type, with the \texttt{log\_level\_ISR} member given the lowest value and \texttt{log\_level\_ERROR} given the highest.  If the severity is high enough, the logger checks to see if the message's subsystem has been enabled for logging.  Subsystem tags are recognized by comparing the tag string with strings in the logger module's system array.  This can be slow, and it's why I veto messages from the ISR with a severity level and not by disabling subsystems.  Each subsystem has one bit in a 16-bit register -- the logger configuration register.  Setting the bit enables the subsystem's messages, and clearing it suppresses them.  Clearing all bits sets the ``logger is turned off'' state described earlier.  The \texttt{logreg} remote command allows users to set bits in this register while the system is running.  Of course, the user has to be told how to match bit positions with subsystems for this command to be useful.  The \texttt{loglevel} command is more intuitive -- taking an integer from 0 to 3 to set the severity threshold, with 3 being the most severe.   
 
@@ -157,19 +157,19 @@ where $V_h$ and $V_{\ell}$ are the voltage references in millivolts, and $N_h$ a
 % pngs directory.  Then use the termgrab.sh script to create caltrace.eps.
 \begin{figure}[ht]
     \begin{center}
-        \includegraphics[clip,scale=1.5]{pngs/caltrace.eps}
+        \includegraphics[clip,scale=2]{pngs/caltrace.eps}
         \draftnote{caltrace.eps}
-        \caption{Terminal output showing calibration of the voltage reader.  I record ADC counts with first the power supply voltage applied (3.308V), and then with the reader grounded.  I use these two outputs to calculate a calibration factor, and apply it with the \texttt{vslope} command.  There is no offset needed.  The final output shows the power supply measurement reported in fixed-point millivolts.\label{fig:caltrace}}
+        \caption{Terminal output showing calibration of the voltage reader.  I record ADC counts first with the power supply voltage applied (3.308V), and then with the reader grounded.  I use these two outputs to calculate a calibration factor, and apply it with the \texttt{vslope} command.  There is no offset needed.  The final output shows the power supply measurement reported in fixed-point millivolts.\label{fig:caltrace}}
     \end{center}
 \end{figure}
 
 
 \clearpage{}
 \section{Conclusion: Is there any space left?}
-I built the code with avr-gcc, using the -Os optimization level.  The output of \textbf{avr-gcc --version} is: \texttt{avr-gcc (Gentoo 4.6.3 p1.3, pie-0.5.1) 4.6.3}. The resulting memory map file shows a \texttt{.data} size of 308 bytes, a \texttt{.bss} size of 100 bytes, and a \texttt{.text} size of 8.9 kilobytes.  I'm using roughly half of the Butterfly's flash and almost half of its RAM.  So there's at least some space left to do more than just recognizing commands and calibrating voltages.  I'd like to work on extending the system to handle more types of arguments, like signed integers and floats.  And I'd like to port the system to a different part -- one with more than one USART.  Then I could have a dedicated logging port, and log messages wouldn't get in the way of other communication.  Making well-documented interfaces to my designs would help me with my long term goal of making them more modular.
+I built the code with avr-gcc, using the -Os optimization level.  The output of \textbf{avr-gcc} \verb8--8\textbf{version} is: \texttt{avr-gcc (Gentoo 4.6.3 p1.3, pie-0.5.1) 4.6.3}. The resulting memory map file shows a \texttt{.data} size of 308 bytes, a \texttt{.bss} size of 100 bytes, and a \texttt{.text} size of 8.9 kilobytes.  I'm using roughly half of the Butterfly's flash and almost half of its RAM.  So there's at least some space left to do more than just recognizing commands and calibrating voltages.  I'd like to work on extending the system to handle more types of arguments, like signed integers and floats.  And I'd like to port the system to a different part -- one with more than one USART.  Then I could have a dedicated logging port, and log messages wouldn't get in the way of other communication.  Making well-documented interfaces to my designs would help me with my long term goal of making them more modular.
 
 \section{Biography}
-John Peck is a design engineer at Stanford Research Systems in Sunnyvale, CA.  He has been using ASCII interfaces to test equipment since he was a graduate student at the University of Wisconsin at Madison.  He can be reached at \texttt{john@johnpeck.info}.
+John Peck, Ph.D.\ is a design engineer at Stanford Research Systems in Sunnyvale, California.  He has been using ASCII interfaces to test equipment since he was a graduate student at the University of Wisconsin at Madison.  John can be reached at \texttt{john@johnpeck.info}.
 
 
 \clearpage{}

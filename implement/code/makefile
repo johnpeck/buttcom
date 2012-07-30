@@ -75,8 +75,6 @@ OBJDIR = .
 
 # List C source files here. (C dependencies are automatically generated.)
 SRC = 	$(TARGET).c \
-		LCD_driver.c \
-		LCD_functions.c \
 		bc_functions.c \
 		bc_command.c \
 		bc_usart.c \

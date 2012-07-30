@@ -7,6 +7,16 @@ PUBLISHER = "circuit_cellar"
 # The revision code.  This plus the publisher name makes a revision.
 REVCODE = a
 
+# Code sources
+CODESRC = 	bc_main.c \
+			bc_functions.c \
+			bc_command.c \
+			bc_usart.c \
+			bc_logger.c \
+			bc_numbers.c \
+			bc_ascii.c \
+			bc_clock.c \
+			bc_adc.c
 #------------------------- Done with configuration ---------------------
 
 # Convert the revision code to lowercase
@@ -94,7 +104,11 @@ main.dvi: main.tex\
 
 
 .PHONY: submit
-submit: $(SUBMITDIR)/readme.txt
+submit: $(SUBMITDIR)/readme.txt\
+		$(SUBMITDIR)/code\
+		$(addprefix $(SUBMITDIR)/code/,$(CODESRC))\
+		$(addprefix $(SUBMITDIR)/code/,$(addsuffix .h,$(basename $(CODESRC))))\
+		$(SUBMITDIR)/code/makefile
 
 
 # The README file
@@ -114,12 +128,32 @@ $(SUBMITDIR)/readme.txt: submitroot\
 	cat changelog.txt >> $@
 
 
+# The submission figures directory
+$(SUBMITDIR)/figures: $(SUBMITDIR)
+	mkdir -p $(SUBMITDIR)/figures
+
+# The submission text directory
+$(SUBMITDIR)/text: $(SUBMITDIR)
+	mkdir -p $(SUBMITDIR)/text
+
+
+
+# Copying code to the submission directory
+$(SUBMITDIR)/code/%: ../../implement/code/%
+	cp $< $@
+
+# The submission code directory
+$(SUBMITDIR)/code: $(SUBMITDIR)
+	mkdir -p $(SUBMITDIR)/code
+
 # The submission directory
 $(SUBMITDIR): submitroot
 	mkdir -p $(SUBMITDIR)
 
 submitroot:
 	mkdir -p submitroot
+
+
 
 # Spell check
 .PHONY: spell

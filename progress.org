@@ -12,7 +12,7 @@
 * Code has a command that returns a calibrated voltage measurement of the supply voltage
 * Commands must not be case sensitive
 * ------------------------ TODO list ----------------------------
-* TODO Add the ISR logging level [2/4]
+* DONE Add the ISR logging level [4/4]
 ** Why do we need this level?
    - Sending log messages from inside the ISR can really change how the system works.  We need a way of tagging messages that originate in the ISR so that we can turn them off.  But we only have two tags right now to work with when calling the logger: subsystem and level.  And because of my design choices, gating messages with their log level is faster than doing it with their system name.
 ** What should the message's tag be?  [I] is already taken.
@@ -20,8 +20,8 @@
 ** DONE The system should boot into log level informational (1)
    - Won't log ISR messages at bootup
 ** DONE Retake the hello trace to show the new logging level
-** TODO Revise the size section to reflect the new code size
-** TODO Add a note in the watching the progress section about the new log level
+** DONE Revise the size section to reflect the new code size
+** DONE Add a note in the watching the progress section about the new log level
 * DONE Add a remote command to set the logging level [2/2]
   - Call the command loglevel
 ** DONE Command will accept an unsigned 16-bit hex argument
@@ -30,7 +30,7 @@
    - 2: Warning
    - 3: Error
 ** DONE Write the help section for the command
-* TODO When a cmd_ function takes no argument, make the argument uint16_t nonval
+* DONE When a cmd_ function takes no argument, make the argument uint16_t nonval
 * DONE Get rid of LED debug code
 * DONE Add a section describing how to use the logger module
 * DONE Add the rxchar subsystem [3/3]
@@ -46,7 +46,7 @@
 ** DONE Add this to the makefile
 * DONE Add a note about naming callback functions
 ** I say that I don't worry about putting all remote commands in their own module.  I should further say that I try to put commands in the module they relate to.
-* TODO Add a new section -- using remote commands to set calibration values [10/11] :1day:
+* DONE Add a new section -- using remote commands to set calibration values [11/11] :1day:
   - Call the section: Setting calibration values
 ** DONE Add the vslope command
    - Looks like good calibration command is vslope 126, no offset
@@ -59,9 +59,11 @@
    - Keep in mind that the calibration factors must be written every time the unit is flashed.  Ideally, I'd figure out how to write the cal factors to eeprom.
 ** DONE Modify the hardware connection diagram to include the voltage measurement port
 ** DONE Show trace of measurement of Vcc after sending calibration values (return Vcc in decimal mV)
-** TODO Add a number for the ADC used for the Butterfly's voltage reader -- which mux position?
+** DONE Add a number for the ADC used for the Butterfly's voltage reader -- which mux position?
 ** DONE Add a note that my 3307 answer is a roundoff error -- division by 16 doesn't round off
 * DONE Add a paragraph describing problems with power supply turnon ramp rate
+* TODO Add an abstract
+* TODO Revise size section -- I pulled out the LCD module
 * TODO Meet Circuit Cellar requirements [5/7]			       :1day:
 ** TODO Article should be 2500 to 3500 words long
 ** TODO Figures with a lot of text must be in TIF format (no compression) (300dpi) (4x4 inches)
