@@ -29,6 +29,9 @@ MYNAME := $(shell echo $(MYNAME) | tr A-Z a-z)
 # The submit directory -- like jpeck_circuit_cellar_submit_a
 SUBMITDIR := submitroot/$(MYNAME)"_"$(PUBLISHER)"_submit_"$(REVCODE)
 
+# The zipfile name
+ZIPFILE := $(MYNAME)"_buttcom_"$(REVCODE)
+
 
 # The pdf target
 .PHONY: pdf
@@ -58,6 +61,113 @@ main.dvi: main.tex\
 	# ------------- Running latex on the document ---------------------
 	latex main.tex
 
+
+# --------------------- Create the submission -------------------------
+.PHONY: submit
+submit: $(SUBMITDIR)/readme.txt \
+		$(SUBMITDIR)/code \
+		$(addprefix $(SUBMITDIR)/code/,$(CODESRC)) \
+		$(addprefix $(SUBMITDIR)/code/,$(addsuffix .h,$(basename $(CODESRC)))) \
+		$(SUBMITDIR)/code/makefile \
+		$(SUBMITDIR)/figures/figure1_connection_drawing.eps \
+		$(SUBMITDIR)/figures/figure2_rxchar_flow.eps \
+		$(SUBMITDIR)/figures/figure3_rxchar_buffer.eps \
+		$(SUBMITDIR)/figures/figure4_hello_trace.tif \
+		$(SUBMITDIR)/figures/figure5_parse_flow.eps \
+		$(SUBMITDIR)/figures/figure6_parse_buffer.eps \
+		$(SUBMITDIR)/figures/listing1_command_array.eps \
+		$(SUBMITDIR)/figures/figure7_cal_trace.tif \
+		$(SUBMITDIR)/text/buttcom.pdf
+	zip -r $(SUBMITDIR)/$(ZIPFILE) $(SUBMITDIR)
+
+
+# The README file
+$(SUBMITDIR)/readme.txt: submitroot\
+						 $(SUBMITDIR)\
+						 changelog.txt
+	echo "ASCII command interface for the AVR Butterfly" > $@
+	echo "" >> $@
+	echo "Submitted for publication in Circuit Cellar" >> $@
+	echo "Submission revision "$(REVCODE) >> $@
+	echo "Author: John Peck" >> $@
+	echo "        3740 24th St" >> $@
+	echo "        San Francisco, CA 94114" >> $@
+	echo "        (608) 215-0041" >> $@
+	echo "" >> $@
+	echo "New in revision "$(REVCODE): >> $@
+	cat changelog.txt >> $@
+	
+# The article
+$(SUBMITDIR)/text/buttcom.pdf: $(SUBMITDIR)/text \
+					           main.pdf
+	cp main.pdf $@
+
+# Figure 1 -- Connection drawing
+$(SUBMITDIR)/figures/figure1_connection_drawing.eps: $(SUBMITDIR)/figures\
+												     ./figs/usart_pinout.eps
+	cp ./figs/usart_pinout.eps $@ 
+	
+# Figure 2 -- Received character flow
+$(SUBMITDIR)/figures/figure2_rxchar_flow.eps: $(SUBMITDIR)/figures\
+											  ./tikz/recv_cmd_flow.eps
+	cp ./tikz/recv_cmd_flow.eps $@ 
+	
+# Figure 3 -- Received character buffer
+$(SUBMITDIR)/figures/figure3_rxchar_buffer.eps: $(SUBMITDIR)/figures\
+											    ./figs/recbuffer.eps
+	cp ./figs/recbuffer.eps $@ 
+	
+# Figure 4 -- Hello command trace
+$(SUBMITDIR)/figures/figure4_hello_trace.tif: $(SUBMITDIR)/figures\
+			                                  ./pngs/hellotrace.tif
+	cp ./pngs/hellotrace.tif $@
+	
+# Figure 5 -- Command parse flow
+$(SUBMITDIR)/figures/figure5_parse_flow.eps: $(SUBMITDIR)/figures\
+											 ./tikz/parse_cmd_flow.eps
+	cp ./tikz/parse_cmd_flow.eps $@
+	
+# Figure 6 -- Parse buffer
+$(SUBMITDIR)/figures/figure6_parse_buffer.eps: $(SUBMITDIR)/figures\
+											   ./figs/prsbuffer.eps
+	cp ./figs/prsbuffer.eps $@ 
+	
+# Listing 1 -- Command array
+$(SUBMITDIR)/figures/listing1_command_array.eps: $(SUBMITDIR)/figures\
+											     ./figs/command_snippet.eps
+	cp ./figs/command_snippet.eps $@ 
+	
+# Figure 7 -- Calibration trace
+$(SUBMITDIR)/figures/figure7_cal_trace.tif: $(SUBMITDIR)/figures\
+			                                ./pngs/caltrace.tif
+	cp ./pngs/caltrace.tif $@
+
+# The submission figures directory
+$(SUBMITDIR)/figures: $(SUBMITDIR)
+	mkdir -p $(SUBMITDIR)/figures
+
+# The submission text directory
+$(SUBMITDIR)/text: $(SUBMITDIR)
+	mkdir -p $(SUBMITDIR)/text
+
+# Copying code to the submission directory
+$(SUBMITDIR)/code/%: ../../implement/code/%
+	cp $< $@
+
+# The submission code directory
+$(SUBMITDIR)/code: $(SUBMITDIR)
+	mkdir -p $(SUBMITDIR)/code
+
+# The submission directory
+$(SUBMITDIR): submitroot
+	mkdir -p $(SUBMITDIR)
+
+submitroot:
+	mkdir -p submitroot
+	
+
+
+# ----------------------- Create the figures ---------------------------
 
 # Make the code snippet figure
 ./figs/command_snippet.eps: ./figs/command_snippet.fig
@@ -101,58 +211,6 @@ main.dvi: main.tex\
 ./figs/prsbuffer.eps: ./figs/prsbuffer.fig
 	# --------- Making the received character buffer figure -----------
 	fig2dev -L eps -m 1 ./figs/prsbuffer.fig ./figs/prsbuffer.eps
-
-
-.PHONY: submit
-submit: $(SUBMITDIR)/readme.txt\
-		$(SUBMITDIR)/code\
-		$(addprefix $(SUBMITDIR)/code/,$(CODESRC))\
-		$(addprefix $(SUBMITDIR)/code/,$(addsuffix .h,$(basename $(CODESRC))))\
-		$(SUBMITDIR)/code/makefile
-
-
-# The README file
-$(SUBMITDIR)/readme.txt: submitroot\
-						 $(SUBMITDIR)\
-						 changelog.txt
-	echo "ASCII command interface for the AVR Butterfly" > $@
-	echo "" >> $@
-	echo "Submitted for publication in Circuit Cellar" >> $@
-	echo "Submission revision "$(REVCODE) >> $@
-	echo "Author: John Peck" >> $@
-	echo "        3740 24th St" >> $@
-	echo "        San Francisco, CA 94114" >> $@
-	echo "        (608) 215-0041" >> $@
-	echo "" >> $@
-	echo "New in revision "$(REVCODE): >> $@
-	cat changelog.txt >> $@
-
-
-# The submission figures directory
-$(SUBMITDIR)/figures: $(SUBMITDIR)
-	mkdir -p $(SUBMITDIR)/figures
-
-# The submission text directory
-$(SUBMITDIR)/text: $(SUBMITDIR)
-	mkdir -p $(SUBMITDIR)/text
-
-
-
-# Copying code to the submission directory
-$(SUBMITDIR)/code/%: ../../implement/code/%
-	cp $< $@
-
-# The submission code directory
-$(SUBMITDIR)/code: $(SUBMITDIR)
-	mkdir -p $(SUBMITDIR)/code
-
-# The submission directory
-$(SUBMITDIR): submitroot
-	mkdir -p $(SUBMITDIR)
-
-submitroot:
-	mkdir -p submitroot
-
 
 
 # Spell check

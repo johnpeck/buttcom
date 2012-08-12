@@ -62,17 +62,17 @@
 ** DONE Add a number for the ADC used for the Butterfly's voltage reader -- which mux position?
 ** DONE Add a note that my 3307 answer is a roundoff error -- division by 16 doesn't round off
 * DONE Add a paragraph describing problems with power supply turnon ramp rate
-* TODO Add an abstract
-* TODO Revise size section -- I pulled out the LCD module
-* TODO Meet Circuit Cellar requirements [5/7]			       :1day:
-** TODO Article should be 2500 to 3500 words long
-** TODO Figures with a lot of text must be in TIF format (no compression) (300dpi) (4x4 inches)
+* DONE Add an abstract
+* DONE Revise size section -- I pulled out the LCD module
+* TODO Meet Circuit Cellar requirements [7/7] 			       :1day:
+** DONE Article should be 2500 to 3500 words long
+** DONE Figures with a lot of text must be in TIF format (no compression) (300dpi) (4x4 inches)
 ** DONE Expand figure captions to be 2-3 sentences
 ** DONE Add a biography
 ** DONE Add a phone number and mailing address
 ** DONE No more than 10 figures or listings
 ** DONE Get rid of the numbered list.  Text must be in paragraph format.
-* TODO Make a submit target to create the text file and copy figures for submission :1day:
+* DONE Make a submit target to create the text file and copy figures for submission :1day:
 * TODO Create second submission to CC following the recommended guidelines from CJ email
 * DONE Add a hello command
   - A simple command to illustrate how the character handling works.

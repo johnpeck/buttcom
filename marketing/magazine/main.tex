@@ -8,8 +8,8 @@
 }
 
 % Use \draftnote to mark the filenames of figures
-\newcommand{\isdraft}{1} %Choose 1 for draft, 0 for release
-\doublespacing{} % Double space the document for proofreading
+\newcommand{\isdraft}{0} %Choose 1 for draft, 0 for release
+% \doublespacing{} % Double space the document for proofreading
 \begin{document}
 
 
@@ -20,16 +20,16 @@
 %Title
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{center}
-	{\huge ASCII command interface for the AVR Butterfly}\\
+	{\huge buttcom: an ASCII command interface for the AVR Butterfly}\\
 	\today
 \end{center}
 
-
+\section{Abstract}
+Need to send a few commands from a PC to an AVR Butterfly?  This article describes the basics of using the Butterfly to recognize, parse, and execute remote commands.  
 
 \section{Introduction}
 I love test equipment with open, well documented, ASCII command sets.  The plain text commands give a complicated instrument a familiar interface and an easy way to automate measurements.  Python's gnuplot and pySerial interfaces let me acquire and make pretty plots of my data -- all for free\cite{pyserial,gnuplot-py}. So when I needed to automate reading the voltage output from an ultrasonic rangefinder at home, I wished for an ASCII interface to a voltmeter.  But I needed more than just a voltmeter, since I wanted this meter to also convert volts into distance.  I had an AVR Butterfly, and I thought that it should be easy to give it a plain text interface to a PC.  This became a bigger project than I expected.  What I came up with is a simple command interface that's easy for me to customize and extend.  It's not at the level of a commercial instrument, but it works just fine for sending a few commands and getting some data back.
 
-\clearpage
 \section{Working with the Butterfly}
 The AVR Butterfly board consists of an AVR ATmega169 microcontroller (uC) and some peripherals.  Figure \ref{fig:connections} shows the connections I make to it.  I only use 3 wires from the DB9 connector for serial communication with the PC -- there's no hardware handshaking.  And while I could also use this serial channel for programming, I find that using a dedicated programmer makes iterating my code much faster.  A 6-pin header soldered to the J403 position lets me use Atmel's AVRISP mkII programmer.  Finally, powering the board with an external supply at J401 means that I don't have to think about the Butterfly's button cell battery.  I did, however, need to worry about the minimum power-on reset slope rate.  The uC won't reset at power-on unless the power supply is able to ramp from about 1V to 3V at more than 0.1V/ms.  I had to reduce a filter capacitor in my power supply circuit to increase its power-on ramp rate.  With that settled, the uC now starts executing code when I turn the power supply on.
 
@@ -84,7 +84,6 @@ I should mention that these log message strings can easily overwhelm the Butterf
 \end{figure}
 
 % Using the logger section.  Should describe the log levels and the log systems.
-\clearpage{}
 \section{Configuring the logger}
 The logger acts as a gatekeeper for messages emitted from other subsystems.  In the output shown in figure \ref{fig:hellotrace}, the \texttt{command} subsystem has a lot to say about every character received over the USART.  At 9600 buad, sending an 80-character message (10 bits per character) takes almost 100 milliseconds.  The processor will not be able to handle new commands (or even new characters) during this time, as it won't get around to processing the parse buffer or even finishing the interrupt.  So we need to suppress messages we don't need to see.  
 
@@ -94,9 +93,8 @@ The logger first checks to see if logging has been turned off.  Clearing all bit
 
 Each subsystem needs an entry in the logger's subsystem array for this scheme to work.  It might be nice to automate the creation of this array so that the programmer doesn't have to think about it when adding a new subsystem.  For now, the logger module must be made aware of new subsystems by manually adding these array entries.
 
-\clearpage{}
 \section{Recognizing commands}
-After finished combined strings are copied from the receive to the parse buffer, the system separates them into command and argument strings using the flow shown in figure \ref{fig:cmdflow}.  Commands in the parse buffer are then separated from their arguments with a string terminator inserted into the first space between the two.  As illustrated in figure \ref{fig:prsbuffer}, pointers to the beginning of the parse buffer and the beginning of the argument will then reference two separate strings.  The first of these two, the command string, is converted to lowercase and compared with those in the command definition array to look for a match.
+After combined strings are copied from the receive to the parse buffer, the system separates them into command and argument strings using the flow shown in figure \ref{fig:cmdflow}.  Commands in the parse buffer are then separated from their arguments with a string terminator inserted into the first space between the two.  As illustrated in figure \ref{fig:prsbuffer}, pointers to the beginning of the parse buffer and the beginning of the argument will then reference two separate strings.  The first of these two, the command string, is converted to lowercase and compared with those in the command definition array to look for a match.
 
 The lower section of listing \ref{lst:cmdsnip} shows my simple command definition array with entries for the ``hello,'' ``logreg,'' ``logreg?,'' and ``help'' commands. The structure of this array is largely taken from White\cite{bok:white2012}.  Each entry must be of the type \texttt{command\_t}, defined in the upper section of listing \ref{lst:cmdsnip}.  Notice that the function pointer member of this command type only accepts one integer argument.  This can be changed to make the system more flexible, but remember that every function called by remote commands must accept the same arguments.  If the function pointer is expanded to accept both an integer and a string pointer argument, all of the functions the pointer will point to must also be expanded.  
 
@@ -140,9 +138,8 @@ Next, decide whether or not you need more than an unsigned hexadecimal integer s
 
 If your arguments fit your ability to handle them, add a function for your command to call.  You might like to put all the functions called by remote commands in their own module.  I prefer to put these functions in the module they're associated with, and I prefix their names with ``cmd\_.'' For example, the function called by the \texttt{logreg} remote command is \texttt{cmd\_logreg}, and I implement it in the \texttt{bc\_logger} module.
 
-Now that the command's attributes have been specified, it's time to give it an entry in the command array.  Add the new entry before the array's end marker.  You've already chosen the command's name, argument type, and function call.  The remaining entry members are the argument's maximum size in characters and the command's help string.  Remember that hexadecimal arguments larger than 4 characters don't make sense for 16-bit integers.  As for the help strings, I was only able to use the PROGMEM macro on them if I defined them outside of the command array.  This breaks up the array organization, but these strings will quickly eat up the Butterfly's RAM if they're not located and referenced in flash.  
+Now that the command's attributes have been specified, it's time to give it an entry in the command array.  Add the new entry before the array's end marker.  You've already chosen the command's name, argument type, and function call.  The remaining entry members are the argument's maximum size in characters and the command's help string.  Remember that hexadecimal arguments larger than 4 characters don't make sense for 16-bit integers -- unless you allow the user to add a leading ``0x.''  The argument parser will return the same value for 0xff and ff, but allowing the extra two prefix characters opens the door to much larger arguments.  As for the help strings, I was only able to use the PROGMEM macro on them if I defined them outside of the command array.  This breaks up the array organization, but these strings will quickly eat up the Butterfly's RAM if they're not located and referenced in flash.  
 
-\clearpage{}
 \section{Sending calibration values}
 My original goal was to calibrate measurements made with the Butterfly's voltage reader, and to read those measurements using the PC.  I added the commands \texttt{vcounts?}, \texttt{volt?}, \texttt{vslope}, and \texttt{voffset} to handle the calibration flow.  The \texttt{vcounts?} query returns raw counts from the voltage reader's ADC, and \texttt{volt?} returns the calibrated measurement.  Raw counts are multiplied by the factor set with \texttt{vslope}, and that product is divided by 16 to get the voltage reading in millivolts including offset.  If there's offset, it can be subtracted off by sending the number of millivolts to subtract with \texttt{voffset}.  Of course, the functions I call with commands only accept positive integers, so the offset value can't be negative.  I didn't have a problem with this here, but providing for a negative offset or slope factor would be a good reason to extend the arguments accepted by these functions.
 
@@ -163,16 +160,14 @@ where $V_h$ and $V_{\ell}$ are the voltage references in millivolts, and $N_h$ a
     \end{center}
 \end{figure}
 
-
-\clearpage{}
 \section{Conclusion: Is there any space left?}
-I built the code with avr-gcc, using the -Os optimization level.  The output of \textbf{avr-gcc} \verb8--8\textbf{version} is: \texttt{avr-gcc (Gentoo 4.6.3 p1.3, pie-0.5.1) 4.6.3}. The resulting memory map file shows a \texttt{.data} size of 308 bytes, a \texttt{.bss} size of 100 bytes, and a \texttt{.text} size of 8.9 kilobytes.  I'm using roughly half of the Butterfly's flash and almost half of its RAM.  So there's at least some space left to do more than just recognizing commands and calibrating voltages.  I'd like to work on extending the system to handle more types of arguments, like signed integers and floats.  And I'd like to port the system to a different part -- one with more than one USART.  Then I could have a dedicated logging port, and log messages wouldn't get in the way of other communication.  Making well-documented interfaces to my designs would help me with my long term goal of making them more modular.
+I built the code with avr-gcc, using the -Os optimization level.  The output of \textbf{avr-gcc} \verb8--8\textbf{version} is: \texttt{avr-gcc (Gentoo 4.6.3 p1.3, pie-0.5.1) 4.6.3}. The resulting memory map file shows a \texttt{.data} size of 306 bytes, a \texttt{.bss} size of 49 bytes, and a \texttt{.text} size of 7.8 kilobytes.  I'm using roughly half of the Butterfly's flash and about a third of its RAM.  So there's at least some space left to do more than just recognizing commands and calibrating voltages.  I'd like to work on extending the system to handle more types of arguments, like signed integers and floats.  And I'd like to port the system to a different part -- one with more than one USART.  Then I could have a dedicated logging port, and log messages wouldn't get in the way of other communication.  Making well-documented interfaces to my designs would help me with my long term goal of making them more modular.
 
 \section{Biography}
 John Peck, Ph.D.\ is a design engineer at Stanford Research Systems in Sunnyvale, California.  He has been using ASCII interfaces to test equipment since he was a graduate student at the University of Wisconsin at Madison.  John can be reached at \texttt{john@johnpeck.info}.
 
 
-\clearpage{}
+\clearpage
 \raggedright
 \bibliography{doctools/latex/hydrorefs}
 \end{document}
